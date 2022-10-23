@@ -1,0 +1,140 @@
+{
+    "files.encoding": "utf8",
+    "workbench.colorTheme": "Dracula",
+    "files.autoSave": "onFocusChange",
+    "editor.codeLensFontFamily": "JetBrains",
+    "editor.fontFamily": "'Jetbrains Mono Semibold'",
+    "editor.minimap.enabled": false,
+    "editor.renderWhitespace": "none",
+    "editor.tabSize": 4,
+    "editor.tabCompletion": "off",
+    "[markdown]": {
+        "editor.defaultFormatter": "yzhang.markdown-all-in-one",
+        "editor.wordWrap": "off",
+    },
+    "[html]": {
+        "editor.tabSize": 4,
+        "editor.defaultFormatter": "vscode.html-language-features",
+    },
+    "[tex]": {
+        "editor.tabSize": 2,
+    },
+    /* -- Java Settings -------------------------------------------------------------- */
+    "java.configuration.runtimes": [
+        // {
+        //   "name": "JavaSE-1.8",
+        //   "path": "/path/to/jdk-8",
+        //   "default": true,
+        // },
+        // {
+        //   "name": "JavaSE-11",
+        //   "path": "/path/to/jdk-11",
+        // },
+        // {
+        //   "name": "JavaSE-14",
+        //   "path": "/path/to/jdk-14"
+        // },
+      ],
+    /* -- INTEGRATED TERMINAL -------------------------------------------------------- */
+    "terminal.integrated.defaultProfile.linux": "zsh",
+    "terminal.integrated.allowChords": false,
+    "terminal.integrated.drawBoldTextInBrightColors": false,
+    "terminal.integrated.experimentalLinkProvider": false,
+    // When in terminal, use terminal KeyBindings instead of vsc ones
+    "terminal.integrated.commandsToSkipShell": [
+        // Example: Ctrl+P, doesn't open vsc searchbar
+        "-workbench.action.quickOpen"
+    ],
+    "workbench.iconTheme": "vscode-icons",
+    "window.menuBarVisibility": "toggle",
+    "bashIde.highlightParsingErrors": true,
+    "bashIde.globPattern": "**/*@(.sh|.inc|.bash|.command)",
+    /* -- MARKDOWN PREVIEW ----------------------------------------------------------- */
+    "markdown-preview-enhanced.previewTheme": "github-dark.css",
+    "markdown.math.enabled": false,
+    "markdown-preview-enhanced.useGitHubStylePipedLink": true,
+    /* LATEX */
+    "latex-workshop.latex.autoBuild.run": "onSave",
+    "latex-workshop.view.pdf.viewer": "browser", 
+    /* -- VIM SETTINGS -------------------------------------------------------- */
+    // "editor.cursorSurroundingLines": 100, // center when moving
+    "editor.cursorBlinking": "solid",
+    "vim.useCtrlKeys": true,
+    "keyboard.dispatch": "keyCode", // for caps-lock used as esc
+    "vim.incsearch": true,
+    "vim.hlsearch": true,
+    "vim.leader": ",",
+    "vim.insertModeKeyBindings": [
+        // {
+        //     "before": ["j", "j"],
+        //     "after": ["<Esc>"]
+        // }
+    ],
+    "vim.normalModeKeyBindings": [
+        // {
+            // "before": ["j"],
+            // "commands": ["workbench.action.files.save"]
+        // }
+    ],
+    "vim.visualModeKeyBindings": [
+        {
+            "before": [
+                ">"
+            ],
+            "commands": [
+                "editor.action.indentLines"
+            ]
+        },
+        {
+            "before": [
+                "<"
+            ],
+            "commands": [
+                "editor.action.outdentLines"
+            ]
+        },
+    ],
+    "vim.normalModeKeyBindingsNonRecursive": [
+        {
+            "before": [
+                "<leader>",
+                "t"
+            ],
+            "commands": [
+                "workbench.action.focusSideBar"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "f"
+            ],
+            "commands": [
+                "revealInExplorer"
+            ]
+        },
+    ],
+    "vim.handleKeys": {
+        "<C-f>": false,
+        "<C-w>": false,
+        "<C-t>": false,
+        "<C-n>": false,
+        "<C-b>": false
+    },
+    "vim.foldfix": true,
+    "files.exclude": {
+        "**/.classpath": true,
+        "**/.project": true,
+        "**/.settings": true,
+        "**/.factorypath": true
+    },
+    "editor.suggestSelection": "first",
+    "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+    "window.zoomLevel": 1,
+    "editor.wordWrap": "off",
+    "mssql.connections": [],
+    "mssql.enableQueryHistoryCapture": false,
+    "C_Cpp.updateChannel": "Insiders",
+    "vsicons.dontShowNewVersionMessage": true,
+    "javascript.suggest.completeFunctionCalls": true,
+}
