@@ -269,6 +269,7 @@ fi
 #        git clone https://github.com/NvChad/NvChad ~/.config/nvim --depth 1 && nvim
 #    fi
 #fi
+
 if ! command -v lvim &> /dev/null
 then
     echo "LunarVim could not be found..."
