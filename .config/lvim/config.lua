@@ -20,9 +20,10 @@ lvim.leader = "space"
 -- add your own keymapping
 lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 lvim.keys.normal_mode["<Tab>"] = ":bnext<cr>"
-lvim.keys.normal_mode["<Leader>-1"] = "1 <C-6><cr>"
-vim.opt.relativenumber = true
-vim.opt.foldmethod = "syntax"
+-- lvim.keys.normal_mode["<Leader>-1"] = "1 <C-6><cr>"
+vim.opt.relativenumber = false
+vim.opt.foldmethod = "expr"
+vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 vim.opt.foldlevel = 99
 -- lvim.keys.normal_mode["<C-g"] = ":*y"
 
@@ -184,6 +185,25 @@ lvim.plugins = {
     "ray-x/lsp_signature.nvim",
     config = function()
       require "lsp_signature".setup()
+    end,
+  },
+  {
+    "github/copilot.vim",
+  },
+  {
+    "zbirenbaum/copilot-cmp",
+    after = { "copilot.lua" },
+    config = function()
+      require("copilot_cmp").setup()
+    end
+  },
+  {
+    "zbirenbaum/copilot.lua",
+    event = "InsertEnter",
+    config = function()
+      vim.schedule(function()
+        require("copilot").setup()
+      end)
     end,
   },
 }

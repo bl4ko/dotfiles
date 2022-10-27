@@ -284,7 +284,7 @@ alias vim=lvim
 export EDITOR=vim
 
 
-# ---------------------------- GNU --------------------------------------------------------------
+# ---------------------------- MAC SPECIFIC --------------------------------------------------------------
 # Replace MACOS commands with GNU commands
 # Use GNU utilities: https://apple.stackexchange.com/questions/69223/how-to-replace-mac-os-x-utilities-with-gnu-core-utilities
 # (GNU version of basic commands)
@@ -314,4 +314,7 @@ then
     MANPATH="/opt/homebrew/Cellar/gawk/5.1.1/libexec/gnuman:$MANPATH"
     # MANPATH="/opt/homebrew/Cellar/findutils/4.9.0/libexec/gnuman:$MANPATH" # https://stackoverflow.com/questions/69574792/gnu-find-cant-find-root-directory-find-failed-to-read-file-names-from-file
     export MANPATH
+
+    # Lunarvim problem with max openfiles: https://github.com/wbthomason/packer.nvim/issues/149
+    # Doesn't persist over reboot: https://superuser.com/questions/1634286/how-do-i-increase-the-max-open-files-in-macos-big-sur/1646927#1646927
 fi
