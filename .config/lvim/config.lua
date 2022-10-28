@@ -10,21 +10,34 @@ an executable
 
 -- general
 lvim.log.level = "warn"
-lvim.format_on_save = false
-lvim.colorscheme = "tokyonight-storm"
+lvim.format_on_save = true
 -- to disable icons and use a minimalist setup, uncomment the following
 -- lvim.use_icons = false
-
 -- keymappings [view all the defaults by pressing <leader>Lk]
 lvim.leader = "space"
 -- add your own keymapping
 lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 lvim.keys.normal_mode["<Tab>"] = ":bnext<cr>"
 -- lvim.keys.normal_mode["<Leader>-1"] = "1 <C-6><cr>"
-vim.opt.relativenumber = false
-vim.opt.foldmethod = "expr"
+
+-- General settings: https://www.lunarvim.org/docs/configuration/settings
+-- vim.opt.backup = false # Creates a backup file
+vim.opt.fileencoding = "utf-8" -- The encoding written to a file
+vim.opt.foldmethod = "expr" -- Treesitter based folding
 vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+vim.opt.ignorecase = true -- Ignore case when searching
+vim.opt.mouse = "a" -- Enable your mouse
+-- Disable spelling
+vim.opt.spell = false
+-- Keep your cursor centerd vertically on the screen
+vim.opt.scrolloff = 8
+vim.opt.sidescrolloff = 8
+
+vim.opt.relativenumber = false
 vim.opt.foldlevel = 99
+
+
+--
 -- lvim.keys.normal_mode["<C-g"] = ":*y"
 
 
@@ -54,8 +67,9 @@ vim.opt.foldlevel = 99
 -- }
 
 -- Change theme settings
+lvim.colorscheme = "tokyonight"
+lvim.builtin.theme.options.style = "storm"
 -- lvim.builtin.theme.options.dim_inactive = true
--- lvim.builtin.theme.options.style = "storm"
 
 -- Use which-key to add extra bindings with the leader-key prefix
 -- lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
@@ -79,18 +93,19 @@ lvim.builtin.nvimtree.setup.renderer.icons.show.git = false
 
 -- if you don't want all the parsers change this to a table of the ones you want
 lvim.builtin.treesitter.ensure_installed = {
-  "bash",
-  "c",
-  "javascript",
-  "json",
   "lua",
-  "python",
-  "typescript",
-  "tsx",
-  "css",
-  "rust",
-  "java",
   "yaml",
+  "json",
+  "bash",
+  "python",
+  "java",
+  "css",
+  "html",
+  "javascript",
+  "typescript",
+  "c",
+  "tsx",
+  "rust",
 }
 
 lvim.builtin.treesitter.ignore_install = { "haskell" }
@@ -142,16 +157,16 @@ lvim.builtin.treesitter.autotag.enable = true
 local formatters = require "lvim.lsp.null-ls.formatters"
 formatters.setup {
   { command = "black", filetypes = { "python" } },
---   { command = "isort", filetypes = { "python" } },
---   {
---     -- each formatter accepts a list of options identical to https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md#Configuration
---     command = "prettier",
---     ---@usage arguments to pass to the formatter
---     -- these cannot contain whitespaces, options such as `--line-width 80` become either `{'--line-width', '80'}` or `{'--line-width=80'}`
---     extra_args = { "--print-with", "100" },
---     ---@usage specify which filetypes to enable. By default a providers will attach to all the filetypes it supports.
---     filetypes = { "typescript", "typescriptreact" },
---   },
+  --   { command = "isort", filetypes = { "python" } },
+  --   {
+  --     -- each formatter accepts a list of options identical to https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md#Configuration
+  --     command = "prettier",
+  --     ---@usage arguments to pass to the formatter
+  --     -- these cannot contain whitespaces, options such as `--line-width 80` become either `{'--line-width', '80'}` or `{'--line-width=80'}`
+  --     extra_args = { "--print-with", "100" },
+  --     ---@usage specify which filetypes to enable. By default a providers will attach to all the filetypes it supports.
+  --     filetypes = { "typescript", "typescriptreact" },
+  --   },
 }
 
 -- -- set additional linters
@@ -176,12 +191,14 @@ linters.setup {
 lvim.plugins = {
   -- Autotags
   {
+    -- Add autotags also enable treesitter autotag (lvim.builtin.treesitter.autotag.enable = true)
     "windwp/nvim-ts-autotag",
     config = function()
       require('nvim-ts-autotag').setup()
     end,
   },
   {
+    -- Add function signatures
     "ray-x/lsp_signature.nvim",
     config = function()
       require "lsp_signature".setup()
@@ -191,22 +208,26 @@ lvim.plugins = {
     "github/copilot.vim",
   },
   {
-    "zbirenbaum/copilot-cmp",
-    after = { "copilot.lua" },
-    config = function()
-      require("copilot_cmp").setup()
-    end
-  },
-  {
-    "zbirenbaum/copilot.lua",
-    event = "InsertEnter",
-    config = function()
-      vim.schedule(function()
-        require("copilot").setup()
-      end)
-    end,
-  },
+    "iamcco/markdown-preview.nvim",
+  }
 }
+-- Setup copilot: https://github.com/LunarVim/LunarVim/issues/1856#issuecomment-954224770
+vim.g.copilot_no_tab_map = true
+vim.g.copilot_assume_mapped = true
+vim.g.copilot_tab_fallback = ""
+local cmp = require "cmp"
+lvim.builtin.cmp.mapping["<Tab>"] = function(fallback)
+  if cmp.visible() then
+    cmp.select_next_item()
+  else
+    local copilot_keys = vim.fn["copilot#Accept"]()
+    if copilot_keys ~= "" then
+      vim.api.nvim_feedkeys(copilot_keys, "i", true)
+    else
+      fallback()
+    end
+  end
+end
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
 -- vim.api.nvim_create_autocmd("BufEnter", {
