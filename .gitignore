@@ -5,6 +5,7 @@
 !.tmux.conf
 !.zshenv
 !.zshrc
-!.zsh
+!.zsh/.gitkeep
+.zsh/*
 !.tmux
 !.config
