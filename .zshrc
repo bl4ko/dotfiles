@@ -290,6 +290,19 @@ export EDITOR=vim
 # (GNU version of basic commands)
 if [ $(uname) = "Darwin" ]
 then
+    # Add brew autocompletitions
+     if type brew &>/dev/null
+     then
+        FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
+        autoload -Uz compinit
+        compinit
+    else
+      echo "Brew installer is missing :("
+    fi
+
+
+   
+    
     if [ ! -d /opt/homebrew/opt/grep/libexec/gnubin ]; then
         brew install coreutils findutils gnu-tar gnu-sed gawk gnutls gnu-indent gnu-getopt grep
     fi
@@ -301,7 +314,7 @@ then
     PATH="/opt/homebrew/opt/gnu-indent/libexec/gnubin:$PATH"
     PATH="/opt/homebrew/opt/gnu-getopt/bin:$PATH"
     PATH="/opt/homebrew/opt/gnu-sed/libexec/gnubin:$PATH"
-    # PATH="/opt/homebrew/opt/findutils/libexec/gnubin:$PATH" # https://stackoverflow.com/questions/69574792/gnu-find-cant-find-root-directory-find-failed-to-read-file-names-from-file
+    PATH="/opt/homebrew/opt/findutils/libexec/gnubin:$PATH" # https://stackoverflow.com/questions/69574792/gnu-find-cant-find-root-directory-find-failed-to-read-file-names-from-file
     export PATH
 
     # Also acces their man pages with normal names
@@ -312,7 +325,7 @@ then
     MANPATH="/opt/homebrew/Cellar/grep/3.7/libexec/gnuman:$MANPATH"
     MANPATH="/opt/homebrew/Cellar/gnu-sed/4.8/libexec/gnuman:$MANPATH"
     MANPATH="/opt/homebrew/Cellar/gawk/5.1.1/libexec/gnuman:$MANPATH"
-    # MANPATH="/opt/homebrew/Cellar/findutils/4.9.0/libexec/gnuman:$MANPATH" # https://stackoverflow.com/questions/69574792/gnu-find-cant-find-root-directory-find-failed-to-read-file-names-from-file
+    MANPATH="/opt/homebrew/Cellar/findutils/4.9.0/libexec/gnuman:$MANPATH" # https://stackoverflow.com/questions/69574792/gnu-find-cant-find-root-directory-find-failed-to-read-file-names-from-file
     export MANPATH
 
     # Lunarvim problem with max openfiles: https://github.com/wbthomason/packer.nvim/issues/149
