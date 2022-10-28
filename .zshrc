@@ -171,7 +171,7 @@ if [ "$color_prompt" = yes ]; then
         echo "zsh-syntax-highlighting not found..."
         echo "Installing zsh-syntax-highlighting..."
         mkdir -pv $HOME/.zsh 
-        git clone -v https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.zsh/
+        git clone -v https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.zsh/zsh-syntax-highlighting
     fi
 
     # Source the plugin
