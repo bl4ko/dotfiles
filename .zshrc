@@ -41,10 +41,9 @@ alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
+
 if [ $(uname) = 'Linux' ]; then
   alias diff='diff --color=auto'
-fi
-if [ $(uname) = 'Linux' ]; then
   alias ip='ip --color=auto'
 fi
 
@@ -290,6 +289,7 @@ export EDITOR=vim
 # (GNU version of basic commands)
 if [ $(uname) = "Darwin" ]
 then
+    echo "Setting up MACOS specific settings..."
     # Add brew autocompletitions
      if type brew &>/dev/null
      then
