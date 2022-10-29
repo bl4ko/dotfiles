@@ -286,19 +286,19 @@ export EDITOR=vim
 # -------------------------- exa - ls alternative --------------------------------------------------------
 # https://the.exa.website/
 # Check if installed, if not install
-if ! command -v exa &> /dev/null
-then
-  echo "exa was not found..."
-  echo "Installing exa"
-  if [ $(uname) = "Darwin" ]; then
-    brew install exa
-  elif [ $(uname) = "Linux" ]; then
-    sudo apt install exa
-  fi
-fi
+# if ! command -v exa &> /dev/null
+# then
+#   echo "exa was not found..."
+#   echo "Installing exa"
+#   if [ $(uname) = "Darwin" ]; then
+#     brew install exa
+#   elif [ $(uname) = "Linux" ]; then
+#     sudo apt install exa
+#   fi
+# fi
 
-# Setup aliases
-alias ls='exa'
+# # Setup aliases
+# alias ls='exa'
 
 # ---------------------------- MAC SPECIFIC --------------------------------------------------------------
 # Replace MACOS commands with GNU commands
