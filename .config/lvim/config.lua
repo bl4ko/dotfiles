@@ -188,6 +188,7 @@ linters.setup {
 }
 
 -- Additional Plugins
+-- List of plugins: https://www.lunarvim.org/docs/plugins/extra-plugins
 lvim.plugins = {
   -- Autotags
   {
@@ -198,20 +199,55 @@ lvim.plugins = {
     end,
   },
   {
-    -- Add function signatures
     "ray-x/lsp_signature.nvim",
+    event = "BufRead",
+    config = function() require "lsp_signature".on_attach() end,
+  },
+  {
+    -- https://www.lunarvim.org/docs/plugins/extra-plugins#markdown-previewnvim
+    "iamcco/markdown-preview.nvim",
+    run = "cd app && npm install",
+    ft = "markdown",
     config = function()
-      require "lsp_signature".setup()
+      vim.g.mkdp_auto_start = 1
     end,
   },
   {
     "github/copilot.vim",
   },
-  {
-    "iamcco/markdown-preview.nvim",
-  }
+  -- Copilot: https://www.lunarvim.org/docs/plugins/extra-plugins#copilotlua-and-copilot-cmp
+  -- {
+  --   -- https://github.com/zbirenbaum/copilot.lua
+  --   "zbirenbaum/copilot.lua",
+  --   event = { "VimEnter" },
+  --   config = function()
+  --     vim.defer_fn(function()
+  --       require("copilot").setup {
+  --         plugin_manager_path = get_runtime_dir() .. "/site/pack/packer",
+  --         suggestion = {
+  --           auto_trigger = true,
+  --           keymap = {
+  --             accept = "<Tab>"
+  --           }
+  --         },
+  --         filetypes = {
+  --           yaml = true,
+  --           markdown = true,
+  --         },
+  --       }
+  --     end, 100)
+  --   end,
+  -- },
+  -- {
+  --   "zbirenbaum/copilot-cmp",
+  --   after = { "copilot.lua", "nvim-cmp" },
+  -- },
 }
--- Setup copilot: https://github.com/LunarVim/LunarVim/issues/1856#issuecomment-954224770
+-- Can not be placed into the config method of the plugins.
+-- lvim.builtin.cmp.formatting.source_names["copilot"] = "(Copilot)"
+-- table.insert(lvim.builtin.cmp.sources, 1, { name = "copilot" })
+--
+-- Setup copilot.vim to use tab: https://github.com/LunarVim/LunarVim/issues/1856#issuecomment-954224770
 vim.g.copilot_no_tab_map = true
 vim.g.copilot_assume_mapped = true
 vim.g.copilot_tab_fallback = ""
