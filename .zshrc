@@ -41,9 +41,10 @@ alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
-
 if [ $(uname) = 'Linux' ]; then
   alias diff='diff --color=auto'
+fi
+if [ $(uname) = 'Linux' ]; then
   alias ip='ip --color=auto'
 fi
 
@@ -170,7 +171,7 @@ if [ "$color_prompt" = yes ]; then
         echo "zsh-syntax-highlighting not found..."
         echo "Installing zsh-syntax-highlighting..."
         mkdir -pv $HOME/.zsh 
-        git clone -v https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.zsh/zsh-syntax-highlighting
+        git clone -v https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.zsh/
     fi
 
     # Source the plugin
@@ -282,6 +283,22 @@ fi
 alias vim=lvim
 export EDITOR=vim
 
+# -------------------------- exa - ls alternative --------------------------------------------------------
+# https://the.exa.website/
+# Check if installed, if not install
+if ! command -v exa &> /dev/null
+then
+  echo "exa was not found..."
+  echo "Installing exa"
+  if [ $(uname) = "Darwin" ]; then
+    brew install exa
+  elif [ $(uname) = "Linux" ]; then
+    sudo apt install exa
+  fi
+fi
+
+# Setup aliases
+alias ls='exa'
 
 # ---------------------------- MAC SPECIFIC --------------------------------------------------------------
 # Replace MACOS commands with GNU commands
@@ -289,7 +306,6 @@ export EDITOR=vim
 # (GNU version of basic commands)
 if [ $(uname) = "Darwin" ]
 then
-    echo "Setting up MACOS specific settings..."
     # Add brew autocompletitions
      if type brew &>/dev/null
      then
@@ -300,9 +316,6 @@ then
       echo "Brew installer is missing :("
     fi
 
-
-   
-    
     if [ ! -d /opt/homebrew/opt/grep/libexec/gnubin ]; then
         brew install coreutils findutils gnu-tar gnu-sed gawk gnutls gnu-indent gnu-getopt grep
     fi
