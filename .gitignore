@@ -8,4 +8,5 @@
 !.zsh/.gitkeep
 .zsh/*
 !.tmux
-!.config
+!.config/lvim/config.lua
+!.config/Code/User

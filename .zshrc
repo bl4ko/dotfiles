@@ -257,6 +257,86 @@ elif [ $(uname) = "Darwin" ]; then
 fi
 
 # ---------------------------- LVIM --------------------------------------------------------------
+# Preequisities: https://www.lunarvim.org/docs/installation
+# 1. Neovim v0.8.0+
+if ! command -v nvim &> /dev/null
+then
+	echo "Installing neovim..."
+	if [ $(uname) = "Darwin" ]; then
+		brew install neovim
+	elif [ $(uname) = "Linux" ]; then
+		# TODO: use package manager (snap not working)
+		# Get the checksum
+		wget -P /tmp https://github.com/neovim/neovim/releases/download/stable/nvim-linux64.deb.sha256sum
+		# Get the debian package
+		wget -P /tmp https://github.com/neovim/neovim/releases/download/stable/nvim-linux64.deb
+		# Test the checksum
+		cd /tmp
+		if sha256sum -c /tmp/nvim-linux64.deb.sha256sum; then
+		    echo "Checksum is correct"
+	         else
+		    echo "Checksum is incorrect"
+		    exit 1
+		fi    
+		cd - && sudo apt install /tmp/nvim-linux64.deb
+	fi
+fi
+
+# 2. Have git, make, pip, npm, node and cargo installed on your system
+# Also EACESS problem node
+if ! command -v lvim &> /dev/null
+then
+    echo "LunarVim could not be found..."
+    echo "Installing lunarvim and dependencies..."
+
+    # Check if rustup is installed (uninstall with: rustup self uninstall)
+    if ! command -v rustup &> /dev/null
+    then
+      echo "Installing Rust and Cargo"
+      curl https://sh.rustup.rs -sSf | sh -s -- -y # https://stackoverflow.com/a/57251636
+      source "$HOME/.cargo/env"
+    fi
+
+    if ! command -v make &> /dev/null
+    then
+      echo "Installing make command..."
+      if [ $(uname) = "Linux" ]; then sudo apt install make;
+      elif [ $(uname) = "Darwin" ]; then brew install make; fi
+    fi
+
+    if ! command -v node &> /dev/null
+    then
+      echo "Installing nodejs and npm..."
+      if [ $(uname) = "Linux" ]; then 
+        sudo snap install node
+        # Change npm path (EACESS) https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally
+        # https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally
+        sudo chown -R "$(whoami)" '/usr/local/lib/node_modules'
+        sudo chown -R "$(whoami)" '/usr/local/bin'
+      elif [ $(uname) = "Darwin" ]; then
+        brew install node
+      fi
+    fi
+
+    if ! command -v python3 &> /dev/null
+    then
+      echo "Installing python3 and pip3"
+      if [ $(uname) = "Linux" ]; then
+        sudo apt install python3 python3-pip
+      fi
+    fi
+
+    echo "Installing lunarvim..."
+    if [ $(uname) = "Darwin" ] || [ $(uname) = "Linux" ]
+    then
+    	bash <(curl -s https://raw.githubusercontent.com/lunarvim/lunarvim/master/utils/installer/install.sh)
+    fi
+fi
+
+alias vim=lvim
+export EDITOR=vim
+
+# NVCHAD
 #if ! command -v nvim &> /dev/null
 #then
 #    echo "Nvim could not be found..."
@@ -270,35 +350,6 @@ fi
 #    fi
 #fi
 
-if ! command -v lvim &> /dev/null
-then
-    echo "LunarVim could not be found..."
-    echo "Installing lunarvim..."
-    if [ $(uname) = "Darwin" ] || [ $(uname) = "Linux" ]
-    then
-    	bash <(curl -s https://raw.githubusercontent.com/lunarvim/lunarvim/master/utils/installer/install.sh)
-    fi
-fi
-
-alias vim=lvim
-export EDITOR=vim
-
-# -------------------------- exa - ls alternative --------------------------------------------------------
-# https://the.exa.website/
-# Check if installed, if not install
-# if ! command -v exa &> /dev/null
-# then
-#   echo "exa was not found..."
-#   echo "Installing exa"
-#   if [ $(uname) = "Darwin" ]; then
-#     brew install exa
-#   elif [ $(uname) = "Linux" ]; then
-#     sudo apt install exa
-#   fi
-# fi
-
-# # Setup aliases
-# alias ls='exa'
 
 # ---------------------------- MAC SPECIFIC --------------------------------------------------------------
 # Replace MACOS commands with GNU commands
