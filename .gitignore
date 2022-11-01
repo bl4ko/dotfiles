@@ -1,12 +1,10 @@
-/*
+# Zsh gitignores
+/zsh/*
+!zsh/.zshrc
+!zsh/.zshenv
+!/zsh/plugins
+/zsh/plugins/*
+!/zsh/plugins/gitkeep
 
-!.gitignore
-!.bashrc
-!.tmux.conf
-!.zshenv
-!.zshrc
-!.zsh/.gitkeep
-.zsh/*
-!.tmux
-!.config/lvim/config.lua
-!.config/Code/User
+/tmux/plugins/*
+!/tmux/plugins/.gitkeep
