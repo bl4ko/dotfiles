@@ -122,12 +122,18 @@ esac
 prompt_symbol=㉿
 [ "EUID" = 0 ] && prompt_symbol=💀
 [ $(uname) = "Darwin" ] && prompt_symbol=@
-
-PROMPT_USER_MACHINE='%F{green}┌──(%B%F{blue}%n${prompt_symbol}%m%b%F{green})'
-PROMPT_PATH='-[%B%F{reset}%(6~.%-1~/…/%4~.%5~)%b%F{green}]' # %B  -> Start (stop) boldface mode (https://zsh.sourceforge.io/Doc/Release/Prompt-Expansion.html)
+# Zsh prompt special characters: https://zsh.sourceforge.io/Doc/Release/Prompt-Expansion.html
+# %m ... machine hostname up to the first '.'
+# %n ... username
+# --------- Visual Effects --------------
+# %F{color}<text>%f        start/end color mode
+# %B<text>%b               start/end bold mode
+# $                        Move to the end of the line.
+PROMPT_USER_MACHINE='%F{green}┌──(%f%B%F{blue}%n${prompt_symbol}%m%b%f%F{green})%f'
+PROMPT_PATH='%F{green}-[%f%B%(6~.%-1~/…/%4~.%5~)%b%f%F{green}]%f' # %B  -> Start (stop) boldface mode
 # PROMPT_GIT='-[%B%F{magenta}${vcs_info_msg_0_}%b%F{green}]' # TODO manually
-PROMPT_GIT='-[%B%F{magenta}$(git_super_status)%b%F{green}]' # TODO manually
-PROMPT_LINE2=$'\n%F{green}└─%B%F{blue}$%b%F{reset} '
+PROMPT_GIT='-[%B%F{magenta}$(git_super_status)%b%F{green}]%f' # TODO manually
+PROMPT_LINE2=$'\n%F{green}└─%B%f%F{blue}$%b%f '
 
 PROMPT="$PROMPT_USER_MACHINE"'$PROMPT_PATH'"$PROMPT_GIT"'$PROMPT_LINE2'
 
