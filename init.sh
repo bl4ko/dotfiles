@@ -13,14 +13,13 @@ CROSS="[${COL_LIGHT_RED}✗${COL_NC}]"
 INFO="[${COL_BLUE}i${COL_NC}]"
 # shellcheck disable=SC2034
 DONE="${COL_LIGHT_GREEN} done!${COL_NC}"
-OVER="\\r\\033[K"
 DOTFILES="$HOME/dotfiles"
 
-echo "$INFOStarting symlink process..."
-echo "---------------------------"
+echo -e "${INFO}Starting symlink process..."
+echo "----------------------------------"
 
 function create_symlink {
-    echo -e "$INFO$COL_CYAN Creating Creating symlink for$NC $COL_PURPLE$1$COL_NC"
+    echo -e "$INFO$COL_CYAN Creating symlink for$NC $COL_PURPLE$1$COL_NC"
     # Check if a file exists and it is not a symlink
     if [ -f "$2" ] && [ -L "$2" ]; then
         echo -e "BACKUP $CROSS symlink already exists, skipping..."
@@ -28,9 +27,8 @@ function create_symlink {
         mv "$2" "$2.bak"
         echo -e "BACKUP $TICK Backup created..."
     fi
-    output=$( ln -s "$1" "$2" 2>&1)
-    # Check if command run without errors
-    if [ $? -eq 0 ]; then
+    # Create symlink and check if it was successful
+    if output=$( ln -s "$1" "$2" 2>&1); then
         echo -e "SYMLINK${TICK} Created symlink..."
     else
         echo -e "SYMLINK${CROSS} $output..."
@@ -38,18 +36,19 @@ function create_symlink {
 }
 
 # Symlink all files in config directory
-create_symlink $DOTFILES/bash/.bashrc $HOME/.bashrc
-create_symlink $DOTFILES/zsh/.zshrc $HOME/.zshrc
-create_symlink $DOTFILES/zsh/.zshenv $HOME/.zshenv
-create_symlink $DOTFILES/tmux/.tmux.conf $HOME/.tmux.conf
-create_symlink $DOTFILES/git/.gitconfig $HOME/.gitconfig
-create_symlink $DOTFILES/lvim/config.lua $HOME/.config/lvim/config.lua
+create_symlink "$DOTFILES/bash/.bashrc" "$HOME/.bashrc"
+create_symlink "$DOTFILES/zsh/.zshrc" "$HOME/.zshrc"
+create_symlink "$DOTFILES/zsh/.zshenv" "$HOME/.zshenv"
+create_symlink "$DOTFILES/tmux/.tmux.conf" "$HOME/.tmux.conf"
+create_symlink "$DOTFILES/git/.gitconfig" "$HOME/.gitconfig"
+create_symlink "$DOTFILES/lvim/config.lua" "$HOME/.config/lvim/config.lua"
+create_symlink "$DOTFILES/.profile" "$HOME/.profile"
 
 # Visual studio code: https://stackoverflow.com/a/53841945
-if [ $(uname) = "Darwin" ]; then
-    create_symlink $DOTFILES/Code/settings.json $HOME/Library/Application\ Support/Code/User/settings.json
-    create_symlink $DOTFILES/Code/keybindings.json $HOME/Library/Application\ Support/Code/User/keybindings
-elif [ $(uname) = "Linux" ]; then
-    create_symlink $DOTFILES/Code/settings.json $HOME/.config/Code/User/settings.json
-    create_symlink $DOTFILES/Code/keybindings.json $HOME/.config/Code/User/keybindings.json
+if [ "$(uname)" = "Darwin" ]; then
+    create_symlink "$DOTFILES/Code/settings.json" "$HOME/Library/Application Support/Code/User/settings.json"
+    create_symlink "$DOTFILES/Code/keybindings.json" "$HOME/Library/Application Support/Code/User/keybindings.json"
+elif [ "$(uname)" = "Linux" ]; then
+    create_symlink "$DOTFILES/Code/settings.json" "$HOME/.config/Code/User/settings.json"
+    create_symlink "$DOTFILES/Code/keybindings.json" "$HOME/.config/Code/User/keybindings.json"
 fi
