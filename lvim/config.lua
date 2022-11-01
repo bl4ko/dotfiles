@@ -215,38 +215,31 @@ lvim.plugins = {
   {
     "github/copilot.vim",
   },
-  -- Copilot: https://www.lunarvim.org/docs/plugins/extra-plugins#copilotlua-and-copilot-cmp
-  -- {
-  --   -- https://github.com/zbirenbaum/copilot.lua
-  --   "zbirenbaum/copilot.lua",
-  --   event = { "VimEnter" },
-  --   config = function()
-  --     vim.defer_fn(function()
-  --       require("copilot").setup {
-  --         plugin_manager_path = get_runtime_dir() .. "/site/pack/packer",
-  --         suggestion = {
-  --           auto_trigger = true,
-  --           keymap = {
-  --             accept = "<Tab>"
-  --           }
-  --         },
-  --         filetypes = {
-  --           yaml = true,
-  --           markdown = true,
-  --         },
-  --       }
-  --     end, 100)
-  --   end,
-  -- },
-  -- {
-  --   "zbirenbaum/copilot-cmp",
-  --   after = { "copilot.lua", "nvim-cmp" },
-  -- },
 }
+--  Copilot: https://www.lunarvim.org/docs/plugins/extra-plugins#copilotlua-and-copilot-cmp
+-- {
+-- https://github.com/zbirenbaum/copilot.lua
+-- This is a question:
+--     "zbirenbaum/copilot.lua",
+--     event = { "VimEnter" },
+--     config = function()
+--       vim.defer_fn(function()
+--         require("copilot").setup {
+--           plugin_manager_path = get_runtime_dir() .. "/site/pack/packer",
+--         }
+--       end, 100)
+--     end,
+--   },
+--   {
+--     "zbirenbaum/copilot-cmp",
+--     after = { "copilot.lua", "nvim-cmp" },
+--   },
+-- }
+
 -- Can not be placed into the config method of the plugins.
 -- lvim.builtin.cmp.formatting.source_names["copilot"] = "(Copilot)"
 -- table.insert(lvim.builtin.cmp.sources, 1, { name = "copilot" })
---
+
 -- Setup copilot.vim to use tab: https://github.com/LunarVim/LunarVim/issues/1856#issuecomment-954224770
 vim.g.copilot_no_tab_map = true
 vim.g.copilot_assume_mapped = true
