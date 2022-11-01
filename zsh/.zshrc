@@ -330,6 +330,9 @@ then
     if [ $(uname) = "Darwin" ] || [ $(uname) = "Linux" ]
     then
     	bash <(curl -s https://raw.githubusercontent.com/lunarvim/lunarvim/master/utils/installer/install.sh)
+    # Create symlink for dotfiles config to work
+      mv $HOME/.config/lvim/config.lua $HOME/.config/lvim/config.lua.old
+      ln -s $HOME/dotfiles/lvim/config.lua $HOME/.config/lvim/config.lua
     fi
 fi
 
@@ -394,4 +397,11 @@ then
 
     # Lunarvim problem with max openfiles: https://github.com/wbthomason/packer.nvim/issues/149
     # Doesn't persist over reboot: https://superuser.com/questions/1634286/how-do-i-increase-the-max-open-files-in-macos-big-sur/1646927#1646927
+	
+    # Error: unable to get local issuer certificate
+    # 1. https://stackoverflow.com/a/42107877
+    # 2. https://stackoverflow.com/a/57795811 
+    CERT_PATH=$(python -m certifi)
+    export SSL_CERT_FILE=${CERT_PATH}
+    export REQUESTS_CA_BUNDLE=${CERT_PATH}
 fi
