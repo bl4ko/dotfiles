@@ -52,3 +52,7 @@ elif [ "$(uname)" = "Linux" ]; then
     create_symlink "$DOTFILES/Code/settings.json" "$HOME/.config/Code/User/settings.json"
     create_symlink "$DOTFILES/Code/keybindings.json" "$HOME/.config/Code/User/keybindings.json"
 fi
+
+
+# Change default shel to zsh
+

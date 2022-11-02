@@ -87,7 +87,7 @@ alias history="history 0"
 # configure `time` format
 TIMEFMT=$'\nreal\t%E\nuser\t%U\nsys\t%S\ncpu\t%P'
 
-# ---------------------------- GIT -------------------------------------------------------
+# ---------------------------- GIT plugin for prompt  -------------------------------------------------------
 # https://github.com/zsh-users/zsh/blob/master/Misc/vcs_info-examples
 # TODO: manually git prompt setup
 autoload -Uz vcs_info #  autoload marks the name as being a function rather than external program
@@ -102,15 +102,23 @@ autoload -Uz vcs_info #  autoload marks the name as being a function rather than
 # zstyle ':vcs_info:git:*' formats '%b' # format vcs_info function
 
 # check if zsh git prompt is installed
-if [ ! -f $HOME/dotfiles/zsh/plugins/zsh-git-prompt/zshrc.sh ]; then
+# if [ ! -f $HOME/dotfiles/zsh/plugins/zsh-git-prompt/zshrc.sh ]; then
+#     echo "Zsh-git-prompt is not installed..."
+#     echo "Installing zsh-git-prompt..."
+#     git clone -v https://github.com/olivierverdier/zsh-git-prompt.git $HOME/dotfiles/zsh/plugins/zsh-git-prompt
+# fi
+# Use haskell: faster version
+# source ~/dotfiles/zsh/plugins/zsh-git-prompt/zshrc.sh
+# Check PROMPT_GIT=...$(git_super_status)....
+# ZSH_THEME_GIT_PROMPT_PREFIX=""
+# ZSH_THEME_GIT_PROMPT_SUFFIX=""
+if [ ! -f $HOME/dotfiles/zsh/plugins/git-prompt/git-prompt.zsh ]; then
     echo "Zsh-git-prompt is not installed..."
-    echo "Installing zsh-git-prompt..."
-    git clone -v https://github.com/olivierverdier/zsh-git-prompt.git $HOME/dotfiles/zsh/plugins/zsh-git-prompt
+    echo "Installing git-prompt..."
+    git clone -v https://github.com/woefe/git-prompt.zsh $HOME/dotfiles/zsh/plugins/git-prompt
 fi
-if [ $(uname) == "Darwin" ]; then alias python=python3; fi # Problem on macos, not having python only python3
-source ~/dotfiles/zsh/plugins/zsh-git-prompt/zshrc.sh
-ZSH_THEME_GIT_PROMPT_PREFIX=""
-ZSH_THEME_GIT_PROMPT_SUFFIX=""
+source $HOME/dotfiles/zsh/plugins/git-prompt/git-prompt.zsh
+# Check PROMPT_GIT=...$(gitprompt)...
 
 # -------------------------- PROMPT -----------------------------------------------
 # Check if our terminal emulator supports colors
@@ -130,7 +138,8 @@ prompt_symbol=㉿
 PROMPT_USER_MACHINE='%F{green}┌──(%f%B%F{blue}%n${prompt_symbol}%m%b%f%F{green})%f'
 PROMPT_PATH='%F{green}-[%f%B%(6~.%-1~/…/%4~.%5~)%b%f%F{green}]%f' # %B  -> Start (stop) boldface mode
 # PROMPT_GIT='-[%B%F{magenta}${vcs_info_msg_0_}%b%F{green}]' # TODO manually
-PROMPT_GIT='%F{green}-[%f%B%F{magenta}$(git_super_status)%b%F{green}]%f' # TODO manually
+# PROMPT_GIT='%F{green}-[%f%B%F{magenta}$(git_super_status)%b%F{green}]%f' # TODO manually
+PROMPT_GIT='%F{green}-[%f%B%F{magenta}$(gitprompt)%b%F{green}]%f' # TODO manually
 PROMPT_LINE2=$'\n%F{green}└─%B%f%F{blue}$%b%f '
 
 PROMPT="$PROMPT_USER_MACHINE"'$PROMPT_PATH'"$PROMPT_GIT"'$PROMPT_LINE2'
@@ -288,72 +297,76 @@ fi
 
 # 2. Have git, make, pip, npm, node and cargo installed on your system
 # Also EACESS problem node
+echo "Installing lunarvim dependencies..."
+# Check if rustup is installed (uninstall with: rustup self uninstall)
+if ! command -v rustup &> /dev/null
+then
+  echo "Installing Rust and Cargo"
+  curl https://sh.rustup.rs -sSf | sh -s -- -y # https://stackoverflow.com/a/57251636
+  source "$HOME/.cargo/env"
+fi
+
+if ! command -v make &> /dev/null
+then
+  echo "Installing make command..."
+  if [ $(uname) = "Linux" ]; then sudo apt install make;
+  elif [ $(uname) = "Darwin" ]; then brew install make; fi
+fi
+
+if ! command -v node &> /dev/null
+then
+  echo "Installing nodejs and npm..."
+  if [ $(uname) = "Linux" ]; then 
+    # https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally
+    # https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
+    # Change npm path (EACESS) https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally
+    # https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally
+    # Install nvm
+    echo "Installing nvm..."
+    wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.2/install.sh | bash
+    # No need to refresh shell:
+    export NVM_DIR="$HOME/.nvm"
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completio
+    # Check if command was installed succesfully
+    if ! command -v nvm &> /dev/null; then
+      echo "Failed installing nvm"
+      exit 1
+    fi
+    echo "Installing node and npm with nvm..."
+    if ! nvm install node; then
+      echo "Failed installing node and npm" 
+      exit 1
+    fi
+
+  elif [ $(uname) = "Darwin" ]; then
+    brew install node
+  fi
+fi
+
+if ! command -v python3 &> /dev/null
+then
+  echo "Installing python3 and pip3"
+  if [ $(uname) = "Linux" ]; then
+    sudo apt install python3
+    sudo apt-get install python3-pip
+  elif [ $(uname) = "Darwin" ]: then
+    echo "Todo install python on Darwin"
+    exit 1
+  fi
+fi
+
 if ! command -v lvim &> /dev/null
 then
     echo "LunarVim could not be found..."
-    echo "Installing lunarvim and dependencies..."
-
-    # Check if rustup is installed (uninstall with: rustup self uninstall)
-    if ! command -v rustup &> /dev/null
-    then
-      echo "Installing Rust and Cargo"
-      curl https://sh.rustup.rs -sSf | sh -s -- -y # https://stackoverflow.com/a/57251636
-      source "$HOME/.cargo/env"
-    fi
-
-    if ! command -v make &> /dev/null
-    then
-      echo "Installing make command..."
-      if [ $(uname) = "Linux" ]; then sudo apt install make;
-      elif [ $(uname) = "Darwin" ]; then brew install make; fi
-    fi
-
-    if ! command -v node &> /dev/null
-    then
-      echo "Installing nodejs and npm..."
-      if [ $(uname) = "Linux" ]; then 
-        # https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally
-        # https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
-        # Change npm path (EACESS) https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally
-        # https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally
-        # Install nvm
-        echo "Installing nvm..."
-        wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.2/install.sh | bash
-        # No need to refresh shell:
-        export NVM_DIR="$HOME/.nvm"
-        [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-        [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completio
-        # Check if command was installed succesfully
-        if ! command -v nvm &> /dev/null; then
-          echo "Failed installing nvm"
-          exit 1
-        fi
-        echo "Installing node and npm..."
-        if ! nvm install node; then
-          echo "Failed installing node and npm" 
-          exit 1
-        fi
-
-      elif [ $(uname) = "Darwin" ]; then
-        brew install node
-      fi
-    fi
-
-    if ! command -v python3 &> /dev/null
-    then
-      echo "Installing python3 and pip3"
-      if [ $(uname) = "Linux" ]; then
-        sudo apt install python3
-        sudo apt-get install python3-pip
-      fi
-    fi
+    echo "Installing Lunarvim..."
 
     echo "Installing lunarvim..."
     if [ $(uname) = "Darwin" ] || [ $(uname) = "Linux" ]
     then
     	bash <(curl -s https://raw.githubusercontent.com/lunarvim/lunarvim/master/utils/installer/install.sh)
-    # Create symlink for dotfiles config to work
-      mv $HOME/.config/lvim/config.lua $HOME/.config/lvim/config.lua.old
+      # Create symlink for dotfiles config to work
+      mv $HOME/.config/lvim/config.lua $HOME/.config/lvim/config.lua.default
       ln -s $HOME/dotfiles/lvim/config.lua $HOME/.config/lvim/config.lua
     fi
 fi
