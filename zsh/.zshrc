@@ -391,7 +391,10 @@ export EDITOR=vim
 # Replace MACOS commands with GNU commands
 # Use GNU utilities: https://apple.stackexchange.com/questions/69223/how-to-replace-mac-os-x-utilities-with-gnu-core-utilities
 # (GNU version of basic commands)
-if [ $(uname) = "Darwin" ]; then
+=======
+if [ $(uname) = "Darwin" ]
+then
+    alias python=python3
     # Add brew autocompletitions
     if type brew &>/dev/null; then
       FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
