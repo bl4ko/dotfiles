@@ -118,6 +118,9 @@ if [ ! -f $HOME/dotfiles/zsh/plugins/git-prompt/git-prompt.zsh ]; then
     git clone -v https://github.com/woefe/git-prompt.zsh $HOME/dotfiles/zsh/plugins/git-prompt
 fi
 source $HOME/dotfiles/zsh/plugins/git-prompt/git-prompt.zsh
+ZSH_THEME_GIT_PROMPT_PREFIX=""
+ZSH_THEME_GIT_PROMPT_SUFFIX=""
+ZSH_THEME_GIT_PROMPT_BRANCH="%B%b%{$fg_bold[magenta]%}"
 # Check PROMPT_GIT=...$(gitprompt)...
 
 # -------------------------- PROMPT -----------------------------------------------
