@@ -298,22 +298,22 @@ fi
 # 2. Lunarvim dependencies: Have git, make, pip, npm, node and cargo installed on your system
 # Also EACESS problem node
 # Check if rustup is installed (uninstall with: rustup self uninstall)
-if ! command -v rustup &> /dev/null
-then
+if ! command -v rustup &> /dev/null; then
   echo "Installing Rust and Cargo"
   curl https://sh.rustup.rs -sSf | sh -s -- -y # https://stackoverflow.com/a/57251636
   source "$HOME/.cargo/env"
 fi
 
-if ! command -v make &> /dev/null
-then
+if ! command -v make &> /dev/null; then
   echo "Installing make command..."
-  if [ $(uname) = "Linux" ]; then sudo apt install make;
-  elif [ $(uname) = "Darwin" ]; then brew install make; fi
+  if [ $(uname) = "Linux" ]; then 
+    sudo apt install make
+  elif [ $(uname) = "Darwin" ]; then 
+    brew install make
+  fi
 fi
 
-if ! command -v node &> /dev/null
-then
+if ! command -v node &> /dev/null; then
   echo "Installing nodejs and npm..."
   if [ $(uname) = "Linux" ]; then 
     # https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally
@@ -391,14 +391,12 @@ export EDITOR=vim
 # Replace MACOS commands with GNU commands
 # Use GNU utilities: https://apple.stackexchange.com/questions/69223/how-to-replace-mac-os-x-utilities-with-gnu-core-utilities
 # (GNU version of basic commands)
-if [ $(uname) = "Darwin" ]
-then
+if [ $(uname) = "Darwin" ]; then
     # Add brew autocompletitions
-     if type brew &>/dev/null
-     then
-        FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
-        autoload -Uz compinit
-        compinit
+    if type brew &>/dev/null; then
+      FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
+      autoload -Uz compinit
+      compinit
     else
       echo "Brew installer is missing :("
     fi
@@ -443,5 +441,6 @@ fi
 if [ $(uname) = "Linux" ]; then
   export NVM_DIR="$HOME/.nvm"
   [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
 fi
+
