@@ -393,6 +393,7 @@ export EDITOR=vim
 # (GNU version of basic commands)
 if [ $(uname) = "Darwin" ]
 then
+    alias python=python3
     # Add brew autocompletitions
      if type brew &>/dev/null
      then
