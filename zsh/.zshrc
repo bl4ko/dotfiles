@@ -36,15 +36,13 @@ zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 
 alias ls='ls --color=auto'
-#alias dir='dir --color=auto'
-#alias vdir='vdir --color=auto'
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 if [ $(uname) = 'Linux' ]; then
   alias diff='diff --color=auto'
-fi
-if [ $(uname) = 'Linux' ]; then
+  alias dir='dir --color=auto'
+  alias vdir='vdir --color=auto'
   alias ip='ip --color=auto'
 fi
 
@@ -132,7 +130,7 @@ prompt_symbol=㉿
 PROMPT_USER_MACHINE='%F{green}┌──(%f%B%F{blue}%n${prompt_symbol}%m%b%f%F{green})%f'
 PROMPT_PATH='%F{green}-[%f%B%(6~.%-1~/…/%4~.%5~)%b%f%F{green}]%f' # %B  -> Start (stop) boldface mode
 # PROMPT_GIT='-[%B%F{magenta}${vcs_info_msg_0_}%b%F{green}]' # TODO manually
-PROMPT_GIT='-[%B%F{magenta}$(git_super_status)%b%F{green}]%f' # TODO manually
+PROMPT_GIT='%F{green}-[%f%B%F{magenta}$(git_super_status)%b%F{green}]%f' # TODO manually
 PROMPT_LINE2=$'\n%F{green}└─%B%f%F{blue}$%b%f '
 
 PROMPT="$PROMPT_USER_MACHINE"'$PROMPT_PATH'"$PROMPT_GIT"'$PROMPT_LINE2'
@@ -314,11 +312,28 @@ then
     then
       echo "Installing nodejs and npm..."
       if [ $(uname) = "Linux" ]; then 
-        sudo snap install node
+        # https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally
+        # https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
         # Change npm path (EACESS) https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally
         # https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally
-        sudo chown -R "$(whoami)" '/usr/local/lib/node_modules'
-        sudo chown -R "$(whoami)" '/usr/local/bin'
+        # Install nvm
+        echo "Installing nvm..."
+        wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.2/install.sh | bash
+        # No need to refresh shell:
+        export NVM_DIR="$HOME/.nvm"
+        [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+        [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completio
+        # Check if command was installed succesfully
+        if ! command -v nvm &> /dev/null; then
+          echo "Failed installing nvm"
+          exit 1
+        fi
+        echo "Installing node and npm..."
+        if ! nvm install node; then
+          echo "Failed installing node and npm" 
+          exit 1
+        fi
+
       elif [ $(uname) = "Darwin" ]; then
         brew install node
       fi
@@ -328,7 +343,8 @@ then
     then
       echo "Installing python3 and pip3"
       if [ $(uname) = "Linux" ]; then
-        sudo apt install python3 python3-pip
+        sudo apt install python3
+        sudo apt-get install python3-pip
       fi
     fi
 
@@ -403,6 +419,7 @@ then
 
     # Lunarvim problem with max openfiles: https://github.com/wbthomason/packer.nvim/issues/149
     # Doesn't persist over reboot: https://superuser.com/questions/1634286/how-do-i-increase-the-max-open-files-in-macos-big-sur/1646927#1646927
+    # TODO
 	
     # Error: unable to get local issuer certificate
     # 1. https://stackoverflow.com/a/42107877
@@ -410,4 +427,10 @@ then
     CERT_PATH=$(python -m certifi)
     export SSL_CERT_FILE=${CERT_PATH}
     export REQUESTS_CA_BUNDLE=${CERT_PATH}
+fi
+
+if [ $(uname) = "Linux" ]; then
+  export NVM_DIR="$HOME/.nvm"
+  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 fi
