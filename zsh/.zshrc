@@ -295,9 +295,8 @@ then
 	fi
 fi
 
-# 2. Have git, make, pip, npm, node and cargo installed on your system
+# 2. Lunarvim dependencies: Have git, make, pip, npm, node and cargo installed on your system
 # Also EACESS problem node
-echo "Installing lunarvim dependencies..."
 # Check if rustup is installed (uninstall with: rustup self uninstall)
 if ! command -v rustup &> /dev/null
 then
@@ -344,13 +343,12 @@ then
   fi
 fi
 
-if ! command -v python3 &> /dev/null
-then
+if ! command -v python3 &> /dev/null; then
   echo "Installing python3 and pip3"
   if [ $(uname) = "Linux" ]; then
     sudo apt install python3
     sudo apt-get install python3-pip
-  elif [ $(uname) = "Darwin" ]: then
+  elif [ $(uname) = "Darwin" ]; then
     echo "Todo install python on Darwin"
     exit 1
   fi
