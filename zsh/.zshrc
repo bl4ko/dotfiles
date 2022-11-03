@@ -55,6 +55,12 @@ export LESS_TERMCAP_se=$'\E[0m'        # reset reverse video
 export LESS_TERMCAP_us=$'\E[1;32m'     # begin underline
 export LESS_TERMCAP_ue=$'\E[0m'        # reset underline
 
+# https://stackoverflow.com/a/22779469
+# https://stackoverflow.com/questions/11916064/zsh-tab-completion-duplicating-command-name: duplicate
+# https://stackoverflow.com/a/22779469, https://stackoverflow.com/a/29471921, 
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+
 # enable completion features: git, etc ...
 autoload -Uz compinit
 compinit -d ~/.cache/zcompdump
