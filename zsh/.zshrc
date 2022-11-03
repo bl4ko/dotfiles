@@ -46,6 +46,7 @@ if [ $(uname) = 'Linux' ]; then
   alias ip='ip --color=auto'
 fi
 
+# Add colors to the manpages: https://unix.stackexchange.com/q/108699
 export LESS_TERMCAP_mb=$'\E[1;31m'     # begin blink
 export LESS_TERMCAP_md=$'\E[1;36m'     # begin bold
 export LESS_TERMCAP_me=$'\E[0m'        # reset bold/blink
@@ -54,7 +55,7 @@ export LESS_TERMCAP_se=$'\E[0m'        # reset reverse video
 export LESS_TERMCAP_us=$'\E[1;32m'     # begin underline
 export LESS_TERMCAP_ue=$'\E[0m'        # reset underline
 
-# enable completion features
+# enable completion features: git, etc ...
 autoload -Uz compinit
 compinit -d ~/.cache/zcompdump
 zstyle ':completion:*:*:*:*:*' menu select
@@ -88,30 +89,7 @@ alias history="history 0"
 TIMEFMT=$'\nreal\t%E\nuser\t%U\nsys\t%S\ncpu\t%P'
 
 # ---------------------------- GIT plugin for prompt  -------------------------------------------------------
-# https://github.com/zsh-users/zsh/blob/master/Misc/vcs_info-examples
-# TODO: manually git prompt setup
-autoload -Uz vcs_info #  autoload marks the name as being a function rather than external program
-# Enable checking for (un)staged changes, enabling use of %u and %c
-# zstyle ':vcs_info:*' check-for-changes true
-# Set custom strings for an unstaged vcs repo changes (*) and staged changes (+)
-# zstyle ':vcs_info:*' unstagedstr '*'
-# zstyle ':vcs_info:*' stagedstr '+'
-# Set the format of the Git information for vcs_info
-# zstyle ':vcs_info:git:*' formats '%b|%u%c' # format vcs_info function
-#zstyle ':vcs_info:git:*' actionformats '(%b|%a%u%c)'
-# zstyle ':vcs_info:git:*' formats '%b' # format vcs_info function
-
-# check if zsh git prompt is installed
-# if [ ! -f $HOME/dotfiles/zsh/plugins/zsh-git-prompt/zshrc.sh ]; then
-#     echo "Zsh-git-prompt is not installed..."
-#     echo "Installing zsh-git-prompt..."
-#     git clone -v https://github.com/olivierverdier/zsh-git-prompt.git $HOME/dotfiles/zsh/plugins/zsh-git-prompt
-# fi
-# Use haskell: faster version
-# source ~/dotfiles/zsh/plugins/zsh-git-prompt/zshrc.sh
-# Check PROMPT_GIT=...$(git_super_status)....
-# ZSH_THEME_GIT_PROMPT_PREFIX=""
-# ZSH_THEME_GIT_PROMPT_SUFFIX=""
+autoload -Uz vcs_info # autoload marks the name as being a function rather than external program
 if [ ! -f $HOME/dotfiles/zsh/plugins/git-prompt/git-prompt.zsh ]; then
     echo "Zsh-git-prompt is not installed..."
     echo "Installing git-prompt..."
@@ -443,6 +421,7 @@ then
     export REQUESTS_CA_BUNDLE=${CERT_PATH}
 fi
 
+# Required for nvm
 if [ $(uname) = "Linux" ]; then
   export NVM_DIR="$HOME/.nvm"
   [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
