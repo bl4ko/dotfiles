@@ -104,7 +104,10 @@ fi
 source $HOME/dotfiles/zsh/plugins/git-prompt/git-prompt.zsh
 ZSH_THEME_GIT_PROMPT_PREFIX=""
 ZSH_THEME_GIT_PROMPT_SUFFIX=""
+ZSH_THEME_GIT_PROMPT_SEPARATOR="%F{green}|%f"
 ZSH_THEME_GIT_PROMPT_BRANCH="%B%b%{$fg_bold[magenta]%}"
+ZSH_THEME_GIT_PROMPT_UPSTREAM_PREFIX="%{$fg[magenta]%}(%{$fg[magenta]%}"
+ZSH_THEME_GIT_PROMPT_UPSTREAM_SUFFIX="%{$fg[magenta]%})"
 ZSH_GIT_PROMPT_SHOW_UPSTREAM="full"
 # Check PROMPT_GIT=...$(gitprompt)...
 
