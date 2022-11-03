@@ -300,32 +300,21 @@ if ! command -v make &> /dev/null; then
   fi
 fi
 
-if ! command -v node &> /dev/null; then
-  echo "Installing nodejs and npm..."
-  if [ $(uname) = "Linux" ]; then 
-    # https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally
-    # https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
-    # Change npm path (EACESS) https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally
-    # https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally
-    # Install nvm
+# Setup npm and nodejs (linux with nvm)
+# - Why nvm?: (EACESS) https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally
+# - Just OP (apt old and problems)
+if [ $(uname) = "Linux" ]; then
+  # Check if $HOME/.nvm/nvm.sh exists
+  if [ ! -f $HOME/.nvm/nvm.sh ]; then
     echo "Installing nvm..."
     wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.2/install.sh | bash
-    # No need to refresh shell:
-    export NVM_DIR="$HOME/.nvm"
-    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completio
-    # Check if command was installed succesfully
-    if ! command -v nvm &> /dev/null; then
-      echo "Failed installing nvm"
-      exit 1
-    fi
-    echo "Installing node and npm with nvm..."
-    if ! nvm install node; then
-      echo "Failed installing node and npm" 
-      exit 1
-    fi
-
-  elif [ $(uname) = "Darwin" ]; then
+  fi
+  export NVM_DIR="$HOME/.nvm"
+  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
+elif [ $(uname) = "Darwin" ]; then
+  if ! command -v node &> /dev/null; then
+    echo "Installing node..."
     brew install node
   fi
 fi
@@ -426,11 +415,3 @@ then
     export SSL_CERT_FILE=${CERT_PATH}
     export REQUESTS_CA_BUNDLE=${CERT_PATH}
 fi
-
-# Required for nvm
-if [ $(uname) = "Linux" ]; then
-  export NVM_DIR="$HOME/.nvm"
-  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
-fi
-
