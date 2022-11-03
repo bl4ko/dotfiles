@@ -164,5 +164,8 @@
         "--disable=C0209,E1101,E1136",
         "--extension-pkg-whitelist=cv2"
     ],
-    "workbench.colorTheme": "Tokyo Night Storm"
+    "workbench.colorTheme": "Tokyo Night Storm",
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.black-formatter"
+    }
 }
