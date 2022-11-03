@@ -3,3 +3,6 @@
 	email = go3969@student.uni-lj.si
 [init]
 	defaultBranch = main
+[push]
+  # https://stackoverflow.com/a/72994973: setup to follow remote branch
+	autoSetupRemote = true
