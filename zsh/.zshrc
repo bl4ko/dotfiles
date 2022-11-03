@@ -105,6 +105,7 @@ source $HOME/dotfiles/zsh/plugins/git-prompt/git-prompt.zsh
 ZSH_THEME_GIT_PROMPT_PREFIX=""
 ZSH_THEME_GIT_PROMPT_SUFFIX=""
 ZSH_THEME_GIT_PROMPT_BRANCH="%B%b%{$fg_bold[magenta]%}"
+ZSH_GIT_PROMPT_SHOW_UPSTREAM="full"
 # Check PROMPT_GIT=...$(gitprompt)...
 
 # -------------------------- PROMPT -----------------------------------------------
@@ -124,8 +125,6 @@ prompt_symbol=㉿
 # $                        Move to the end of the line.
 PROMPT_USER_MACHINE='%F{green}┌──(%f%B%F{blue}%n${prompt_symbol}%m%b%f%F{green})%f'
 PROMPT_PATH='%F{green}-[%f%B%(6~.%-1~/…/%4~.%5~)%b%f%F{green}]%f' # %B  -> Start (stop) boldface mode
-# PROMPT_GIT='-[%B%F{magenta}${vcs_info_msg_0_}%b%F{green}]' # TODO manually
-# PROMPT_GIT='%F{green}-[%f%B%F{magenta}$(git_super_status)%b%F{green}]%f' # TODO manually
 PROMPT_GIT='%F{green}-[%f%B%F{magenta}$(gitprompt)%b%F{green}]%f' # TODO manually
 PROMPT_LINE2=$'\n%F{green}└─%B%f%F{blue}$%b%f '
 
