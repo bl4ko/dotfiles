@@ -158,15 +158,15 @@ local formatters = require "lvim.lsp.null-ls.formatters"
 formatters.setup {
   { command = "black", filetypes = { "python" } },
   --   { command = "isort", filetypes = { "python" } },
-  --   {
-  --     -- each formatter accepts a list of options identical to https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md#Configuration
-  --     command = "prettier",
-  --     ---@usage arguments to pass to the formatter
-  --     -- these cannot contain whitespaces, options such as `--line-width 80` become either `{'--line-width', '80'}` or `{'--line-width=80'}`
-  --     extra_args = { "--print-with", "100" },
-  --     ---@usage specify which filetypes to enable. By default a providers will attach to all the filetypes it supports.
-  --     filetypes = { "typescript", "typescriptreact" },
-  --   },
+  {
+    --     -- each formatter accepts a list of options identical to https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md#Configuration
+    command = "prettier",
+    --     ---@usage arguments to pass to the formatter
+    --     -- these cannot contain whitespaces, options such as `--line-width 80` become either `{'--line-width', '80'}` or `{'--line-width=80'}`
+    extra_args = { "--print-with", "100" },
+    --     ---@usage specify which filetypes to enable. By default a providers will attach to all the filetypes it supports.
+    filetypes = { "javascript", "typescript", "typescriptreact", "markdown" },
+  },
 }
 
 -- -- set additional linters
@@ -214,6 +214,28 @@ lvim.plugins = {
   },
   {
     "github/copilot.vim",
+  },
+  -- Docstrings for languages
+  {
+    "danymat/neogen",
+    config = function()
+      require("neogen").setup {
+        enabled = true, -- If you want to disable neogen
+        input_after_comment = true, -- (default: true
+        -- If you are not satisfied with the default configuration for a lagnuage
+        -- You can change the defaults here
+        languages = {
+          python = {
+            template = {
+              annotation_convention = "numpydoc",
+            },
+          },
+        },
+      }
+    end,
+    requires = "nvim-treesitter/nvim-treesitter",
+    -- uncomment next line if you want to follow only stable versions
+    tag = "*"
   },
 }
 --  Copilot: https://www.lunarvim.org/docs/plugins/extra-plugins#copilotlua-and-copilot-cmp
