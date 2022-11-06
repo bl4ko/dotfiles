@@ -63,7 +63,6 @@ export LANG=en_US.UTF-8
 
 # enable completion features: git, etc ...
 autoload -Uz compinit
-compinit -d ~/.cache/zcompdump
 zstyle ':completion:*:*:*:*:*' menu select
 zstyle ':completion:*' auto-description 'specify: %d'
 zstyle ':completion:*' completer _expand _complete
@@ -249,12 +248,16 @@ if [ $(uname) = "Linux" ]; then
     fi
 elif [ $(uname) = "Darwin" ]; then
     # https://github.com/Homebrew/homebrew-command-not-found
+    # Tap command adds another repository to brew (homebrew/command-not-found) https://stackoverflow.com/a/37973017
+    # List of taps: brew tap (brew untap = remove tap)
     if [ -z $(brew tap | grep command-not-found) ]; then
       brew tap -v homebrew/command-not-found
-      HB_CNF_HANDLER="$(brew --repository)/Library/Taps/homebrew/homebrew-command-not-found/handler.sh"
-      if [ -f "$HB_CNF_HANDLER" ]; then
+    fi
+    HB_CNF_HANDLER="$(brew --repository)/Library/Taps/homebrew/homebrew-command-not-found/handler.sh"
+    if [ -f "$HB_CNF_HANDLER" ]; then
       source "$HB_CNF_HANDLER";
-      fi
+    else
+      echo "Failed tapping homebrew/command-not-found"
     fi
 fi
 
@@ -375,8 +378,6 @@ then
     # Add brew autocompletitions
     if type brew &>/dev/null; then
       FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
-      autoload -Uz compinit
-      compinit
     else
       echo "Brew installer is missing :("
     fi
@@ -406,10 +407,6 @@ then
     MANPATH="/opt/homebrew/Cellar/findutils/4.9.0/libexec/gnuman:$MANPATH" # https://stackoverflow.com/questions/69574792/gnu-find-cant-find-root-directory-find-failed-to-read-file-names-from-file
     export MANPATH
 
-    # Lunarvim problem with max openfiles: https://github.com/wbthomason/packer.nvim/issues/149
-    # Doesn't persist over reboot: https://superuser.com/questions/1634286/how-do-i-increase-the-max-open-files-in-macos-big-sur/1646927#1646927
-    # TODO
-	
     # Error: unable to get local issuer certificate
     # 1. https://stackoverflow.com/a/42107877
     # 2. https://stackoverflow.com/a/57795811 
@@ -417,3 +414,5 @@ then
     export SSL_CERT_FILE=${CERT_PATH}
     export REQUESTS_CA_BUNDLE=${CERT_PATH}
 fi
+
+compinit -d ~/.cache/zcompdump # Enable completition features, must be called after: https://docs.brew.sh/Shell-Completion#configuring-completions-in-zsh
