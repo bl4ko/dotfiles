@@ -103,7 +103,7 @@ fi
 source $HOME/dotfiles/zsh/plugins/git-prompt/git-prompt.zsh
 ZSH_THEME_GIT_PROMPT_PREFIX=""
 ZSH_THEME_GIT_PROMPT_SUFFIX=""
-ZSH_THEME_GIT_PROMPT_SEPARATOR="%F{green}|%f"
+ZSH_THEME_GIT_PROMPT_SEPARATOR="%F{cyan}|%f"
 ZSH_THEME_GIT_PROMPT_BRANCH="%B%b%{$fg_bold[magenta]%}"
 ZSH_THEME_GIT_PROMPT_UPSTREAM_PREFIX="%{$fg[magenta]%}(%{$fg[magenta]%}"
 ZSH_THEME_GIT_PROMPT_UPSTREAM_SUFFIX="%{$fg[magenta]%})"
@@ -125,10 +125,10 @@ prompt_symbol=㉿
 # %F{color}<text>%f        start/end color mode
 # %B<text>%b               start/end bold mode
 # $                        Move to the end of the line.
-PROMPT_USER_MACHINE='%F{green}┌──(%f%B%F{blue}%n${prompt_symbol}%m%b%f%F{green})%f'
-PROMPT_PATH='%F{green}-[%f%B%(6~.%-1~/…/%4~.%5~)%b%f%F{green}]%f' # %B  -> Start (stop) boldface mode
-PROMPT_GIT='%F{green}-[%f%B%F{magenta}$(gitprompt)%b%F{green}]%f' # TODO manually
-PROMPT_LINE2=$'\n%F{green}└─%B%f%F{blue}$%b%f '
+PROMPT_USER_MACHINE='%F{cyan}┌──(%f%B%F{blue}%n${prompt_symbol}%m%b%f%F{cyan})%f'
+PROMPT_PATH='%F{cyan}-[%f%B%(6~.%-1~/…/%4~.%5~)%b%f%F{cyan}]%f' # %B  -> Start (stop) boldface mode
+PROMPT_GIT='%F{cyan}-[%f%B%F{magenta}$(gitprompt)%b%F{cyan}]%f' # TODO manually
+PROMPT_LINE2=$'\n%F{cyan}└─%B%f%F{blue}$%b%f '
 
 PROMPT="$PROMPT_USER_MACHINE"'$PROMPT_PATH'"$PROMPT_GIT"'$PROMPT_LINE2'
 

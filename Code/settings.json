@@ -38,7 +38,7 @@
     "markdown-preview-enhanced.useGitHubStylePipedLink": true,
     /* LATEX */
     "latex-workshop.latex.autoBuild.run": "onSave",
-    "latex-workshop.view.pdf.viewer": "tab", 
+    "latex-workshop.view.pdf.viewer": "tab",
     /* -- VIM SETTINGS -------------------------------------------------------- */
     // "editor.cursorSurroundingLines": 100, // center when moving
     "editor.cursorBlinking": "solid",
@@ -55,8 +55,8 @@
     ],
     "vim.normalModeKeyBindings": [
         // {
-            // "before": ["j"],
-            // "commands": ["workbench.action.files.save"]
+        // "before": ["j"],
+        // "commands": ["workbench.action.files.save"]
         // }
     ],
     "vim.visualModeKeyBindings": [
@@ -98,12 +98,22 @@
         },
         // Wraping lines: https://superuser.com/questions/1290030/vs-code-how-can-i-move-the-cursor-by-display-line-when-wrapping-in-vs-code
         {
-            "before": ["j"],
-            "after": ["g", "j"]
+            "before": [
+                "j"
+            ],
+            "after": [
+                "g",
+                "j"
+            ]
         },
         {
-            "before": ["k"],
-            "after": ["g", "k"]
+            "before": [
+                "k"
+            ],
+            "after": [
+                "g",
+                "k"
+            ]
         }
     ],
     "vim.handleKeys": {
@@ -147,9 +157,7 @@
         "plaintext": false,
         "markdown": true
     },
-    "vsicons.associations.files": [
-        
-    ],
+    "vsicons.associations.files": [],
     "files.associations": {
         "*.json5": "jsonc"
     },
@@ -167,5 +175,7 @@
     "workbench.colorTheme": "Tokyo Night Storm",
     "[python]": {
         "editor.defaultFormatter": "ms-python.black-formatter"
-    }
+    },
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": true
 }
