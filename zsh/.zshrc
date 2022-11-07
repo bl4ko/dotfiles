@@ -231,8 +231,8 @@ if [ ! -f ~/dotfiles/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh ]; 
 fi
 # Source the plugin
 . ~/dotfiles/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+ZSH_AUTOSUGGEST_STRATEGY=(history) # https://github.com/zsh-users/zsh-autosuggestions#suggestion-strategy
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#999' # Change suggestion color to grey
-
 
 # ---------------------------- COMMAND-NOT-FOUND ------------------------------------------------
 # Enable command-not-found plugin
