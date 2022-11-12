@@ -115,6 +115,12 @@ ZSH_GIT_PROMPT_SHOW_UPSTREAM="full"
 case "$TERM" in
     xterm-color|*-256color) color_prompt=yes;;
 esac
+
+# Check if we are in python venv
+function venv_prompt_info() {
+  [ $VIRTUAL_ENV ] && echo "(%F{green}$(basename $VIRTUAL_ENV)%F{cyan})-"
+}
+
 prompt_symbol=㉿
 [ "EUID" = 0 ] && prompt_symbol=💀
 [ $(uname) = "Darwin" ] && prompt_symbol=@
@@ -124,8 +130,7 @@ prompt_symbol=㉿
 # --------- Visual Effects --------------
 # %F{color}<text>%f        start/end color mode
 # %B<text>%b               start/end bold mode
-# $                        Move to the end of the line.
-PROMPT_USER_MACHINE='%F{cyan}┌──(%f%B%F{blue}%n${prompt_symbol}%m%b%f%F{cyan})%f'
+PROMPT_USER_MACHINE='%F{cyan}┌──$(venv_prompt_info)(%f%B%F{blue}%n${prompt_symbol}%m%b%f%F{cyan})%f'
 PROMPT_PATH='%F{cyan}-[%f%B%(6~.%-1~/…/%4~.%5~)%b%f%F{cyan}]%f' # %B  -> Start (stop) boldface mode
 PROMPT_GIT='%F{cyan}-[%f%B%F{magenta}$(gitprompt)%b%F{cyan}]%f' # TODO manually
 PROMPT_LINE2=$'\n%F{cyan}└─%B%f%F{blue}$%b%f '
@@ -410,9 +415,16 @@ then
     # Error: unable to get local issuer certificate
     # 1. https://stackoverflow.com/a/42107877
     # 2. https://stackoverflow.com/a/57795811 
-    CERT_PATH=$(python -m certifi)
-    export SSL_CERT_FILE=${CERT_PATH}
-    export REQUESTS_CA_BUNDLE=${CERT_PATH}
+    # Also check if we are located in venv, if so, use the system python
+    if [ -z "$VIRTUAL_ENV" ]; then
+      CERT_PATH=$(python3 -c "import certifi; print(certifi.where())")
+      export SSL_CERT_FILE=$CERT_PATH
+      export REQUESTS_CA_BUNDLE=$CERT_PATH
+    else 
+      CERT_PATH=$(python -m certifi)
+      export SSL_CERT_FILE=${CERT_PATH}
+      export REQUESTS_CA_BUNDLE=${CERT_PATH}
+    fi
 fi
 
 compinit -d ~/.cache/zcompdump # Enable completition features, must be called after: https://docs.brew.sh/Shell-Completion#configuring-completions-in-zsh
