@@ -428,3 +428,7 @@ then
 fi
 
 compinit -d ~/.cache/zcompdump # Enable completition features, must be called after: https://docs.brew.sh/Shell-Completion#configuring-completions-in-zsh
+
+
+# Load Angular CLI autocompletion.
+source <(ng completion script)

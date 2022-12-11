@@ -37,21 +37,47 @@ function create_symlink {
 
 # Symlink all files in config directory
 create_symlink "$DOTFILES/bash/.bashrc" "$HOME/.bashrc"
+
+# --- ZSH ------------------------------------------------------------
 create_symlink "$DOTFILES/zsh/.zshrc" "$HOME/.zshrc"
 create_symlink "$DOTFILES/zsh/.zshenv" "$HOME/.zshenv"
 create_symlink "$DOTFILES/tmux/.tmux.conf" "$HOME/.tmux.conf"
 create_symlink "$DOTFILES/git/.gitconfig" "$HOME/.gitconfig"
-create_symlink "$DOTFILES/lvim/config.lua" "$HOME/.config/lvim/config.lua"
 create_symlink "$DOTFILES/.profile" "$HOME/.profile"
 
+# --- LUNARVIM -------------------------------------------
+# Ask the user if we should install lunarvim
+read -r -p "Do you want to install lunarvim? [y/N] " response
+case "$response" in
+    [yY][eE][sS]|[yY])
+        echo -e "${INFO}Installing lunarvim..."
+        source "$DOTFILES/lvim/install.zsh"
+        create_symlink "$DOTFILES/lvim/config.lua" "$HOME/.config/lvim/config.lua"
+        ;;
+    *)
+        echo -e "${INFO}Skipping lunarvim..."
+        ;;
+esac
+
+# --- VSCODE ---------------------------------------------
 # Visual studio code: https://stackoverflow.com/a/53841945
-if [ "$(uname)" = "Darwin" ]; then
-    create_symlink "$DOTFILES/Code/settings.json" "$HOME/Library/Application Support/Code/User/settings.json"
-    create_symlink "$DOTFILES/Code/keybindings.json" "$HOME/Library/Application Support/Code/User/keybindings.json"
-elif [ "$(uname)" = "Linux" ]; then
-    create_symlink "$DOTFILES/Code/settings.json" "$HOME/.config/Code/User/settings.json"
-    create_symlink "$DOTFILES/Code/keybindings.json" "$HOME/.config/Code/User/keybindings.json"
-fi
+# Ask the user if we should install vscode extensions
+read -r -p "Do you want to install vscode extensions? [y/N] " response
+case "$response" in
+    [yY][eE][sS]|[yY])
+        echo -e "${INFO}Installing vscode extensions..."
+        if [ "$(uname)" = "Darwin" ]; then
+            create_symlink "$DOTFILES/Code/settings.json" "$HOME/Library/Application Support/Code/User/settings.json"
+            create_symlink "$DOTFILES/Code/keybindings.json" "$HOME/Library/Application Support/Code/User/keybindings.json"
+        elif [ "$(uname)" = "Linux" ]; then
+            create_symlink "$DOTFILES/Code/settings.json" "$HOME/.config/Code/User/settings.json"
+            create_symlink "$DOTFILES/Code/keybindings.json" "$HOME/.config/Code/User/keybindings.json"
+        fi
+        ;;
+    *)
+        echo -e "${INFO}Skipping vscode extensions..."
+        ;;
+esac
 
 
 # Change default shel to zsh

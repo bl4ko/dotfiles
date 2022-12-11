@@ -25,10 +25,13 @@ lvim.keys.normal_mode["<Tab>"] = ":bnext<cr>"
 vim.opt.fileencoding = "utf-8" -- The encoding written to a file
 vim.opt.foldmethod = "expr" -- Treesitter based folding
 vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+-- Fold markdown files by headings
+vim.cmd [[autocmd FileType markdown setlocal nospell]]
 vim.opt.ignorecase = true -- Ignore case when searching
 vim.opt.mouse = "a" -- Enable your mouse
 -- Disable spelling
 vim.opt.spell = false
+vim.g.markdown_folding = 1
 -- Keep your cursor centerd vertically on the screen
 vim.opt.scrolloff = 8
 vim.opt.sidescrolloff = 8
@@ -68,7 +71,6 @@ vim.opt.foldlevel = 99
 
 -- Change theme settings
 lvim.colorscheme = "tokyonight"
-lvim.builtin.theme.options.style = "storm"
 -- lvim.builtin.theme.options.dim_inactive = true
 
 -- Use which-key to add extra bindings with the leader-key prefix
