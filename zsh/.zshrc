@@ -55,12 +55,6 @@ export LESS_TERMCAP_se=$'\E[0m'        # reset reverse video
 export LESS_TERMCAP_us=$'\E[1;32m'     # begin underline
 export LESS_TERMCAP_ue=$'\E[0m'        # reset underline
 
-# https://stackoverflow.com/a/22779469
-# https://stackoverflow.com/questions/11916064/zsh-tab-completion-duplicating-command-name: duplicate
-# https://stackoverflow.com/a/22779469, https://stackoverflow.com/a/29471921, 
-export LC_ALL=en_US.UTF-8
-export LANG=en_US.UTF-8
-
 # enable completion features: git, etc ...
 autoload -Uz compinit
 zstyle ':completion:*:*:*:*:*' menu select
@@ -79,13 +73,12 @@ zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 
 # History configurations
 HISTFILE=~/.zsh_history
-HISTSIZE=10000
-SAVEHIST=20000
+HISTSIZE=5000
+SAVEHIST=10000
 setopt hist_expire_dups_first # delete duplicates first when HISTFILE size exceeds HISTSIZE
 setopt hist_ignore_dups       # ignore duplicated commands history list
 setopt hist_ignore_space      # ignore commands that start with space
 setopt hist_verify            # show command with history expansion to user before running it
-#setopt share_history         # share command history data
 alias history="history 0"     # force zsh to show the complete history
 
 # configure `time` format
@@ -244,8 +237,10 @@ if [ ! -f ~/dotfiles/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh ]; 
     git clone -v https://github.com/zsh-users/zsh-autosuggestions ~/dotfiles/zsh/plugins/zsh-autosuggestions
 fi
 . ~/dotfiles/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh # Source the plugin
-ZSH_AUTOSUGGEST_STRATEGY=(history) # https://github.com/zsh-users/zsh-autosuggestions#suggestion-strategy
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#999' # Change suggestion color to grey
+ZSH_AUTOSUGGEST_STRATEGY=(history) # https://github.com/zsh-users/zsh-autosuggestions#suggestion-strategy
+# ZSH_AUTOSUGGEST_MANUAL_REBIND=false # https://github.com/zsh-users/zsh-autosuggestions#disabling-automatic-widget-re-binding
+unset ZSH_AUTOSUGGEST_USE_ASYNC # https://github.com/zsh-users/zsh-autosuggestions#asynchronous-mode
 
 # ---------------------------- COMMAND-NOT-FOUND ------------------------------------------------
 if [ $(uname) = "Linux" ]; then
