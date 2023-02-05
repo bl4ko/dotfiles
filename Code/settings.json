@@ -1,110 +1,120 @@
 {
-    // Open files in existing tabs: https://stackoverflow.com/a/38723094
-    // "workbench.editor.enablePreview": true,
-    // "workbench.editor.enablePreviewFromQuickOpen": true,
-    "files.encoding": "utf8",
-    "files.autoSave": "onFocusChange",
-    "explorer.autoReveal": false, // Don't open folders in sidebar when clicking on file in vsc https://stackoverflow.com/questions/39726257/how-do-i-stop-vscode-from-the-side-bar-moving-to-the-folder-that-the-current-fil
-    "editor.minimap.enabled": false,
-    "editor.renderWhitespace": "none",
-    "editor.tabSize": 4,
-    "editor.tabCompletion": "off",
-    /* -- INTEGRATED TERMINAL -------------------------------------------------------- */
-    "terminal.integrated.defaultProfile.linux": "zsh",
-    "terminal.integrated.allowChords": false,
-    "terminal.integrated.drawBoldTextInBrightColors": false,
-    // When in terminal, use terminal KeyBindings instead of vsc ones
-    "terminal.integrated.commandsToSkipShell": [
-        // Example: Ctrl+P, doesn't open vsc searchbar
-        // "-workbench.action.quickOpen",
-        "-workbench.action.quickOpenView"
-    ],
-    "workbench.iconTheme": "vscode-icons",
-    "window.menuBarVisibility": "toggle",
-    "bashIde.highlightParsingErrors": true,
-    "bashIde.globPattern": "**/*@(.sh|.inc|.bash|.command)",
-    /* -- MARKDOWN PREVIEW ----------------------------------------------------------- */
-    "markdown-preview-enhanced.previewTheme": "github-dark.css",
-    "markdown.math.enabled": false,
-    "markdown-preview-enhanced.useGitHubStylePipedLink": true,
-    /* LATEX */
-    "latex-workshop.latex.autoBuild.run": "onSave",
-    "latex-workshop.view.pdf.viewer": "tab",
-    /* -- VIM SETTINGS -------------------------------------------------------- */
-    "vim.useCtrlKeys": true,
-    "vim.handleKeys": {
-        "<C-f>": false,
-        "<C-w>": false,
-        "<C-t>": false,
-        "<C-n>": false,
-        "<C-b>": false
+  // Open files in existing tabs: https://stackoverflow.com/a/38723094
+  // "workbench.editor.enablePreview": true,
+  // "workbench.editor.enablePreviewFromQuickOpen": true,
+  "files.encoding": "utf8",
+  "files.autoSave": "onFocusChange",
+  "explorer.autoReveal": false, // Don't open folders in sidebar when clicking on file in vsc https://stackoverflow.com/questions/39726257/how-do-i-stop-vscode-from-the-side-bar-moving-to-the-folder-that-the-current-fil
+  "editor.minimap.enabled": false,
+  "editor.renderWhitespace": "none",
+  "editor.tabSize": 4,
+  "editor.tabCompletion": "off",
+  /* -- INTEGRATED TERMINAL -------------------------------------------------------- */
+  "terminal.integrated.defaultProfile.linux": "zsh",
+  "terminal.integrated.allowChords": false,
+  "terminal.integrated.drawBoldTextInBrightColors": false,
+  // When in terminal, use terminal KeyBindings instead of vsc ones
+  "terminal.integrated.commandsToSkipShell": [
+    // Example: Ctrl+P, doesn't open vsc searchbar
+    // "-workbench.action.quickOpen",
+    "-workbench.action.quickOpenView"
+  ],
+  "workbench.iconTheme": "vscode-icons",
+  "window.menuBarVisibility": "toggle",
+  "bashIde.highlightParsingErrors": true,
+  "bashIde.globPattern": "**/*@(.sh|.inc|.bash|.command)",
+  /* -- MARKDOWN PREVIEW ----------------------------------------------------------- */
+  "markdown-preview-enhanced.previewTheme": "github-dark.css",
+  "markdown.math.enabled": false,
+  "markdown-preview-enhanced.useGitHubStylePipedLink": true,
+  /* LATEX */
+  "latex-workshop.latex.autoBuild.run": "onSave",
+  "latex-workshop.view.pdf.viewer": "tab",
+  /* -- VIM SETTINGS -------------------------------------------------------- */
+  "vim.useCtrlKeys": true,
+  "vim.handleKeys": {
+    "<C-f>": false,
+    "<C-w>": false,
+    "<C-t>": false,
+    "<C-n>": false,
+    "<C-b>": false
+  },
+  "vim.foldfix": true,
+  "vim.normalModeKeyBindingsNonRecursive": [
+    {
+      "before": ["j"],
+      "after": ["g", "j"]
     },
-    "vim.foldfix": true,
-    "files.exclude": {
-        "**/.DS_Store": false,
-        "**/.git": false,
-        "**/.hg": false,
-        "**/.svn": false,
-        "**/CVS": false,
-        "**/Thumbs.db": false
-    },
-    "editor.suggestSelection": "first",
-    "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
-    "editor.wordWrap": "off",
-    "vsicons.dontShowNewVersionMessage": true,
-    "javascript.suggest.completeFunctionCalls": true,
-    "debug.javascript.autoAttachFilter": "disabled",
-    "sqlite.databaseExtensions": [
-        "db",
-        "db3",
-        "sdb",
-        "s3db",
-        "sqlite",
-        "sqlite3",
-        "sl3"
-    ],
-    "window.openFilesInNewWindow": "on",
-    "emmet.triggerExpansionOnTab": true,
-    "emmet.useInlineCompletions": true,
-    "editor.inlineSuggest.enabled": true,
-    "github.copilot.enable": {
-        "*": true,
-        "yaml": false,
-        "plaintext": true,
-        "markdown": true
-    },
-    "vsicons.associations.files": [],
-    "files.associations": {
-        "*.json5": "jsonc"
-    },
-    "nginx-conf-hint.syntax": "sublime",
-    "redhat.telemetry.enabled": false,
-    "terminal.integrated.fontFamily": "MesloLGS NF",
-    "r.plot.defaults.colorTheme": "vscode",
-    "r.plot.useHttpgd": true,
-    // Python specific
-    "python.formatting.provider": "black",
-    "pylint.args": [
-        "--disable=C0209,E1101,E1136,E0601,E0611",
-        "--extension-pkg-whitelist=cv2"
-    ],
-    "workbench.colorTheme": "Tokyo Night Storm",
-    "[python]": {
-        "editor.defaultFormatter": "ms-python.black-formatter"
-    },
-    "[html]": {
-        "editor.tabSize": 4,
-        // "editor.defaultFormatter": "vscode.html-language-features",
-    },
-    "[tex]": {
-        "editor.tabSize": 2,
-    },
-    "editor.formatOnSave": true,
-    "editor.formatOnPaste": true,
-    "python.linting.banditEnabled": true,
-    "python.linting.pylintEnabled": true,
-    "javascript.updateImportsOnFileMove.enabled": "always",
-    "[javascript]": {
-        "editor.defaultFormatter": "vscode.typescript-language-features"
-    },
+    {
+      "before": ["k"],
+      "after": ["g", "k"]
+    }
+  ],
+  "files.exclude": {
+    "**/.DS_Store": false,
+    "**/.git": false,
+    "**/.hg": false,
+    "**/.svn": false,
+    "**/CVS": false,
+    "**/Thumbs.db": false
+  },
+  "editor.suggestSelection": "first",
+  "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+  "editor.wordWrap": "off",
+  "vsicons.dontShowNewVersionMessage": true,
+  "javascript.suggest.completeFunctionCalls": true,
+  "debug.javascript.autoAttachFilter": "disabled",
+  "sqlite.databaseExtensions": [
+    "db",
+    "db3",
+    "sdb",
+    "s3db",
+    "sqlite",
+    "sqlite3",
+    "sl3"
+  ],
+  "window.openFilesInNewWindow": "on",
+  "emmet.triggerExpansionOnTab": true,
+  "emmet.useInlineCompletions": true,
+  "editor.inlineSuggest.enabled": true,
+  "github.copilot.enable": {
+    "*": true,
+    "yaml": false,
+    "plaintext": true,
+    "markdown": true
+  },
+  "vsicons.associations.files": [],
+  "files.associations": {
+    "*.json5": "jsonc"
+  },
+  "redhat.telemetry.enabled": false,
+  "terminal.integrated.fontFamily": "MesloLGS NF",
+  // Python specific
+  "python.formatting.provider": "black",
+  "pylint.args": [
+    "--disable=C0209,E1101,E1136,E0601,E0611,C0200,E1120,C0103",
+    "--extension-pkg-whitelist=cv2"
+  ],
+  "workbench.colorTheme": "Tokyo Night Storm",
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.black-formatter"
+  },
+  "[html]": {
+    "editor.tabSize": 4
+    // "editor.defaultFormatter": "vscode.html-language-features",
+  },
+  "[tex]": {
+    "editor.tabSize": 2
+  },
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": true,
+  "python.linting.banditEnabled": true,
+  "python.linting.pylintEnabled": true,
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "[javascript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
+  "python.linting.pylintArgs": ["--disable=C0200"],
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "jupyter.askForKernelRestart": false
 }

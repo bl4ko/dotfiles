@@ -19,13 +19,14 @@ echo -e "${INFO}Starting symlink process..."
 echo "----------------------------------"
 
 function create_symlink {
-    echo -e "$INFO$COL_CYAN Creating symlink for$NC $COL_PURPLE$1$COL_NC"
+    echo -e "$INFO Creating symlink for $COL_CYAN$1$COL_NC"
     # Check if a file exists and it is not a symlink
     if [ -f "$2" ] && [ -L "$2" ]; then
-        echo -e "BACKUP $CROSS symlink already exists, skipping..."
+        echo -e "BACKUP${CROSS} Symlink already exists, skipping..."
+        return 1
     else
         mv "$2" "$2.bak"
-        echo -e "BACKUP $TICK Backup created..."
+        echo -e "BACKUP${TICK} Backup created..."
     fi
     # Create symlink and check if it was successful
     if output=$( ln -s "$1" "$2" 2>&1); then
@@ -37,13 +38,12 @@ function create_symlink {
 
 # Symlink all files in config directory
 create_symlink "$DOTFILES/bash/.bashrc" "$HOME/.bashrc"
-
-# --- ZSH ------------------------------------------------------------
 create_symlink "$DOTFILES/zsh/.zshrc" "$HOME/.zshrc"
 create_symlink "$DOTFILES/zsh/.zshenv" "$HOME/.zshenv"
 create_symlink "$DOTFILES/tmux/.tmux.conf" "$HOME/.tmux.conf"
 create_symlink "$DOTFILES/git/.gitconfig" "$HOME/.gitconfig"
 create_symlink "$DOTFILES/.profile" "$HOME/.profile"
+echo -e "\n"
 
 # --- LUNARVIM -------------------------------------------
 # Ask the user if we should install lunarvim
@@ -79,6 +79,14 @@ case "$response" in
         ;;
 esac
 
-
-# Change default shel to zsh
-
+# Change default shell to zsh
+read -r -p "Do you want to change your default shell to zsh? [y/N] " response
+case "$response" in
+    [yY][eE][sS]|[yY])
+        echo -e "${INFO}Changing default shell to zsh..."
+        chsh -s "$(which zsh)"
+        ;;
+    *)
+        echo -e "${INFO}Skipping default shell change..."
+        ;;
+esac

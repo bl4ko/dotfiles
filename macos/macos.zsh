@@ -17,6 +17,20 @@ then
         brew install coreutils findutils gnu-tar gnu-sed gawk gnutls gnu-indent gnu-getopt grep
     fi
 
+    # https://github.com/Homebrew/homebrew-command-not-found
+    # Tap command adds another repository to brew (homebrew/command-not-found) https://stackoverflow.com/a/37973017
+    # List of taps: brew tap (brew untap = remove tap)
+    if [ -z $(brew tap | grep command-not-found) ]; then
+      brew tap -v homebrew/command-not-found
+    fi
+    HB_CNF_HANDLER="$(brew --repository)/Library/Taps/homebrew/homebrew-command-not-found/handler.sh"
+    if [ -f "$HB_CNF_HANDLER" ]; then
+      source "$HB_CNF_HANDLER";
+    else
+      echo "Failed tapping homebrew/command-not-found"
+    fi
+
+
     PATH="/opt/homebrew/opt/grep/libexec/gnubin:$PATH"
     PATH="/opt/homebrew/gnu-getopt/libexec/gnubin:$PATH"
     PATH="/opt/homebrew/opt/coreutils/libexec/gnubin:$PATH"
