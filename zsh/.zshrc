@@ -110,6 +110,7 @@ fi
 source $HOME/dotfiles/zsh/plugins/kube-ps1/kube-ps1.sh
 KUBE_PS1_PREFIX="%F{cyan}[%f"
 KUBE_PS1_SUFFIX="%F{cyan}]%f"
+KUBE_PS1_SEPARATOR="%F{cyan}|%f"
 KUBE_PS1_SYMBOL_PADDING=true
 kube_ps1_autohide() { kube_ps1 | sed 's/^(.*}N\/A%.*:.*}N\/A%.*)$//' }
 
