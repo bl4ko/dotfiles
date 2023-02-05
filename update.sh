@@ -19,5 +19,6 @@ function pull_remote {
 # Update zsh plugins
 # Check if git pull is successful
 pull_remote "$HOME/dotfiles/zsh/plugins/zsh-autosuggestions"
-pull_remote "$HOME/dotfiles/zsh/plugins/git-prompt"
 pull_remote "$HOME/dotfiles/zsh/plugins/zsh-syntax-highlighting" 
+pull_remote "$HOME/dotfiles/zsh/plugins/git-prompt"
+pull_remote "$HOME/dotfiles/zsh/plugins/kube-ps1"

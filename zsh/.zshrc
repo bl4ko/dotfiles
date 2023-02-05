@@ -106,7 +106,19 @@ ZSH_THEME_GIT_PROMPT_BRANCH="%B%b%{$fg_bold[magenta]%}"
 ZSH_THEME_GIT_PROMPT_UPSTREAM_PREFIX="%{$fg[magenta]%}(%{$fg[magenta]%}"
 ZSH_THEME_GIT_PROMPT_UPSTREAM_SUFFIX="%{$fg[magenta]%})"
 ZSH_GIT_PROMPT_SHOW_UPSTREAM="full"
-# Check PROMPT_GIT=...$(gitprompt)...
+
+# ---------------------------- Kubernetes prompt -------------------------------------------------------
+if [ ! -f $HOME/dotfiles/zsh/plugins/kube-ps1/kube-ps1.sh ]; then
+    echo "Zsh-kube-ps1 is not installed..."
+    echo "Installing kube-ps1..."
+    git clone -v git@github.com:jonmosco/kube-ps1.git $HOME/dotfiles/zsh/plugins/kube-ps1
+    if [ ! -f /usr/local/bin/kubectl ]; then echo "kubectl is not installed..."; fi
+fi
+source $HOME/dotfiles/zsh/plugins/kube-ps1/kube-ps1.sh
+KUBE_PS1_PREFIX="%F{cyan}[%f"
+KUBE_PS1_SUFFIX="%F{cyan}]%f"
+KUBE_PS1_SYMBOL_PADDING=true
+kube_ps1_autohide() { kube_ps1 | sed 's/^(.*}N\/A%.*:.*}N\/A%.*)$//' }
 
 # -------------------------- PROMPT -----------------------------------------------
 # Check if our terminal emulator supports colors
@@ -131,9 +143,10 @@ prompt_symbol=㉿
 PROMPT_USER_MACHINE='%F{cyan}┌──$(venv_prompt_info)(%f%B%F{blue}%n${prompt_symbol}%m%b%f%F{cyan})%f'
 PROMPT_PATH='%F{cyan}-[%f%B%(6~.%-1~/…/%4~.%5~)%b%f%F{cyan}]%f' # %B  -> Start (stop) boldface mode
 PROMPT_GIT='%F{cyan}-[%f%B%F{magenta}$(gitprompt)%b%F{cyan}]%f' # TODO manually
+PROMPT_KUBE='%F{cyan}-%f$(kube_ps1_autohide)'
 PROMPT_LINE2=$'\n%F{cyan}└─%B%f%F{blue}$%b%f '
 
-PROMPT="$PROMPT_USER_MACHINE"'$PROMPT_PATH'"$PROMPT_GIT"'$PROMPT_LINE2'
+PROMPT="$PROMPT_USER_MACHINE"'$PROMPT_PATH'"$PROMPT_GIT""$PROMPT_KUBE"'$PROMPT_LINE2'
 
 # -------------------------- precmd() ---------------------------------------------
 # If this is an xterm set the title to user@host:dir
@@ -160,9 +173,9 @@ precmd() {
 
      # Check if we are located in git repository, and if so, add git info to prompt
      if [[ -z ${vcs_info_msg_0_} ]]; then
-         PROMPT="$PROMPT_USER_MACHINE"'$PROMPT_PATH''$PROMPT_LINE2'
+         PROMPT="$PROMPT_USER_MACHINE"'$PROMPT_PATH'"$PROMPT_KUBE"'$PROMPT_LINE2'
      else
-         PROMPT="$PROMPT_USER_MACHINE"'$PROMPT_PATH'"$PROMPT_GIT"'$PROMPT_LINE2'
+         PROMPT="$PROMPT_USER_MACHINE"'$PROMPT_PATH'"$PROMPT_GIT""$PROMPT_KUBE"'$PROMPT_LINE2'
      fi
 }
 
