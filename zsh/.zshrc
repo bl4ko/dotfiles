@@ -95,7 +95,7 @@ source $HOME/dotfiles/zsh/plugins/git-prompt/git-prompt.zsh
 ZSH_THEME_GIT_PROMPT_PREFIX=""
 ZSH_THEME_GIT_PROMPT_SUFFIX=""
 ZSH_THEME_GIT_PROMPT_SEPARATOR="%F{cyan}|%f"
-ZSH_THEME_GIT_PROMPT_BRANCH="%B%b%{$fg_bold[magenta]%}"
+# ZSH_THEME_GIT_PROMPT_BRANCH="%B%b%{$fg_bold[magenta]%}"
 ZSH_THEME_GIT_PROMPT_UPSTREAM_PREFIX="%{$fg[magenta]%}(%{$fg[magenta]%}"
 ZSH_THEME_GIT_PROMPT_UPSTREAM_SUFFIX="%{$fg[magenta]%})"
 ZSH_GIT_PROMPT_SHOW_UPSTREAM="full"
@@ -104,7 +104,7 @@ ZSH_GIT_PROMPT_SHOW_UPSTREAM="full"
 if [ ! -f $HOME/dotfiles/zsh/plugins/kube-ps1/kube-ps1.sh ]; then
     echo "Zsh-kube-ps1 is not installed..."
     echo "Installing kube-ps1..."
-    git clone -v git@github.com:jonmosco/kube-ps1.git $HOME/dotfiles/zsh/plugins/kube-ps1
+    git clone -v https://github.com/jonmosco/kube-ps1.git $HOME/dotfiles/zsh/plugins/kube-ps1
     if [ ! -f /usr/local/bin/kubectl ]; then echo "kubectl is not installed..."; fi
 fi
 source $HOME/dotfiles/zsh/plugins/kube-ps1/kube-ps1.sh
@@ -234,7 +234,7 @@ fi
 # Enable auto-suggestions based on the history: https://github.com/zsh-users/zsh-autosuggestions
 if [ ! -f ~/dotfiles/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
     echo "Zsh-autosuggestions is missing."
-    echo "Downloading (https://github.com/zsh-users/zsh-autosuggestions)..."
+https://www.youtube.com/watch?v=xjMP0hspNLE    echo "Downloading (https://github.com/zsh-users/zsh-autosuggestions)..."
     git clone -v https://github.com/zsh-users/zsh-autosuggestions ~/dotfiles/zsh/plugins/zsh-autosuggestions
 fi
 . ~/dotfiles/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh # Source the plugin
@@ -250,9 +250,9 @@ if [ $(uname) = "Linux" ]; then
         . /etc/zsh_command_not_found
     else
         echo "command-not-found is missing..."
-        echo "installing command-not-found..."
-        sudo apt update && sudo apt install command-not-found
-        . /etc/zsh_command_not_found
+        # echo "installing command-not-found..."
+        # sudo apt update && sudo apt install command-not-found
+        #. /etc/zsh_command_not_found
     fi
 fi
 
@@ -270,14 +270,11 @@ fi
 
 compinit -d ~/.cache/zcompdump # Enable completition features, must be called after: https://docs.brew.sh/Shell-Completion#configuring-completions-in-zsh
 
-# Load Angular CLI autocompletion.
-source <(ng completion script)
+if command -v ng &> /dev/null; then
+    source <(ng completion script) # Load Angular CLI autocompletion.
+fi
 
-# Load kubernetes autocomplete
-source <(kubectl completion zsh)
 
-# NVM
-export NVM_DIR="$HOME/.nvm"
-[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
-[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
-
+if command -v kubectl &> /dev/null; then
+    source <(kubectl completion zsh) # Load kubernetes autocomplete
+fi
