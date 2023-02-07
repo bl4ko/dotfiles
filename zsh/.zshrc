@@ -8,10 +8,8 @@ setopt notify                # report the status of background jobs immediately
 setopt numericglobsort       # sort filenames numerically when it makes sense
 setopt promptsubst           # enable command substitution in prompt (check precmd() funciton required!!!)
 
-WORDCHARS=${WORDCHARS//\/} # Don't consider certain characters part of the word
-
-# hide EOL sign ('%')
-PROMPT_EOL_MARK=""
+WORDCHARS=${WORDCHARS//\/} # remove / from wordchars (ask chatgpt why)
+PROMPT_EOL_MARK="" # hide EOL sign ('%')
 
 # configure key keybindings
 bindkey -e                                        # emacs key bindings
@@ -29,7 +27,6 @@ bindkey '^[[Z' undo                               # shift + tab undo last action
 
 # ---------------------------- ADD COLORS TO COMMAND OUTPUTS -----------------------------------
 # enable color support of ls, less and man, and also add handy aliases
-
 # https://superuser.com/a/707567
 export LS_COLORS="$LS_COLORS:ow=30;44:" # fix ls color for folders with 777 permissions
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
@@ -71,10 +68,11 @@ zstyle ':completion:*' use-compctl false
 zstyle ':completion:*' verbose true
 zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 
+
 # History configurations
 HISTFILE=~/.zsh_history
-HISTSIZE=5000
-SAVEHIST=10000
+HISTSIZE=10000
+SAVEHIST=20000
 setopt hist_expire_dups_first # delete duplicates first when HISTFILE size exceeds HISTSIZE
 setopt hist_ignore_dups       # ignore duplicated commands history list
 setopt hist_ignore_space      # ignore commands that start with space
@@ -101,6 +99,7 @@ ZSH_THEME_GIT_PROMPT_UPSTREAM_SUFFIX="%{$fg[magenta]%})"
 ZSH_GIT_PROMPT_SHOW_UPSTREAM="full"
 
 # ---------------------------- Kubernetes prompt -------------------------------------------------------
+# Use kubeon and kubeoff to enable and disable the prompt (kubeoff -g to disable globally)
 if [ ! -f $HOME/dotfiles/zsh/plugins/kube-ps1/kube-ps1.sh ]; then
     echo "Zsh-kube-ps1 is not installed..."
     echo "Installing kube-ps1..."
@@ -108,10 +107,10 @@ if [ ! -f $HOME/dotfiles/zsh/plugins/kube-ps1/kube-ps1.sh ]; then
     if [ ! -f /usr/local/bin/kubectl ]; then echo "kubectl is not installed..."; fi
 fi
 source $HOME/dotfiles/zsh/plugins/kube-ps1/kube-ps1.sh
-KUBE_PS1_PREFIX="%F{cyan}[%f"
+KUBE_PS1_PREFIX="-%F{cyan}[%f"
 KUBE_PS1_SUFFIX="%F{cyan}]%f"
 KUBE_PS1_SEPARATOR="%F{cyan}|%f"
-KUBE_PS1_SYMBOL_PADDING=true
+# KUBE_PS1_SYMBOL_PADDING=true
 kube_ps1_autohide() { kube_ps1 | sed 's/^(.*}N\/A%.*:.*}N\/A%.*)$//' }
 
 # -------------------------- PROMPT -----------------------------------------------
@@ -137,7 +136,7 @@ prompt_symbol=㉿
 PROMPT_USER_MACHINE='%F{cyan}┌──$(venv_prompt_info)(%f%B%F{blue}%n${prompt_symbol}%m%b%f%F{cyan})%f'
 PROMPT_PATH='%F{cyan}-[%f%B%(6~.%-1~/…/%4~.%5~)%b%f%F{cyan}]%f' # %B  -> Start (stop) boldface mode
 PROMPT_GIT='%F{cyan}-[%f%B%F{magenta}$(gitprompt)%b%F{cyan}]%f' # TODO manually
-PROMPT_KUBE='%F{cyan}-%f$(kube_ps1_autohide)'
+PROMPT_KUBE='$(kube_ps1_autohide)'
 PROMPT_LINE2=$'\n%F{cyan}└─%B%f%F{blue}$%b%f '
 
 PROMPT="$PROMPT_USER_MACHINE"'$PROMPT_PATH'"$PROMPT_GIT""$PROMPT_KUBE"'$PROMPT_LINE2'
@@ -234,7 +233,7 @@ fi
 # Enable auto-suggestions based on the history: https://github.com/zsh-users/zsh-autosuggestions
 if [ ! -f ~/dotfiles/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
     echo "Zsh-autosuggestions is missing."
-https://www.youtube.com/watch?v=xjMP0hspNLE    echo "Downloading (https://github.com/zsh-users/zsh-autosuggestions)..."
+    echo "Downloading (https://github.com/zsh-users/zsh-autosuggestions)..."
     git clone -v https://github.com/zsh-users/zsh-autosuggestions ~/dotfiles/zsh/plugins/zsh-autosuggestions
 fi
 . ~/dotfiles/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh # Source the plugin
@@ -256,6 +255,15 @@ if [ $(uname) = "Linux" ]; then
     fi
 fi
 
+# ---------------------------- Extra commands completitions scripts ----------------------------
+if command -v ng &> /dev/null; then
+    source <(ng completion script) # Load Angular CLI autocompletion.
+fi
+
+if command -v kubectl &> /dev/null; then
+    source <(kubectl completion zsh) # Load kubernetes autocomplete
+fi
+
 # ---------------------------- ALIASES --------------------------------------------------------
 # Check if lvim is instaleld
 if command -v lvim &> /dev/null; then
@@ -268,13 +276,7 @@ if [ $(uname) = "Darwin" ]; then
     source ~/dotfiles/macos/macos.zsh 
 fi
 
-compinit -d ~/.cache/zcompdump # Enable completition features, must be called after: https://docs.brew.sh/Shell-Completion#configuring-completions-in-zsh
-
-if command -v ng &> /dev/null; then
-    source <(ng completion script) # Load Angular CLI autocompletion.
-fi
-
-
-if command -v kubectl &> /dev/null; then
-    source <(kubectl completion zsh) # Load kubernetes autocomplete
-fi
+# Initialize the zsh's command line completition features.
+# -d set the directory for caching completition (to ~/.cache/zcompdump)
+# !!! Must be called after: https://docs.brew.sh/Shell-Completion#configuring-completions-in-zsh
+compinit -d ~/.cache/zcompdump 
