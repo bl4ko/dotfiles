@@ -54,6 +54,7 @@ export LESS_TERMCAP_ue=$'\E[0m'        # reset underline
 
 # enable completion features: git, etc ...
 autoload -Uz compinit
+compinit
 zstyle ':completion:*:*:*:*:*' menu select
 zstyle ':completion:*' auto-description 'specify: %d'
 zstyle ':completion:*' completer _expand _complete
@@ -265,6 +266,9 @@ if command -v kubectl &> /dev/null; then
 fi
 
 # ---------------------------- ALIASES --------------------------------------------------------
+alias python=python3
+alias pip=pip3
+
 # Check if lvim is instaleld
 if command -v lvim &> /dev/null; then
     alias vim="lvim"

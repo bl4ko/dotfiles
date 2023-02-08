@@ -2,8 +2,6 @@
 # Replace MACOS commands with GNU commands
 # Use GNU utilities: https://apple.stackexchange.com/questions/69223/how-to-replace-mac-os-x-utilities-with-gnu-core-utilities
 # (GNU version of basic commands)
-alias python=python3
-alias pip=pip3
 # Add brew autocompletitions
 if type brew &>/dev/null; then
   FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
@@ -19,6 +17,7 @@ fi
 # Tap command adds another repository to brew (homebrew/command-not-found) https://stackoverflow.com/a/37973017
 # List of taps: brew tap (brew untap = remove tap)
 if [ -z $(brew tap | grep command-not-found) ]; then
+  echo "Installing brew command-not-found"
   brew tap -v homebrew/command-not-found
 fi
 HB_CNF_HANDLER="$(brew --repository)/Library/Taps/homebrew/homebrew-command-not-found/handler.sh"
@@ -58,7 +57,7 @@ if [ -z "$VIRTUAL_ENV" ]; then
   export SSL_CERT_FILE=$CERT_PATH
   export REQUESTS_CA_BUNDLE=$CERT_PATH
 else 
-  CERT_PATH=$(python -m certifi)
+  CERT_PATH=$(python3 -m certifi)
   export SSL_CERT_FILE=${CERT_PATH}
   export REQUESTS_CA_BUNDLE=${CERT_PATH}
 fi
