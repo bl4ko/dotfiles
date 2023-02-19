@@ -52,15 +52,15 @@ export MANPATH
 # 1. https://stackoverflow.com/a/42107877
 # 2. https://stackoverflow.com/a/57795811 
 # Also check if we are located in venv, if so, use the system python
-if [ -z "$VIRTUAL_ENV" ]; then
-  CERT_PATH=$(python3 -c "import certifi; print(certifi.where())")
-  export SSL_CERT_FILE=$CERT_PATH
-  export REQUESTS_CA_BUNDLE=$CERT_PATH
-else 
-  CERT_PATH=$(python3 -m certifi)
-  export SSL_CERT_FILE=${CERT_PATH}
-  export REQUESTS_CA_BUNDLE=${CERT_PATH}
-fi
+# if [ -z "$VIRTUAL_ENV" ]; then
+#   CERT_PATH=$(python3 -c "import certifi; print(certifi.where())")
+#   export SSL_CERT_FILE=$CERT_PATH
+#   export REQUESTS_CA_BUNDLE=$CERT_PATH
+# else 
+#   CERT_PATH=$(python3 -m certifi)
+#   export SSL_CERT_FILE=${CERT_PATH}
+#   export REQUESTS_CA_BUNDLE=${CERT_PATH}
+# fi
 
 # Node Version Manager
 export NVM_DIR="$HOME/.nvm"
