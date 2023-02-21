@@ -265,6 +265,11 @@ if command -v kubectl &> /dev/null; then
     source <(kubectl completion zsh) # Load kubernetes autocomplete
 fi
 
+if command -v helm &> /dev/null; then
+    source <(helm completion zsh) # Load Helm autocomplete 
+fi
+
+
 # ---------------------------- ALIASES --------------------------------------------------------
 alias python=python3
 alias pip=pip3
