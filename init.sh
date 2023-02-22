@@ -43,6 +43,7 @@ create_symlink "$DOTFILES/zsh/.zshenv" "$HOME/.zshenv"
 create_symlink "$DOTFILES/tmux/.tmux.conf" "$HOME/.tmux.conf"
 create_symlink "$DOTFILES/git/.gitconfig" "$HOME/.gitconfig"
 create_symlink "$DOTFILES/.profile" "$HOME/.profile"
+create_symlink "$DOTFILES/.zprofile" "$HOME/.zprofile"
 echo -e "\n"
 
 # --- LUNARVIM -------------------------------------------
