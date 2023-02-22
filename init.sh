@@ -22,11 +22,11 @@ function create_symlink {
     echo -e "$INFO Creating symlink for $COL_CYAN$1$COL_NC"
     # Check if a file exists and it is not a symlink
     if [ -f "$2" ] && [ -L "$2" ]; then
-        echo -e "BACKUP${CROSS} Symlink already exists, skipping..."
+        echo -e "${TICK} Symlink already exists, skipping..."
         return 1
     else
         mv "$2" "$2.bak"
-        echo -e "BACKUP${TICK} Backup created..."
+        echo -e "${TICK} Backup created..."
     fi
     # Create symlink and check if it was successful
     if output=$( ln -s "$1" "$2" 2>&1); then
@@ -46,17 +46,27 @@ create_symlink "$DOTFILES/.profile" "$HOME/.profile"
 create_symlink "$DOTFILES/.zprofile" "$HOME/.zprofile"
 echo -e "\n"
 
+# Add a prompt if user wants to install additional apps
+read -r -p "Do you want to install additional apps? [y/N] " response
+case "$response" in 
+  ([yY][eE][sS]|[yY])
+    ;;
+  *) 
+    exit 0
+    ;;
+esac
+
 # --- LUNARVIM -------------------------------------------
 # Ask the user if we should install lunarvim
 read -r -p "Do you want to install lunarvim? [y/N] " response
 case "$response" in
     [yY][eE][sS]|[yY])
-        echo -e "${INFO}Installing lunarvim..."
+        echo -e "${INFO} Installing lunarvim..."
         source "$DOTFILES/lvim/install.zsh"
         create_symlink "$DOTFILES/lvim/config.lua" "$HOME/.config/lvim/config.lua"
         ;;
     *)
-        echo -e "${INFO}Skipping lunarvim..."
+        echo -e "${INFO} Skipping lunarvim..."
         ;;
 esac
 
@@ -66,7 +76,7 @@ esac
 read -r -p "Do you want to install vscode extensions? [y/N] " response
 case "$response" in
     [yY][eE][sS]|[yY])
-        echo -e "${INFO}Installing vscode extensions..."
+        echo -e "${INFO} Installing vscode extensions..."
         if [ "$(uname)" = "Darwin" ]; then
             create_symlink "$DOTFILES/Code/settings.json" "$HOME/Library/Application Support/Code/User/settings.json"
             create_symlink "$DOTFILES/Code/keybindings.json" "$HOME/Library/Application Support/Code/User/keybindings.json"
@@ -76,7 +86,7 @@ case "$response" in
         fi
         ;;
     *)
-        echo -e "${INFO}Skipping vscode extensions..."
+        echo -e "${INFO} Skipping vscode extensions..."
         ;;
 esac
 
@@ -84,10 +94,10 @@ esac
 read -r -p "Do you want to change your default shell to zsh? [y/N] " response
 case "$response" in
     [yY][eE][sS]|[yY])
-        echo -e "${INFO}Changing default shell to zsh..."
+        echo -e "${INFO} Changing default shell to zsh..."
         chsh -s "$(which zsh)"
         ;;
     *)
-        echo -e "${INFO}Skipping default shell change..."
+        echo -e "${INFO} Skipping default shell change..."
         ;;
 esac
