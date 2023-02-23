@@ -1,4 +1,7 @@
 # zmodload zsh/zprof # Uncomment this and last line to measure performances: https://stevenvanbael.com/profiling-zsh-startup 
+# README: https://htr3n.github.io/2018/07/faster-zsh/
+# Possible improvements: https://github.com/zdharma-continuum/zinit,
+
 # ---------------------------- ZSH-OPTIONS -------------------------------------------------------
 setopt autocd                # change directory just by typing its name
 setopt correct               # auto correct mistakes
@@ -86,9 +89,9 @@ TIMEFMT=$'\nreal\t%E\nuser\t%U\nsys\t%S\ncpu\t%P'
 # ---------------------------- GIT plugin for prompt  -------------------------------------------------------
 autoload -Uz vcs_info # autoload marks the name as being a function rather than external program
 if [ ! -f $HOME/dotfiles/zsh/plugins/git-prompt/git-prompt.zsh ]; then
-    echo "Zsh-git-prompt is not installed..."
-    echo "Installing git-prompt..."
-    git clone -v https://github.com/woefe/git-prompt.zsh $HOME/dotfiles/zsh/plugins/git-prompt
+  echo "Zsh-git-prompt is not installed..."
+  echo "Installing git-prompt..."
+  git clone -v https://github.com/woefe/git-prompt.zsh $HOME/dotfiles/zsh/plugins/git-prompt
 fi
 source $HOME/dotfiles/zsh/plugins/git-prompt/git-prompt.zsh
 ZSH_THEME_GIT_PROMPT_PREFIX=""
@@ -102,10 +105,10 @@ ZSH_GIT_PROMPT_SHOW_UPSTREAM="full"
 # ---------------------------- Kubernetes prompt -------------------------------------------------------
 # Use kubeon and kubeoff to enable and disable the prompt (kubeoff -g to disable globally)
 if [ ! -f $HOME/dotfiles/zsh/plugins/kube-ps1/kube-ps1.sh ]; then
-    echo "Zsh-kube-ps1 is not installed..."
-    echo "Installing kube-ps1..."
-    git clone -v https://github.com/jonmosco/kube-ps1.git $HOME/dotfiles/zsh/plugins/kube-ps1
-    if [ ! -f /usr/local/bin/kubectl ]; then echo "kubectl is not installed..."; fi
+  echo "Zsh-kube-ps1 is not installed..."
+  echo "Installing kube-ps1..."
+  git clone -v https://github.com/jonmosco/kube-ps1.git $HOME/dotfiles/zsh/plugins/kube-ps1
+  if [ ! -f /usr/local/bin/kubectl ]; then echo "kubectl is not installed..."; fi
 fi
 source $HOME/dotfiles/zsh/plugins/kube-ps1/kube-ps1.sh
 KUBE_PS1_PREFIX="-%F{cyan}[%f"
@@ -117,7 +120,7 @@ kube_ps1_autohide() { kube_ps1 | sed 's/^(.*}N\/A%.*:.*}N\/A%.*)$//' }
 # -------------------------- PROMPT -----------------------------------------------
 # Check if our terminal emulator supports colors
 case "$TERM" in
-    xterm-color|*-256color) color_prompt=yes;;
+  xterm-color|*-256color) color_prompt=yes;;
 esac
 
 # Check if we are in python venv
@@ -145,10 +148,10 @@ PROMPT="$PROMPT_USER_MACHINE"'$PROMPT_PATH'"$PROMPT_GIT""$PROMPT_KUBE"'$PROMPT_L
 # -------------------------- precmd() ---------------------------------------------
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
-xterm*|rxvt*)
+  xterm*|rxvt*)
     TERM_TITLE='\e]0;%n@%m: %~\a'
     ;;
-*)
+  *)
     ;;
 esac
 
@@ -158,31 +161,31 @@ precmd() {
 
     # Print a new line before the prompt, but only if it is not the first line
     if [ -z "$_NEW_LINE_BEFORE_PROMPT" ]; then
-        _NEW_LINE_BEFORE_PROMPT=1
+      _NEW_LINE_BEFORE_PROMPT=1
     else
-        print ""
+      print ""
     fi
 
-     vcs_info
+    vcs_info
 
      # Check if we are located in git repository, and if so, add git info to prompt
      if [[ -z ${vcs_info_msg_0_} ]]; then
-         PROMPT="$PROMPT_USER_MACHINE"'$PROMPT_PATH'"$PROMPT_KUBE"'$PROMPT_LINE2'
+       PROMPT="$PROMPT_USER_MACHINE"'$PROMPT_PATH'"$PROMPT_KUBE"'$PROMPT_LINE2'
      else
-         PROMPT="$PROMPT_USER_MACHINE"'$PROMPT_PATH'"$PROMPT_GIT""$PROMPT_KUBE"'$PROMPT_LINE2'
+       PROMPT="$PROMPT_USER_MACHINE"'$PROMPT_PATH'"$PROMPT_GIT""$PROMPT_KUBE"'$PROMPT_LINE2'
      fi
-}
+   }
 
 # ---------------------------- ZSH-SYNTAX-HIGHLIGHTING -------------------------------------------------------
 # Enable syntax highlighting
 if [ "$color_prompt" = yes ]; then
-    # Check if installed
-    if [ ! -f $HOME/dotfiles/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
-        echo "zsh-syntax-highlighting not found..."
-        echo "Installing zsh-syntax-highlighting..."
-        mkdir -pv $HOME/.zsh 
-        git clone -v https://github.com/zsh-users/zsh-syntax-highlighting.git ~/dotfiles/zsh/plugins/zsh-syntax-highlighting
-    fi
+  # Check if installed
+  if [ ! -f $HOME/dotfiles/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
+    echo "zsh-syntax-highlighting not found..."
+    echo "Installing zsh-syntax-highlighting..."
+    mkdir -pv $HOME/.zsh 
+    git clone -v https://github.com/zsh-users/zsh-syntax-highlighting.git ~/dotfiles/zsh/plugins/zsh-syntax-highlighting
+  fi
 
     # Source the plugin
     . $HOME/dotfiles/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
@@ -233,9 +236,9 @@ fi
 # ---------------------------- AUTO_SUGGESTIONS ------------------------------------------------
 # Enable auto-suggestions based on the history: https://github.com/zsh-users/zsh-autosuggestions
 if [ ! -f ~/dotfiles/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
-    echo "Zsh-autosuggestions is missing."
-    echo "Downloading (https://github.com/zsh-users/zsh-autosuggestions)..."
-    git clone -v https://github.com/zsh-users/zsh-autosuggestions ~/dotfiles/zsh/plugins/zsh-autosuggestions
+  echo "Zsh-autosuggestions is missing."
+  echo "Downloading (https://github.com/zsh-users/zsh-autosuggestions)..."
+  git clone -v https://github.com/zsh-users/zsh-autosuggestions ~/dotfiles/zsh/plugins/zsh-autosuggestions
 fi
 . ~/dotfiles/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh # Source the plugin
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#999' # Change suggestion color to grey
@@ -243,78 +246,51 @@ ZSH_AUTOSUGGEST_STRATEGY=(history) # https://github.com/zsh-users/zsh-autosugges
 # ZSH_AUTOSUGGEST_MANUAL_REBIND=false # https://github.com/zsh-users/zsh-autosuggestions#disabling-automatic-widget-re-binding
 unset ZSH_AUTOSUGGEST_USE_ASYNC # https://github.com/zsh-users/zsh-autosuggestions#asynchronous-mode
 
-# ---------------------------- COMMAND-NOT-FOUND ------------------------------------------------
-if [ $(uname) = "Linux" ]; then
-    # https://packages.ubuntu.com/search?keywords=command-not-found
-    if [ -f /etc/zsh_command_not_found ]; then
-        . /etc/zsh_command_not_found
-    else
-        echo "command-not-found is missing..."
-        # echo "installing command-not-found..."
-        # sudo apt update && sudo apt install command-not-found
-        #. /etc/zsh_command_not_found
-    fi
-fi
-
 # ---------------------------- Extra commands completitions scripts ----------------------------
 # Lazy Loading for faster startup time
 # https://frederic-hemberger.de/notes/shell/speed-up-initial-zsh-startup-with-lazy-loading/
-if command -v kubectl &> /dev/null; then
-    kubectl() {
+kubectl() {
+  if command -v kubectl &> /dev/null; then
       unfunction "$0" # Remove this function, subsequent calls will execute 'kubectl' directly
       source <(kubectl completion zsh) # Load auto-completion
       $0 "$@" # execute 'kubectl' binary
-    }
-fi
+  else
+    echo "kubectl is not installed"
+  fi
+}
 
-if command -v ng &> /dev/null; then
-    ng() {
+ng() {
+  if command -v ng &> /dev/null; then
       unfunction "$0"
       source <(ng completion script) # Load Angular CLI autocompletion.
       $0 "$@"
-    } 
-fi
+  else
+    echo "Angular CLI is not installed."
+  fi
+} 
 
-if command -v helm &> /dev/null; then
-    helm() {
-      unfunction "$0"
-      source <(helm completion zsh) # Load Helm autocomplete 
-      $0 "$@"
-    }
-fi
+helm() {
+  if command -v helm &> /dev/null; then
+    unfunction "$0"
+    source <(helm completion zsh) # Load Helm autocomplete 
+    $0 "$@"
+  else
+    echo "helm is missing..."
+  fi
+}
 
-
-if test -f "$HOME/.nvm/nvm.sh"; then
-  load-nvm() {
+nvm() {
+  if test -f "$HOME/.nvm/nvm.sh"; then
+    unfunction "$0"
     export NVM_DIR="$HOME/.nvm"
     [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
     [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-  }
-
-  nvm() {
-      unset -f nvm
-      load-nvm
-      nvm "$@"
-  }
-
-  node() {
-      unset -f node
-      load-nvm
-      node "$@"
-  }
-
-  npm() {
-      unset -f npm
-      load-nvm
-      npm "$@"
-  }
-
-  yarn() {
-      unset -f yarn
-      load-nvm
-      yarn "$@"
-  }
-fi
+    $0 "$@" # Execute real nvm
+  else
+    echo "$HOME/.nvm/nvm.sh is missing..." >&2
+    return 1
+  fi
+}
 
 # ---------------------------- ALIASES --------------------------------------------------------
 alias python=python3
@@ -322,13 +298,15 @@ alias pip=pip3
 
 # Check if lvim is instaleld
 if command -v lvim &> /dev/null; then
-    alias vim="lvim"
+   alias vim="lvim"
 fi
 export EDITOR=vim
 
 # ---------------------------- Macos-specific ---------------------------------------------------
 if [ $(uname) = "Darwin" ]; then
     source ~/dotfiles/macos/macos.zsh 
+elif [ $(uname) = "Linux" ]; then
+    source ~/dotfiles/linux/linux.zsh
 fi
 
 # # Initialize the zsh's command line completition features.

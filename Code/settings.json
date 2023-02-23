@@ -117,5 +117,6 @@
 	"python.linting.pylintArgs": ["--disable=C0200"],
 	"editor.defaultFormatter": "esbenp.prettier-vscode",
 	"jupyter.askForKernelRestart": false,
-	"prettier.requireConfig": true
+    "prettier.requireConfig": true,
+    "prettier.configPath": ".prettierrc"
 }
