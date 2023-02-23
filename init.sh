@@ -56,6 +56,22 @@ case "$response" in
     ;;
 esac
 
+# --- NVM -----------------------------------------------
+read -r -p "Do you want to install NVM? [y/N] " response
+case "$response" in 
+  ([yY][eE][sS]|[yY])
+    echo -e "${INFO} Installing NVM..."
+    export NVM_DIR="$HOME/.nvm" && (
+      git clone https://github.com/nvm-sh/nvm.git "$NVM_DIR"
+      cd "$NVM_DIR"
+      git checkout `git describe --abbrev=0 --tags --match "v[0-9]*" $(git rev-list --tags --max-count=1)`
+    ) && \. "$NVM_DIR/nvm.sh"    
+    echo -e "${TICK} NVM installed!"
+    ;;
+  *) 
+    ;;
+esac
+
 # --- LUNARVIM -------------------------------------------
 # Ask the user if we should install lunarvim
 read -r -p "Do you want to install lunarvim? [y/N] " response

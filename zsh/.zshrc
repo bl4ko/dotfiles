@@ -1,3 +1,4 @@
+# zmodload zsh/zprof # Uncomment this and last line to measure performances: https://stevenvanbael.com/profiling-zsh-startup 
 # ---------------------------- ZSH-OPTIONS -------------------------------------------------------
 setopt autocd                # change directory just by typing its name
 setopt correct               # auto correct mistakes
@@ -54,7 +55,6 @@ export LESS_TERMCAP_ue=$'\E[0m'        # reset underline
 
 # enable completion features: git, etc ...
 autoload -Uz compinit
-compinit
 zstyle ':completion:*:*:*:*:*' menu select
 zstyle ':completion:*' auto-description 'specify: %d'
 zstyle ':completion:*' completer _expand _complete
@@ -257,18 +257,64 @@ if [ $(uname) = "Linux" ]; then
 fi
 
 # ---------------------------- Extra commands completitions scripts ----------------------------
-if command -v ng &> /dev/null; then
-    source <(ng completion script) # Load Angular CLI autocompletion.
+# Lazy Loading for faster startup time
+# https://frederic-hemberger.de/notes/shell/speed-up-initial-zsh-startup-with-lazy-loading/
+if command -v kubectl &> /dev/null; then
+    kubectl() {
+      unfunction "$0" # Remove this function, subsequent calls will execute 'kubectl' directly
+      source <(kubectl completion zsh) # Load auto-completion
+      $0 "$@" # execute 'kubectl' binary
+    }
 fi
 
-if command -v kubectl &> /dev/null; then
-    source <(kubectl completion zsh) # Load kubernetes autocomplete
+if command -v ng &> /dev/null; then
+    ng() {
+      unfunction "$0"
+      source <(ng completion script) # Load Angular CLI autocompletion.
+      $0 "$@"
+    } 
 fi
 
 if command -v helm &> /dev/null; then
-    source <(helm completion zsh) # Load Helm autocomplete 
+    helm() {
+      unfunction "$0"
+      source <(helm completion zsh) # Load Helm autocomplete 
+      $0 "$@"
+    }
 fi
 
+
+if test -f "$HOME/.nvm/nvm.sh"; then
+  load-nvm() {
+    export NVM_DIR="$HOME/.nvm"
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+  }
+
+  nvm() {
+      unset -f nvm
+      load-nvm
+      nvm "$@"
+  }
+
+  node() {
+      unset -f node
+      load-nvm
+      node "$@"
+  }
+
+  npm() {
+      unset -f npm
+      load-nvm
+      npm "$@"
+  }
+
+  yarn() {
+      unset -f yarn
+      load-nvm
+      yarn "$@"
+  }
+fi
 
 # ---------------------------- ALIASES --------------------------------------------------------
 alias python=python3
@@ -285,7 +331,9 @@ if [ $(uname) = "Darwin" ]; then
     source ~/dotfiles/macos/macos.zsh 
 fi
 
-# Initialize the zsh's command line completition features.
-# -d set the directory for caching completition (to ~/.cache/zcompdump)
-# !!! Must be called after: https://docs.brew.sh/Shell-Completion#configuring-completions-in-zsh
+# # Initialize the zsh's command line completition features.
+# # -d set the directory for caching completition (to ~/.cache/zcompdump)
+# # !!! Must be called after: https://docs.brew.sh/Shell-Completion#configuring-completions-in-zsh
 compinit -d ~/.cache/zcompdump 
+
+# zprof # Uncomment this and first line to measure performance...
