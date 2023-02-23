@@ -7,7 +7,7 @@ COL_LIGHT_GREEN='\033[1;32m'
 COL_LIGHT_RED='\033[1;31m'
 COL_BLUE='\033[0;34m'
 COL_CYAN='\033[0;36m'
-COL_PURPLE='\033[0;35m'
+# COL_PURPLE='\033[0;35m'
 TICK="[${COL_LIGHT_GREEN}✓${COL_NC}]"
 CROSS="[${COL_LIGHT_RED}✗${COL_NC}]"
 INFO="[${COL_BLUE}i${COL_NC}]"
@@ -106,14 +106,3 @@ case "$response" in
         ;;
 esac
 
-# Change default shell to zsh
-read -r -p "Do you want to change your default shell to zsh? [y/N] " response
-case "$response" in
-    [yY][eE][sS]|[yY])
-        echo -e "${INFO} Changing default shell to zsh..."
-        chsh -s "$(which zsh)"
-        ;;
-    *)
-        echo -e "${INFO} Skipping default shell change..."
-        ;;
-esac

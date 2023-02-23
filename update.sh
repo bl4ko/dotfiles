@@ -25,10 +25,11 @@ pull_remote "$HOME/dotfiles/zsh/plugins/git-prompt"
 pull_remote "$HOME/dotfiles/zsh/plugins/kube-ps1"
 
 function upgrade_nvm {
+  NVM_DIR="$HOME/.nvm"
   output=$(cd "$NVM_DIR" && git fetch --tags origin && git checkout `git describe --abbrev=0 --tags --match "v[0-9]*" $(git rev-list --tags --max-count=1)` 2>&1)
   echo -e "${TICK} Check ${COL_BLUE}nvm${COL_NC}: ${output}"
   \. "$NVM_DIR/nvm.sh"
 }
-if test -f "$NVM_DIR/nvm.sh"; then
+if test -f "$HOME/.nvm/nvm.sh"; then
   upgrade_nvm 
 fi
