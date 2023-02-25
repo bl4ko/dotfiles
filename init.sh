@@ -7,7 +7,6 @@ COL_LIGHT_GREEN='\033[1;32m'
 COL_LIGHT_RED='\033[1;31m'
 COL_BLUE='\033[0;34m'
 COL_CYAN='\033[0;36m'
-# COL_PURPLE='\033[0;35m'
 TICK="[${COL_LIGHT_GREEN}✓${COL_NC}]"
 CROSS="[${COL_LIGHT_RED}✗${COL_NC}]"
 INFO="[${COL_BLUE}i${COL_NC}]"
@@ -60,13 +59,17 @@ esac
 read -r -p "Do you want to install NVM? [y/N] " response
 case "$response" in 
   ([yY][eE][sS]|[yY])
-    echo -e "${INFO} Installing NVM..."
-    export NVM_DIR="$HOME/.nvm" && (
+    if test -f "$HOME/.nvm/nvm.sh"; then
+      echo -e "${TICK} NVM already installed, skipping..."
+    else
+      echo -e "${INFO} Installing NVM..."
+      export NVM_DIR="$HOME/.nvm" && (
       git clone https://github.com/nvm-sh/nvm.git "$NVM_DIR"
       cd "$NVM_DIR"
       git checkout `git describe --abbrev=0 --tags --match "v[0-9]*" $(git rev-list --tags --max-count=1)`
-    ) && \. "$NVM_DIR/nvm.sh"    
-    echo -e "${TICK} NVM installed!"
+      ) && \. "$NVM_DIR/nvm.sh"    
+      echo -e "${TICK} NVM installed!"
+    fi
     ;;
   *) 
     ;;
@@ -88,7 +91,6 @@ esac
 
 # --- VSCODE ---------------------------------------------
 # Visual studio code: https://stackoverflow.com/a/53841945
-# Ask the user if we should install vscode extensions
 read -r -p "Do you want to install vscode extensions? [y/N] " response
 case "$response" in
     [yY][eE][sS]|[yY])
