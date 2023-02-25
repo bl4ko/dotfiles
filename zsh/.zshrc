@@ -316,7 +316,7 @@ if command -v lvim &> /dev/null; then
 fi
 export EDITOR=vim
 
-# ---------------------------- Macos-specific ---------------------------------------------------
+# ---------------------------- OS-specific ---------------------------------------------------
 if [ $(uname) = "Darwin" ]; then
     source ~/dotfiles/macos/macos.zsh 
 elif [ $(uname) = "Linux" ]; then
