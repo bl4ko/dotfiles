@@ -1,12 +1,6 @@
 #!/bin/bash
 
-COL_LIGHT_GREEN='\033[1;32m'
-COL_LIGHT_RED='\033[1;31m'
-COL_NC='\033[0m' # No Color
-COL_BLUE='\033[0;34m'
-TICK="[${COL_LIGHT_GREEN}✓${COL_NC}]"
-CROSS="[${COL_LIGHT_RED}✗${COL_NC}]"
-# INFO="[${COL_BLUE}i${COL_NC}]"
+source ./utils.sh
 
 function pull_remote {
     plugin_name="$COL_BLUE$(basename "$1")$COL_NC"

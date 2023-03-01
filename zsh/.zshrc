@@ -1,4 +1,5 @@
 # zmodload zsh/zprof # Uncomment this and last line to measure performances: https://stevenvanbael.com/profiling-zsh-startup 
+# IDEA: https://gitlab.com/kalilinux/packages/kali-defaults/-/blob/kali/master/etc/skel/.zshrc
 # README: https://htr3n.github.io/2018/07/faster-zsh/
 # Possible improvements: https://github.com/zdharma-continuum/zinit,
 
@@ -278,6 +279,8 @@ helm() {
     echo "helm is missing..."
   fi
 }
+
+PATH=/Users/bl4ko/.nvm/versions/node/v16.19.1/bin:$PATH # For copilot neovim to work
 
 lazynvm() {
   if test -f "$HOME/.nvm/nvm.sh"; then
