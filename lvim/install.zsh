@@ -75,6 +75,8 @@ if ! command -v make &> /dev/null; then
   elif [ $(uname) = "Darwin" ]; then 
     brew install make
   fi
+else
+  echo -e "${TICK} ${COL_BLUE}make${COL_NC} is already installed"
 fi
 
 # Setup npm and nodejs (linux with nvm)
