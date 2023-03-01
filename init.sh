@@ -88,23 +88,3 @@ case "$response" in
         echo -e "${INFO} Skipping lunarvim..."
         ;;
 esac
-
-# --- VSCODE ---------------------------------------------
-# Visual studio code: https://stackoverflow.com/a/53841945
-read -r -p "Do you want to install vscode extensions? [y/N] " response
-case "$response" in
-    [yY][eE][sS]|[yY])
-        echo -e "${INFO} Installing vscode extensions..."
-        if [ "$(uname)" = "Darwin" ]; then
-            create_symlink "$DOTFILES/Code/settings.json" "$HOME/Library/Application Support/Code/User/settings.json"
-            create_symlink "$DOTFILES/Code/keybindings.json" "$HOME/Library/Application Support/Code/User/keybindings.json"
-        elif [ "$(uname)" = "Linux" ]; then
-            create_symlink "$DOTFILES/Code/settings.json" "$HOME/.config/Code/User/settings.json"
-            create_symlink "$DOTFILES/Code/keybindings.json" "$HOME/.config/Code/User/keybindings.json"
-        fi
-        ;;
-    *)
-        echo -e "${INFO} Skipping vscode extensions..."
-        ;;
-esac
-
