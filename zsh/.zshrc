@@ -1,7 +1,8 @@
-# zmodload zsh/zprof # Uncomment this and last line to measure performances: https://stevenvanbael.com/profiling-zsh-startup 
+# zmodload zsh/zprof # Uncomment **this** and **last line** to measure performances: https://stevenvanbael.com/profiling-zsh-startup 
 # IDEA: https://gitlab.com/kalilinux/packages/kali-defaults/-/blob/kali/master/etc/skel/.zshrc
 # README: https://htr3n.github.io/2018/07/faster-zsh/
 # Possible improvements: https://github.com/zdharma-continuum/zinit,
+source $DOTFILES/utils.sh
 
 # ---------------------------- ZSH-OPTIONS -------------------------------------------------------
 setopt autocd                # change directory just by typing its name
@@ -59,6 +60,7 @@ export LESS_TERMCAP_ue=$'\E[0m'        # reset underline
 
 # enable completion features: git, etc ...
 autoload -Uz compinit
+compinit -d ~/.cache/zcompdump 
 zstyle ':completion:*:*:*:*:*' menu select
 zstyle ':completion:*' auto-description 'specify: %d'
 zstyle ':completion:*' completer _expand _complete
@@ -87,42 +89,10 @@ alias history="history 0"     # force zsh to show the complete history
 # configure `time` format
 TIMEFMT=$'\nreal\t%E\nuser\t%U\nsys\t%S\ncpu\t%P'
 
-# ---------------------------- GIT plugin for prompt  -------------------------------------------------------
-autoload -Uz vcs_info # autoload marks the name as being a function rather than external program
-if [ ! -f $HOME/dotfiles/zsh/plugins/git-prompt/git-prompt.zsh ]; then
-  echo "Zsh-git-prompt is not installed..."
-  echo "Installing git-prompt..."
-  git clone -v https://github.com/woefe/git-prompt.zsh $HOME/dotfiles/zsh/plugins/git-prompt
-fi
-source $HOME/dotfiles/zsh/plugins/git-prompt/git-prompt.zsh
-ZSH_THEME_GIT_PROMPT_PREFIX=""
-ZSH_THEME_GIT_PROMPT_SUFFIX=""
-ZSH_THEME_GIT_PROMPT_SEPARATOR="%F{cyan}|%f"
-# ZSH_THEME_GIT_PROMPT_BRANCH="%B%b%{$fg_bold[magenta]%}"
-ZSH_THEME_GIT_PROMPT_UPSTREAM_PREFIX="%{$fg[magenta]%}(%{$fg[magenta]%}"
-ZSH_THEME_GIT_PROMPT_UPSTREAM_SUFFIX="%{$fg[magenta]%})"
-ZSH_GIT_PROMPT_SHOW_UPSTREAM="full"
-
-# ---------------------------- Kubernetes prompt -------------------------------------------------------
-# Use kubeon and kubeoff to enable and disable the prompt (kubeoff -g to disable globally)
-if [ ! -f $HOME/dotfiles/zsh/plugins/kube-ps1/kube-ps1.sh ]; then
-  echo "Zsh-kube-ps1 is not installed..."
-  echo "Installing kube-ps1..."
-  git clone -v https://github.com/jonmosco/kube-ps1.git $HOME/dotfiles/zsh/plugins/kube-ps1
-  if [ ! -f /usr/local/bin/kubectl ]; then echo "kubectl is not installed..."; fi
-fi
-source $HOME/dotfiles/zsh/plugins/kube-ps1/kube-ps1.sh
-KUBE_PS1_PREFIX="-%F{cyan}[%f"
-KUBE_PS1_SUFFIX="%F{cyan}]%f"
-KUBE_PS1_SEPARATOR="%F{cyan}|%f"
-# KUBE_PS1_SYMBOL_PADDING=true
-kube_ps1_autohide() { kube_ps1 | sed 's/^(.*}N\/A%.*:.*}N\/A%.*)$//' }
-
 # -------------------------- PROMPT -----------------------------------------------
-# Check if our terminal emulator supports colors
-case "$TERM" in
-  xterm-color|*-256color) color_prompt=yes;;
-esac
+source "$DOTFILES/zsh/plugins/git-prompt.zsh"
+source "$DOTFILES/zsh/plugins/kube-ps1.zsh"
+
 
 # Check if we are in python venv
 function venv_prompt_info() {
@@ -141,7 +111,7 @@ prompt_symbol=㉿
 PROMPT_USER_MACHINE='%F{cyan}┌──$(venv_prompt_info)(%f%B%F{blue}%n${prompt_symbol}%m%b%f%F{cyan})%f'
 PROMPT_PATH='%F{cyan}-[%f%B%(6~.%-1~/…/%4~.%5~)%b%f%F{cyan}]%f' # %B  -> Start (stop) boldface mode
 PROMPT_GIT='%F{cyan}-[%f%B%F{magenta}$(gitprompt)%b%F{cyan}]%f' # TODO manually
-PROMPT_KUBE='$(kube_ps1_autohide)'
+PROMPT_KUBE='$(kube_ps1)'
 PROMPT_LINE2=$'\n%F{cyan}└─%B%f%F{blue}$%b%f '
 
 PROMPT="$PROMPT_USER_MACHINE"'$PROMPT_PATH'"$PROMPT_GIT""$PROMPT_KUBE"'$PROMPT_LINE2'
@@ -177,137 +147,11 @@ precmd() {
      fi
    }
 
-# ---------------------------- ZSH-SYNTAX-HIGHLIGHTING -------------------------------------------------------
-# Enable syntax highlighting
-if [ "$color_prompt" = yes ]; then
-  # Check if installed
-  if [ ! -f $HOME/dotfiles/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
-    echo "zsh-syntax-highlighting not found..."
-    echo "Installing zsh-syntax-highlighting..."
-    mkdir -pv $HOME/.zsh 
-    git clone -v https://github.com/zsh-users/zsh-syntax-highlighting.git ~/dotfiles/zsh/plugins/zsh-syntax-highlighting
-  fi
-
-    # Source the plugin
-    . $HOME/dotfiles/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-    ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern)
-    ZSH_HIGHLIGHT_STYLES[default]=none
-    ZSH_HIGHLIGHT_STYLES[unknown-token]=fg=red,bold
-    ZSH_HIGHLIGHT_STYLES[reserved-word]=fg=cyan,bold
-    ZSH_HIGHLIGHT_STYLES[suffix-alias]=fg=green,underline
-    ZSH_HIGHLIGHT_STYLES[global-alias]=fg=magenta
-    ZSH_HIGHLIGHT_STYLES[precommand]=fg=green,underline
-    ZSH_HIGHLIGHT_STYLES[commandseparator]=fg=blue,bold
-    ZSH_HIGHLIGHT_STYLES[autodirectory]=fg=green,underline
-    ZSH_HIGHLIGHT_STYLES[path]=underline
-    ZSH_HIGHLIGHT_STYLES[path_pathseparator]=
-    ZSH_HIGHLIGHT_STYLES[path_prefix_pathseparator]=
-    ZSH_HIGHLIGHT_STYLES[globbing]=fg=blue,bold
-    ZSH_HIGHLIGHT_STYLES[history-expansion]=fg=blue,bold
-    ZSH_HIGHLIGHT_STYLES[command-substitution]=none
-    ZSH_HIGHLIGHT_STYLES[command-substitution-delimiter]=fg=magenta
-    ZSH_HIGHLIGHT_STYLES[process-substitution]=none
-    ZSH_HIGHLIGHT_STYLES[process-substitution-delimiter]=fg=magenta
-    ZSH_HIGHLIGHT_STYLES[single-hyphen-option]=fg=magenta
-    ZSH_HIGHLIGHT_STYLES[double-hyphen-option]=fg=magenta
-    ZSH_HIGHLIGHT_STYLES[back-quoted-argument]=none
-    ZSH_HIGHLIGHT_STYLES[back-quoted-argument-delimiter]=fg=blue,bold
-    ZSH_HIGHLIGHT_STYLES[single-quoted-argument]=fg=yellow
-    ZSH_HIGHLIGHT_STYLES[double-quoted-argument]=fg=yellow
-    ZSH_HIGHLIGHT_STYLES[dollar-quoted-argument]=fg=yellow
-    ZSH_HIGHLIGHT_STYLES[rc-quote]=fg=magenta
-    ZSH_HIGHLIGHT_STYLES[dollar-double-quoted-argument]=fg=magenta
-    ZSH_HIGHLIGHT_STYLES[back-double-quoted-argument]=fg=magenta
-    ZSH_HIGHLIGHT_STYLES[back-dollar-quoted-argument]=fg=magenta
-    ZSH_HIGHLIGHT_STYLES[assign]=none
-    ZSH_HIGHLIGHT_STYLES[redirection]=fg=blue,bold
-    ZSH_HIGHLIGHT_STYLES[comment]=fg=black,bold
-    ZSH_HIGHLIGHT_STYLES[named-fd]=none
-    ZSH_HIGHLIGHT_STYLES[numeric-fd]=none
-    ZSH_HIGHLIGHT_STYLES[arg0]=fg=green
-    ZSH_HIGHLIGHT_STYLES[bracket-error]=fg=red,bold
-    ZSH_HIGHLIGHT_STYLES[bracket-level-1]=fg=blue,bold
-    ZSH_HIGHLIGHT_STYLES[bracket-level-2]=fg=green,bold
-    ZSH_HIGHLIGHT_STYLES[bracket-level-3]=fg=magenta,bold
-    ZSH_HIGHLIGHT_STYLES[bracket-level-4]=fg=yellow,bold
-    ZSH_HIGHLIGHT_STYLES[bracket-level-5]=fg=cyan,bold
-    ZSH_HIGHLIGHT_STYLES[cursor-matchingbracket]=standout
-fi
-
-# ---------------------------- AUTO_SUGGESTIONS ------------------------------------------------
-# Enable auto-suggestions based on the history: https://github.com/zsh-users/zsh-autosuggestions
-if [ ! -f ~/dotfiles/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
-  echo "Zsh-autosuggestions is missing."
-  echo "Downloading (https://github.com/zsh-users/zsh-autosuggestions)..."
-  git clone -v https://github.com/zsh-users/zsh-autosuggestions ~/dotfiles/zsh/plugins/zsh-autosuggestions
-fi
-. ~/dotfiles/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh # Source the plugin
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#999' # Change suggestion color to grey
-ZSH_AUTOSUGGEST_STRATEGY=(history) # https://github.com/zsh-users/zsh-autosuggestions#suggestion-strategy
-# ZSH_AUTOSUGGEST_MANUAL_REBIND=false # https://github.com/zsh-users/zsh-autosuggestions#disabling-automatic-widget-re-binding
-unset ZSH_AUTOSUGGEST_USE_ASYNC # https://github.com/zsh-users/zsh-autosuggestions#asynchronous-mode
-
-# ---------------------------- Extra commands completitions scripts ----------------------------
-# Lazy Loading for faster startup time
-# https://frederic-hemberger.de/notes/shell/speed-up-initial-zsh-startup-with-lazy-loading/
-kubectl() {
-  if command -v kubectl &> /dev/null; then
-      unfunction "$0" # Remove this function, subsequent calls will execute 'kubectl' directly
-      source <(kubectl completion zsh) # Load auto-completion
-      $0 "$@" # execute 'kubectl' binary
-  else
-    echo "kubectl is not installed"
-  fi
-}
-
-ng() {
-  if command -v ng &> /dev/null; then
-      unfunction "$0"
-      source <(ng completion script) # Load Angular CLI autocompletion.
-      $0 "$@"
-  else
-    echo "Angular CLI is not installed."
-  fi
-} 
-
-helm() {
-  if command -v helm &> /dev/null; then
-    unfunction "$0"
-    source <(helm completion zsh) # Load Helm autocomplete 
-    $0 "$@"
-  else
-    echo "helm is missing..."
-  fi
-}
-
-PATH=/Users/bl4ko/.nvm/versions/node/v16.19.1/bin:$PATH # For copilot neovim to work
-
-lazynvm() {
-  if test -f "$HOME/.nvm/nvm.sh"; then
-    unset -f nvm node npm
-    export NVM_DIR="$HOME/.nvm"
-    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-  else
-    echo "$HOME/.nvm/nvm.sh is missing..." >&2
-    return 1
-  fi
-}
-
-nvm() {
-  lazynvm
-  nvm "$@"
-}
-
-node() {
-  lazynvm
-  node "$@"
-}
-
-npm() {
-  lazynvm
-  npm "$@"
-}
+source "$DOTFILES/zsh/plugins/zsh-syntax-highlighting.zsh"
+source "$DOTFILES/zsh/plugins/helm.zsh"
+source "$DOTFILES/zsh/plugins/nvm.zsh"
+source "$DOTFILES/zsh/plugins/kubectl.zsh"
+source "$DOTFILES/zsh/plugins/ng.zsh"
 
 # ---------------------------- ALIASES --------------------------------------------------------
 alias python=python3
@@ -320,15 +164,14 @@ fi
 export EDITOR=vim
 
 # ---------------------------- OS-specific ---------------------------------------------------
-if [ $(uname) = "Darwin" ]; then
-    source ~/dotfiles/macos/macos.zsh 
-elif [ $(uname) = "Linux" ]; then
-    source ~/dotfiles/linux/linux.zsh
+if [ "$(uname)" = "Darwin" ]; then
+    source $DOTFILES/zsh/macos/macos.zsh 
+elif [ "$(uname)" = "Linux" ]; then
+    source $DOTFILES/zsh/linux/linux.zsh
 fi
 
 # # Initialize the zsh's command line completition features.
 # # -d set the directory for caching completition (to ~/.cache/zcompdump)
 # # !!! Must be called after: https://docs.brew.sh/Shell-Completion#configuring-completions-in-zsh
-compinit -d ~/.cache/zcompdump 
 
-# zprof # Uncomment this and first line to measure performance...
+# zprof # Uncomment **this** and **first line** to measure performance...

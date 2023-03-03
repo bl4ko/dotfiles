@@ -40,6 +40,8 @@ vim.opt.relativenumber = false
 vim.opt.foldlevel = 99
 
 
+-- lvim.lsp.diagnostics.virtual_text = false
+-- vim.diagnostic.open_float()
 --
 -- lvim.keys.normal_mode["<C-g"] = ":*y"
 
@@ -71,6 +73,8 @@ vim.opt.foldlevel = 99
 
 -- Change theme settings
 lvim.colorscheme = "tokyonight"
+-- vim.lsp.diagnostic.open_float()
+
 -- lvim.builtin.theme.options.dim_inactive = true
 
 -- Use which-key to add extra bindings with the leader-key prefix
@@ -180,6 +184,7 @@ linters.setup {
     command = "shellcheck",
     ---@usage arguments to pass to the formatter
     -- these cannot contain whitespaces, options such as `--line-width 80` become either `{'--line-width', '80'}` or `{'--line-width=80'}`
+    filetypes = { "sh", "zsh", "bash" },
     extra_args = { "--severity", "warning" },
   },
   -- {
@@ -282,6 +287,9 @@ lvim.builtin.cmp.mapping["<Tab>"] = function(fallback)
   end
 end
 
+require("lspconfig").bashls.setup({
+  filetypes = { "sh", "zsh", "bash", ".zshrc", ".bashrc" },
+})
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
 -- vim.api.nvim_create_autocmd("BufEnter", {
 --   pattern = { "*.json", "*.jsonc" },
