@@ -103,6 +103,15 @@ else
   echo -e "${TICK} ${COL_BLUE}python${COL_NC} is already installed"
 fi
 
+echo -e "${INFO} Checking ${COL_BLUE}pip${COL_NC} dependency..."
+if ! command -v pip3 &> /dev/null; then
+    echo -e "${CROSS} pip3 is not installed"
+    exit 1
+else
+  echo -e "${TICK} ${COL_BLUE}pip3${COL_NC} is already installed"
+fi
+
+
 echo -e "${INFO} Now trying to install ${COL_BLUE}neovim${COL_NC}..."
 if ! command -v lvim &> /dev/null; then
     if [ $(uname) = "Darwin" ] || [ $(uname) = "Linux" ]; then
