@@ -6,40 +6,10 @@ echo -e "${INFO} Installing lunarvim dependencies"
 # 1. Neovim v0.8.0+
 if ! command -v nvim &> /dev/null; then
   echo -e "${CROSS} neovim is not installed"
+  echo -e "${INFO} Recommending building from source on linux, and using brew install neovim on mac"
   exit 1
 else 
   echo -e "${TICK} neovim is installed"
-	# echo -e "${INFO} Neo neovim..."
-	# if [ $(uname) = "Darwin" ]; then
-	# 	brew install neovim
-	# elif [ $(uname) = "Linux" ]; then
-	# 	if ! wget -P /tmp https://github.com/neovim/neovim/releases/download/stable/nvim-linux64.deb.sha256sum; then
- #      echo -e "${CROSS} Failed to download neovim checksum"
- #      exit 1
- #    fi
-	# 	# Get the debian package
-	# 	if ! wget -P /tmp https://github.com/neovim/neovim/releases/download/stable/nvim-linux64.deb; then
- #      echo -e "${CROSS} Failed to download neovim"
- #      exit 1
- #    fi
-	# 	# Test the checksum
- #    echo -e "${INFO} Checking checksum..."
-	# 	cd /tmp
-	# 	if sha256sum -c /tmp/nvim-linux64.deb.sha256sum; then
-	# 	    echo -e "${TICK} Checksum is correct"
-	#   else
-	# 	    echo -e "${CROSS} Checksum is incorrect"
-	# 	    exit 1
-	# 	fi    
- #    echo -e "${INFO} Installing neovim..."
-	# 	cd - && sudo apt install /tmp/nvim-linux64.deb
- #    if [ $? -eq 0 ]; then
- #      echo -e "${TICK} Neovim installed"
- #    else
- #      echo -e "${CROSS} Failed to install neovim"
- #      exit 1
- #    fi
-	# fi
 fi
 
 # 2. Lunarvim dependencies: Have git, make, pip, npm, node and cargo installed on your system
