@@ -1,10 +1,6 @@
 # Zsh gitignores
-/zsh/*
-!zsh/.zshrc
-!zsh/.zshenv
-!/zsh/plugins
-/zsh/plugins/*
-!/zsh/plugins/gitkeep
+tmux/plugins
+!tmux/plugins/.gitkeep
 
-/tmux/plugins/*
-!/tmux/plugins/.gitkeep
+zsh/plugins/loaded/*
+!zsh/plugins/loaded/.gitkeep
