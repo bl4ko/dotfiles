@@ -41,12 +41,6 @@ alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
-if [ "$(uname)" = 'Linux' ]; then
-  alias diff='diff --color=auto'
-  alias dir='dir --color=auto'
-  alias vdir='vdir --color=auto'
-  alias ip='ip --color=auto'
-fi
 
 # Add colors to the manpages: https://unix.stackexchange.com/q/108699
 export LESS_TERMCAP_mb=$'\E[1;31m'     # begin blink
