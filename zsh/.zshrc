@@ -2,7 +2,6 @@
 # IDEA: https://gitlab.com/kalilinux/packages/kali-defaults/-/blob/kali/master/etc/skel/.zshrc
 # README: https://htr3n.github.io/2018/07/faster-zsh/
 # Possible improvements: https://github.com/zdharma-continuum/zinit,
-source $DOTFILES/utils.sh
 
 # ---------------------------- ZSH-OPTIONS -------------------------------------------------------
 setopt autocd                # change directory just by typing its name
@@ -42,7 +41,7 @@ alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
-if [ $(uname) = 'Linux' ]; then
+if [ "$(uname)" = 'Linux' ]; then
   alias diff='diff --color=auto'
   alias dir='dir --color=auto'
   alias vdir='vdir --color=auto'
@@ -99,16 +98,17 @@ function venv_prompt_info() {
   [ $VIRTUAL_ENV ] && echo "(%F{green}$(basename $VIRTUAL_ENV)%F{cyan})-"
 }
 
-prompt_symbol=㉿
-[ "EUID" = 0 ] && prompt_symbol=💀
-[ $(uname) = "Darwin" ] && prompt_symbol=@
+PROMPT_SYMBOL=㉿
+[ "$EUID" -eq 0 ] && PROMPT_SYMBOL=💀
+[ $(uname) = "Darwin" ] && PROMPT_SYMBOL='㊅' # ㊀ '㉺㉰㉭㊅㊀
+
 # Zsh prompt special characters: https://zsh.sourceforge.io/Doc/Release/Prompt-Expansion.html
 # %m ... machine hostname up to the first '.'
 # %n ... username
 # --------- Visual Effects --------------
 # %F{color}<text>%f        start/end color mode
 # %B<text>%b               start/end bold mode
-PROMPT_USER_MACHINE='%F{cyan}┌──$(venv_prompt_info)(%f%B%F{blue}%n${prompt_symbol}%m%b%f%F{cyan})%f'
+PROMPT_USER_MACHINE='%F{cyan}┌──$(venv_prompt_info)(%f%B%F{blue}%n${PROMPT_SYMBOL}%m%b%f%F{cyan})%f'
 PROMPT_PATH='%F{cyan}-[%f%B%(6~.%-1~/…/%4~.%5~)%b%f%F{cyan}]%f' # %B  -> Start (stop) boldface mode
 PROMPT_GIT='%F{cyan}-[%f%B%F{magenta}$(gitprompt)%b%F{cyan}]%f' # TODO manually
 PROMPT_KUBE='$(kube_ps1)'
@@ -117,19 +117,8 @@ PROMPT_LINE2=$'\n%F{cyan}└─%B%f%F{blue}$%b%f '
 PROMPT="$PROMPT_USER_MACHINE"'$PROMPT_PATH'"$PROMPT_GIT""$PROMPT_KUBE"'$PROMPT_LINE2'
 
 # -------------------------- precmd() ---------------------------------------------
-# If this is an xterm set the title to user@host:dir
-case "$TERM" in
-  xterm*|rxvt*)
-    TERM_TITLE='\e]0;%n@%m: %~\a'
-    ;;
-  *)
-    ;;
-esac
-
-
-# precmd runs before each prompt
+# precmd function runs before each prompt
 precmd() {
-
     # Print a new line before the prompt, but only if it is not the first line
     if [ -z "$_NEW_LINE_BEFORE_PROMPT" ]; then
       _NEW_LINE_BEFORE_PROMPT=1
@@ -137,7 +126,7 @@ precmd() {
       print ""
     fi
 
-    vcs_info
+    vcs_info # Required for checking if we are in a git repo [[ -z ${vcs_info_msg_0_} ]]
 
      # Check if we are located in git repository, and if so, add git info to prompt
      if [[ -z ${vcs_info_msg_0_} ]]; then
@@ -145,7 +134,7 @@ precmd() {
      else
        PROMPT="$PROMPT_USER_MACHINE"'$PROMPT_PATH'"$PROMPT_GIT""$PROMPT_KUBE"'$PROMPT_LINE2'
      fi
-   }
+ }
 
 source "$DOTFILES/zsh/plugins/zsh-syntax-highlighting.zsh"
 source "$DOTFILES/zsh/plugins/helm.zsh"
@@ -161,7 +150,6 @@ alias pip=pip3
 if command -v lvim &> /dev/null; then
    alias vim="lvim"
 fi
-export EDITOR=vim
 
 # ---------------------------- OS-specific ---------------------------------------------------
 if [ "$(uname)" = "Darwin" ]; then
@@ -169,9 +157,5 @@ if [ "$(uname)" = "Darwin" ]; then
 elif [ "$(uname)" = "Linux" ]; then
     source $DOTFILES/zsh/linux/linux.zsh
 fi
-
-# # Initialize the zsh's command line completition features.
-# # -d set the directory for caching completition (to ~/.cache/zcompdump)
-# # !!! Must be called after: https://docs.brew.sh/Shell-Completion#configuring-completions-in-zsh
 
 # zprof # Uncomment **this** and **first line** to measure performance...
