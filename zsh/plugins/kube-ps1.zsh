@@ -7,7 +7,7 @@ if [ ! -f "$DOTFILES/zsh/plugins/loaded/kube-ps1/kube-ps1.sh" ]; then
   echo -e "${INFO} Installing kube-ps1..."
   git clone -v https://github.com/jonmosco/kube-ps1.git "$DOTFILES/zsh/plugins/loaded/kube-ps1"
   echo -e "${TICK} zsh-kube-ps1 installed"
-  if ! test command -v kubectl; then 
+  if ! command -v kubectl >/dev/null 2>&1; then 
     echo "${CROSS} kubectl is not installed..."; 
   fi
 fi
