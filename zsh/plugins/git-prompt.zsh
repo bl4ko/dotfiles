@@ -8,6 +8,6 @@ autoload -Uz vcs_info # autoload marks the name as being a function rather than 
 ZSH_THEME_GIT_PROMPT_PREFIX=""
 ZSH_THEME_GIT_PROMPT_SUFFIX=""
 ZSH_THEME_GIT_PROMPT_SEPARATOR="%F{cyan}|%f"
-ZSH_THEME_GIT_PROMPT_UPSTREAM_PREFIX="%{$fg[magenta]%}(%{$fg[magenta]%}"
-ZSH_THEME_GIT_PROMPT_UPSTREAM_SUFFIX="%{$fg[magenta]%})"
+ZSH_THEME_GIT_PROMPT_UPSTREAM_PREFIX="%{$fg[magenta]%}:%{$fg[magenta]%}"
+# ZSH_THEME_GIT_PROMPT_UPSTREAM_SUFFIX="%{$fg[magenta]%})"
 ZSH_GIT_PROMPT_SHOW_UPSTREAM="full"
