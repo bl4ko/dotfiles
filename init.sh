@@ -66,14 +66,14 @@ esac
 
 # --- LUNARVIM -------------------------------------------
 # Ask the user if we should install lunarvim
-read -r -p "Do you want to install lunarvim? [y/N] " response
+read -r -p "Do you want to install neovim? [y/N] " response
 case "$response" in
     [yY][eE][sS]|[yY])
-        echo -e "${INFO} Installing lunarvim..."
-        source "$DOTFILES/lvim/install.zsh"
+        echo -e "${INFO} Installing neovim..."
+        git clone https://github.com/NvChad/NvChad ~/.config/nvim --depth 1 && nvim
         create_symlink "$DOTFILES/lvim/config.lua" "$HOME/.config/lvim/config.lua"
         ;;
     *)
-        echo -e "${INFO} Skipping lunarvim..."
+        echo -e "${INFO} Skipping neovim..."
         ;;
 esac

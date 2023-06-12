@@ -142,8 +142,8 @@ alias python=python3
 alias pip=pip3
 
 # Check if lvim is instaleld
-if command -v lvim &> /dev/null; then
-   alias vim="lvim"
+if command -v nvim &> /dev/null; then
+   alias vim="nvim"
 fi
 
 # ---------------------------- OS-specific ---------------------------------------------------

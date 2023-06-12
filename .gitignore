@@ -1,3 +1,5 @@
+.DS_Store
+
 # Zsh gitignores
 tmux/plugins
 !tmux/plugins/.gitkeep
