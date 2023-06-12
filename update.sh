@@ -13,10 +13,10 @@ function pull_remote {
 }
 
 # Update zsh plugins
-pull_remote "$HOME/dotfiles/zsh/plugins/zsh-autosuggestions"
-pull_remote "$HOME/dotfiles/zsh/plugins/zsh-syntax-highlighting" 
-pull_remote "$HOME/dotfiles/zsh/plugins/git-prompt"
-pull_remote "$HOME/dotfiles/zsh/plugins/kube-ps1"
+pull_remote "$HOME/dotfiles/zsh/plugins/loaded/zsh-autosuggestions"
+pull_remote "$HOME/dotfiles/zsh/plugins/loaded/zsh-syntax-highlighting" 
+pull_remote "$HOME/dotfiles/zsh/plugins/loaded/git-prompt"
+pull_remote "$HOME/dotfiles/zsh/plugins/loaded/kube-ps1"
 
 function upgrade_nvm {
   NVM_DIR="$HOME/.nvm"
