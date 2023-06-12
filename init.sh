@@ -71,7 +71,8 @@ case "$response" in
     [yY][eE][sS]|[yY])
         echo -e "${INFO} Installing neovim..."
         git clone https://github.com/NvChad/NvChad ~/.config/nvim --depth 1 && nvim
-        create_symlink "$DOTFILES/lvim/config.lua" "$HOME/.config/lvim/config.lua"
+        create_symlink "$DOTFILES/nvchad/chadrc.lua" "$HOME/.config/nvim/lua/custom/chadrc.lua"
+        create_symlink "$DOTFILES/nvchad/plugins.lua" "$HOME/.config/nvim/lua/custom/plugins.lua"
         ;;
     *)
         echo -e "${INFO} Skipping neovim..."
