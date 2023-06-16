@@ -154,3 +154,6 @@ elif [ "$(uname)" = "Linux" ]; then
 fi
 
 # zprof # Uncomment **this** and **first line** to measure performance...
+
+autoload -U +X bashcompinit && bashcompinit
+complete -o nospace -C /opt/homebrew/bin/terraform terraform
