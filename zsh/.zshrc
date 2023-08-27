@@ -2,7 +2,6 @@
 # IDEA: https://gitlab.com/kalilinux/packages/kali-defaults/-/blob/kali/master/etc/skel/.zshrc
 # README: https://htr3n.github.io/2018/07/faster-zsh/
 # Possible improvements: https://github.com/zdharma-continuum/zinit,
-
 # ---------------------------- ZSH-OPTIONS -------------------------------------------------------
 setopt autocd                # change directory just by typing its name
 setopt correct               # auto correct mistakes
@@ -107,7 +106,6 @@ PROMPT_PATH='%F{cyan}-[%f%B%(6~.%-1~/…/%4~.%5~)%b%f%F{cyan}]%f' # %B  -> Start
 PROMPT_GIT='%F{cyan}-[%f%B%F{magenta}$(gitprompt)%b%F{cyan}]%f' # TODO manually
 PROMPT_KUBE='$(kube_ps1)'
 PROMPT_LINE2=$'\n%F{cyan}└─%B%f%F{blue}$%b%f '
-
 PROMPT="$PROMPT_USER_MACHINE"'$PROMPT_PATH'"$PROMPT_GIT""$PROMPT_KUBE"'$PROMPT_LINE2'
 
 # -------------------------- precmd() ---------------------------------------------
@@ -154,7 +152,8 @@ elif [ "$(uname)" = "Linux" ]; then
     source $DOTFILES/zsh/linux/linux.zsh
 fi
 
-# zprof # Uncomment **this** and **first line** to measure performance...
+complete -o nospace -C /opt/homebrew/bin/terraform terraform
 
 autoload -U +X bashcompinit && bashcompinit
-complete -o nospace -C /opt/homebrew/bin/terraform terraform
+
+# zprof # Uncomment **this** and **first line** to measure performance...

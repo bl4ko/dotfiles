@@ -1,4 +1,4 @@
-export PATH="$HOME/.nvm/versions/node/v16.19.1/bin:$PATH" # Temporary fix for copilot in neovim (lazyloading breaks not found in path)
+# export PATH="$HOME/.nvm/versions/node/v16.19.1/bin:$PATH" # Temporary fix for copilot in neovim (lazyloading breaks not found in path)
 
 lazynvm() {
   if test -f "$HOME/.nvm/nvm.sh"; then
