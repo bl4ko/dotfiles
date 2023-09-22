@@ -1,4 +1,5 @@
 # zmodload zsh/zprof # Uncomment **this** and **last line** to measure performances: https://stevenvanbael.com/profiling-zsh-startup 
+
 # IDEA: https://gitlab.com/kalilinux/packages/kali-defaults/-/blob/kali/master/etc/skel/.zshrc
 # README: https://htr3n.github.io/2018/07/faster-zsh/
 # Possible improvements: https://github.com/zdharma-continuum/zinit,
@@ -140,6 +141,7 @@ source "$DOTFILES/zsh/plugins/ng.zsh"
 alias python=python3
 alias pip=pip3
 
+
 # Check if lvim is instaleld
 if command -v nvim &> /dev/null; then
    alias vim="nvim"
@@ -152,8 +154,8 @@ elif [ "$(uname)" = "Linux" ]; then
     source $DOTFILES/zsh/linux/linux.zsh
 fi
 
-complete -o nospace -C /opt/homebrew/bin/terraform terraform
-
 autoload -U +X bashcompinit && bashcompinit
+
+complete -o nospace -C /opt/homebrew/bin/terraform terraform
 
 # zprof # Uncomment **this** and **first line** to measure performance...
