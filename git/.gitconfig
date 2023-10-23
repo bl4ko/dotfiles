@@ -1,8 +1,15 @@
 [user]
 	name = bl4ko
-	email = go3969@student.uni-lj.si
+	email = gasperoblak@bl4ko.com
+	signingkey = C04194A67F7321EF
 [init]
 	defaultBranch = main
 [push]
   # https://stackoverflow.com/a/72994973: setup to follow remote branch
 	autoSetupRemote = true
+[commit]
+	gpgsign = true
+[gpg]
+	program = gpg
+[tag]
+	gpgsign = true

@@ -48,3 +48,5 @@
 # MANPATH="/opt/homebrew/Cellar/findutils/4.9.0/libexec/gnuman:$MANPATH" # https://stackoverflow.com/questions/69574792/gnu-find-cant-find-root-directory-find-failed-to-read-file-names-from-file
 # export MANPATH
 
+
+export GPG_TTY=$(tty) # Problem with gpg-agent
