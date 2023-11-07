@@ -8,7 +8,7 @@ install_nvchad() {
     ensure_nvim_config_directory_exists
     git clone https://github.com/NvChad/NvChad ~/.config/nvim --depth 1
     echo -e "${INFO} Linking nvchad configs..."
-    ln -sv "$DOTFILES/nvchad" "$HOME/.config/nvim/lua/custom"
+    ln -sv "$DOTFILES/nvchad/custom" "$HOME/.config/nvim/lua/custom"
     echo -e "${TICK} nvchad installed successfuly!"
   fi
 }
