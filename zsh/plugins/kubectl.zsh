@@ -13,6 +13,9 @@ if command -v kubectl &> /dev/null; then
   fi
 fi
 
+# Creates temp pod with network utils
+alias knetsh="kubectl run tmp-shell --rm -i --tty --image nicolaka/netshoot"
+
 # This command is used a LOT both below and in daily life
 alias k=kubectl
 

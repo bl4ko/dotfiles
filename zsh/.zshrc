@@ -159,7 +159,7 @@ precmd() {
  }
 
 # ---------------------------- PLUGINS --------------------------------------------------------
-# source "$DOTFILES/zsh/plugins/zsh-autosuggestions.zsh"
+source "$DOTFILES/zsh/plugins/zsh-autosuggestions.zsh"
 source "$DOTFILES/zsh/plugins/zsh-syntax-highlighting.zsh"
 source "$DOTFILES/zsh/plugins/helm.zsh"
 source "$DOTFILES/zsh/plugins/nvm.zsh"
