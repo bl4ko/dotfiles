@@ -1,0 +1,12 @@
+# This is an example file you have to create your own file 
+# with your own data named gitconfig here
+[user]
+  name = bl4ko
+  email = bl4ko@example.com
+	signingkey = C04194A67F7321EF
+[commit]
+	gpgsign = true
+[gpg]
+ 	program = gpg
+[tag]
+ 	gpgsign = true
