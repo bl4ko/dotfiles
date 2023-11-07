@@ -1,0 +1,12 @@
+services:
+  ubuntu:
+    image: ubuntu:latest
+    volumes:
+      - .:/root/dotfiles
+    command: /bin/bash -c "apt-get update && apt-get install git -y && sleep 100000"
+
+  rocky:
+    image: rockylinux:9
+    volumes:
+      - .:/root/dotfiles
+    command: /bin/bash -c "dnf update -y && dnf install git -y && sleep 100000"

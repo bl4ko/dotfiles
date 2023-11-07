@@ -3,6 +3,7 @@
 # IDEA: https://gitlab.com/kalilinux/packages/kali-defaults/-/blob/kali/master/etc/skel/.zshrc
 # README: https://htr3n.github.io/2018/07/faster-zsh/
 # Possible improvements: https://github.com/zdharma-continuum/zinit,
+
 # ---------------------------- ZSH-OPTIONS -------------------------------------------------------
 setopt autocd                # change directory just by typing its name
 setopt correct               # auto correct mistakes
@@ -82,6 +83,34 @@ alias history="history 0"     # force zsh to show the complete history
 # configure `time` format
 TIMEFMT=$'\nreal\t%E\nuser\t%U\nsys\t%S\ncpu\t%P'
 
+# ---------------------------- ALIASES --------------------------------------------------------
+alias python=python3
+alias pip=pip3
+
+
+# Check if nvim is instaleld
+if command -v nvim &> /dev/null; then
+   alias vim="nvim"
+fi
+
+# --------------------------- EXPORTS ---------------------------------------------------------
+export PATH="$HOME/.local/bin:$PATH"
+export EDITOR=vim
+export DOTFILES="$HOME/dotfiles"
+export PATH=$HOME/.local/bin:$PATH
+
+
+# ---------------------------- OS-specific ---------------------------------------------------
+if [ "$(uname)" = "Darwin" ]; then
+    source $DOTFILES/zsh/macos/macos.zsh 
+elif [ "$(uname)" = "Linux" ]; then
+    source $DOTFILES/zsh/linux/linux.zsh
+fi
+
+autoload -U +X bashcompinit && bashcompinit
+
+complete -o nospace -C /opt/homebrew/bin/terraform terraform
+
 # -------------------------- PROMPT -----------------------------------------------
 source "$DOTFILES/zsh/plugins/git-prompt.zsh"
 source "$DOTFILES/zsh/plugins/kube-ps1.zsh"
@@ -137,25 +166,6 @@ source "$DOTFILES/zsh/plugins/nvm.zsh"
 source "$DOTFILES/zsh/plugins/kubectl.zsh"
 source "$DOTFILES/zsh/plugins/ng.zsh"
 
-# ---------------------------- ALIASES --------------------------------------------------------
-alias python=python3
-alias pip=pip3
 
-
-# Check if lvim is instaleld
-if command -v nvim &> /dev/null; then
-   alias vim="nvim"
-fi
-
-# ---------------------------- OS-specific ---------------------------------------------------
-if [ "$(uname)" = "Darwin" ]; then
-    source $DOTFILES/zsh/macos/macos.zsh 
-elif [ "$(uname)" = "Linux" ]; then
-    source $DOTFILES/zsh/linux/linux.zsh
-fi
-
-autoload -U +X bashcompinit && bashcompinit
-
-complete -o nospace -C /opt/homebrew/bin/terraform terraform
 
 # zprof # Uncomment **this** and **first line** to measure performance...

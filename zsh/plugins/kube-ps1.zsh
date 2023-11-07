@@ -1,4 +1,5 @@
-# ---------------------------- Kubernetes prompt -------------------------------------------------------
+# Kubernetes prompt: https://github.com/jonmosco/kube-ps1.git
+
 source "$DOTFILES/utils.sh"
 # Use kubeon and kubeoff to enable and disable the prompt 
 # (kubeoff -g to disable globally)

@@ -1,8 +1,11 @@
 # When logged in, if default shell set to zsh, only 
 # ".zprofile" will be sourced but not the ".profile"
-# https://unix.stackexchange.com/a/699524
-source $HOME/.profile
 
+# Required for tmux and other programs to work properly
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+
+# Required by brew: export env variables needed for brew to work
 if command -v /opt/homebrew/bin/brew >/dev/null 2>&1; then
   eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
@@ -16,4 +19,3 @@ if [ -n "$ZSH_VERSION" ] && [ -n "$PS1" ]; then
     source "$HOME/.zshrc"
   fi
 fi
-
