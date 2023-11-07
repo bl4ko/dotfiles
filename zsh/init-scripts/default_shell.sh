@@ -1,34 +1,27 @@
 #!/bin/bash
-function ensure_which_is_installed {
-  # Ensure which is installed
-  if ! command -v which &> /dev/null; then
-    echo -e "${INFO} which command not found, will try to install it..."
-    if [ "$(uname -s)" = "Linux" ]; then
-      if command -v apt &> /dev/null; then
-        apt install -y which
-      elif command -v dnf &> /dev/null; then
-        dnf install -y which
-      else
-        echo -e "${CROSS} Unsupported package manager"
-        exit 1
-      fi
-    elif [ "$(uname -s)" = "Darwin" ]; then
-      brew install -y which
-    else 
-      echo -e "${CROSS} Unsupported OS: $(uname s)"
-      exit 1
-    fi
-  else
-    echo -e "${TICK} which already installed, skipping..."
-  fi
-}
 
 function set_default_shell {
-  ensure_which_is_installed
-  if output=$(chsh -s "$(which zsh)" 2>&1); then
-    echo -e "${TICK} Successfuly set zsh as default shell: ${output}"
-  else
-    echo -e "${CROSS} Failed setting zsh as default shell: ${output}"
-    exit 1
+  default_shell=$(getent passwd "$(whoami)" | awk -F: '{print $NF}')
+  echo -e "${INFO} Current default shell is ${COL_LIGHT_CYAN}${default_shell}${COL_NC}"
+
+  # Check if current shell is already zsh
+  if [[ "${default_shell}" =~ "zsh$" ]]; then
+    echo -e "${TICK} Current shell is already zsh, skipping..."
+    return
+  else 
+    # Prompt user if he wants to change default shell to zsh
+    echo -e "${INFO} Do you want to change default shell to zsh? [y/n]"
+    read -r answer
+    if [[ ! "${answer}" =~ ^([yY][eE][sS]|[yY])+$ ]]; then
+      echo -e "${INFO} Skipping..."
+      return
+    else 
+      if chsh -s "$(which zsh)"; then
+        echo -e "${TICK} Successfuly set zsh as default shell"
+      else
+        echo -e "${CROSS} Failed setting zsh as default shell!"
+        exit 1
+      fi
+    fi
   fi
 }

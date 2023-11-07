@@ -8,8 +8,16 @@ function create_symlink {
 
     # Check if a file exists and it is not a symlink
     if [ -L "$2" ]; then
-        echo -e "${TICK} Symlink already exists, skipping"
-        return 1
+        echo -e "${INFO} Symlink to the target file already exists"
+        # Ensure that the symlink is correct
+        if [ "$(readlink -- "$2")" = "$1" ]; then
+            echo -e "${TICK} Symlink is correct"
+            return 0
+        else
+            echo -e "${INFO} Symlink is incorrect"
+            echo -e "${INFO} Removing incorrect symlink"
+            rm -v "$2"
+        fi
     elif [ -f "$2" ]; then
         echo -e "${TICK} Created backup of ${COL_LIGHT_CYAN}$2${COL_NC}: $(mv -v "$2" "$2.bak")"
     fi
@@ -77,8 +85,14 @@ else
     echo -e "${TICK} chsh already installed, skipping..."
 fi
 
+echo -e "${INFO} Ensuring that ${COL_CYAN}which${COL_NC} is installed..."
+# shellcheck disable=SC1091
+source ./zsh/init-scripts/which.sh
+ensure_which_is_installed
+
 # Change default shell to zsh
-echo -e "${INFO} Setting zsh as ${COL_CYAN}default shell${COL_NC}..."
+echo -e "${INFO} Setting ${COL_CYAN}default shell${COL_NC}..."
+# shellcheck disable=SC1091
 source ./zsh/init-scripts/default_shell.sh
 set_default_shell
 
