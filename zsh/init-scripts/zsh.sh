@@ -5,9 +5,9 @@ function ensure_zsh_is_installed {
     echo -e "${INFO} Installing zsh..."
     if [ "$(uname -s)" = "Linux" ]; then
         if command -v apt &> /dev/null; then
-          apt install -y zsh
+          if ! ${SUDO} apt install -y zsh; then echo -e "${CROSS} Failed installing zsh"; exit 1; fi
         elif command -v dnf &> /dev/null; then
-          dnf install -y zsh
+          if ! ${SUDO} dnf install -y zsh; then echo -e "${CROSS} Failed installing zsh"; exit 1; fi
         else
           echo -e "${CROSS} Unsupported package manager"
           exit 1
@@ -18,7 +18,7 @@ function ensure_zsh_is_installed {
         echo -e "${CROSS} Unsupported OS: $(uname s)"
         exit 1
     fi
-    echo -e "${TICK} zsh installed!"
+    echo -e "${TICK} zsh installed successfully!"
   else
     echo -e "${TICK} zsh already installed, skipping..."
   fi

@@ -6,9 +6,9 @@ function ensure_which_is_installed {
     echo -e "${INFO} which command not found, will try to install it..."
     if [ "$(uname -s)" = "Linux" ]; then
       if command -v apt &> /dev/null; then
-        apt install -y which
+        if ! ${SUDO} apt install -y which; then echo -e "${CROSS} Failed installing which"; exit 1; fi
       elif command -v dnf &> /dev/null; then
-        dnf install -y which
+        if ! ${SUDO} dnf install -y which; then echo -e "${CROSS} Failed installing which"; exit 1; fi
       else
         echo -e "${CROSS} Unsupported package manager"
         exit 1

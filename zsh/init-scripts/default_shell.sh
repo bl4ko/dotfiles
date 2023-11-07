@@ -1,11 +1,15 @@
 #!/bin/bash
 
 function set_default_shell {
-  default_shell=$(getent passwd "$(whoami)" | awk -F: '{print $NF}')
+  if [ "$(uname -s)" = "Darwin" ]; then
+    default_shell=$(dscl . -read /Users/"$(whoami)" UserShell | awk '{print $2}')
+  else 
+    default_shell=$(getent passwd "$(whoami)" | awk -F: '{print $NF}')
+  fi
   echo -e "${INFO} Current default shell is ${COL_LIGHT_CYAN}${default_shell}${COL_NC}"
 
   # Check if current shell is already zsh
-  if [[ "${default_shell}" =~ "zsh$" ]]; then
+  if [[ "${default_shell}" =~ zsh$ ]]; then
     echo -e "${TICK} Current shell is already zsh, skipping..."
     return
   else 

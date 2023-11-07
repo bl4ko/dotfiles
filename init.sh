@@ -3,6 +3,22 @@
 # Source common colors, and symbols
 source ./utils.sh
 
+# Check if script is run by root user, this will be important for installing packages
+# via package manager
+if [ "$(id -u)" -eq 0 ]; then
+    SUDO=""
+    echo -e "${INFO} Script is run by ${COL_CYAN}root${COL_NC} user"
+else
+    echo -e "${INFO} Script is run by ${COL_CYAN}uid=$(id -u)${COL_NC} user"
+    # If we are not root, we will need to use sudo
+    if command -v sudo &> /dev/null; then
+      SUDO="sudo"
+    else 
+      echo -e "${CROSS} This script requires root privileges or sudo."
+      exit 1
+    fi
+fi
+
 function create_symlink {
     echo -e "$INFO Creating symlink for ${COL_CYAN}$1${COL_NC}..."
 
@@ -27,11 +43,12 @@ function create_symlink {
         echo -e "${TICK} Created symlink: ${output}"
     else
         echo -e "${CROSS} Failed creating symlink: ${output}"
+        exit 1
     fi
 }
 
 # Symlink all files in config directory
-echo -e "${INFO}Starting symlink process..."
+echo -e "${INFO} Starting symlink process..."
 echo "----------------------------------"
 create_symlink "$DOTFILES/bash/.bashrc" "$HOME/.bashrc"
 create_symlink "$DOTFILES/zsh/.zshrc" "$HOME/.zshrc"
@@ -41,7 +58,6 @@ create_symlink "$DOTFILES/git/.gitconfig" "$HOME/.gitconfig"
 create_symlink "$DOTFILES/bash/.profile" "$HOME/.profile"
 create_symlink "$DOTFILES/zsh/.zprofile" "$HOME/.zprofile"
 echo -e "\n"
-
 
 # Locales are required by many programes to work properly
 echo -e "${INFO} Checking ${COL_CYAN}locale${COL_NC}..."
@@ -68,9 +84,9 @@ if ! command -v chsh &> /dev/null; then
     echo -e "${INFO} chsh command not found, will try to install it..."
     if [ "$(uname -s)" = "Linux" ]; then
         if command -v apt &> /dev/null; then
-          apt install -y passwd
+          if ! ${SUDO} apt install -y passwd; then echo -e "${CROSS} Failed installing passwd"; exit 1; fi
         elif command -v dnf &> /dev/null; then
-          dnf install -y util-linux-user
+          if ! ${SUDO} dnf install -y util-linux-user; then echo -e "${CROSS} Failed installing util-linux-user"; exit 1; fi
         else
           echo -e "${CROSS} Unsupported package manager"
           exit 1
@@ -102,9 +118,9 @@ if ! command -v tmux &> /dev/null; then
     echo -e "${INFO} Installing tmux..."
     if [ "$(uname -s)" = "Linux" ]; then
         if command -v apt &> /dev/null; then
-          apt install -y tmux
+          if ! ${SUDO} apt install -y tmux; then echo -e "${CROSS} Failed installing tmux"; exit 1; fi
         elif command -v dnf &> /dev/null; then
-          dnf install -y tmux
+          if ! ${SUDO} dnf install -y tmux; then echo -e "${CROSS} Failed installing tmux"; exit 1; fi
         else
           echo -e "${CROSS} Unsupported package manager"
           exit 1

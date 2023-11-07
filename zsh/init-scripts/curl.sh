@@ -5,9 +5,9 @@ function check_curl {
     echo -e "${INFO} Curl is not installed, installing..."
     if [ "$(uname -s)" = "Linux" ]; then 
       if command -v apt &> /dev/null; then
-        apt install -y curl
+        if ! ${SUDO} apt install -y curl; then echo -e "${CROSS} Failed installing curl"; exit 1; fi
       elif command -v dnf &> /dev/null; then
-        dnf install -y curl
+        if ! ${SUDO} dnf install -y curl; then echo -e "${CROSS} Failed installing curl"; exit 1; fi
       else
         echo -e "${CROSS} Unsupported package manager"
         exit 1

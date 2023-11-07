@@ -35,9 +35,9 @@ install_neovim_linux_amd64() {
 install_neovim_dependencies() {
   echo -e "${INFO} Installing dependencies for neovim: ${COL_CYAN}https://github.com/neovim/neovim/wiki/Building-Neovim#build-prerequisites${COL_NC}..."
   if command -v apt &> /dev/null; then 
-    apt-get -y install ninja-build gettext cmake unzip curl
+    if ! ${SUDO} apt-get -y install ninja-build gettext cmake unzip curl; then echo -e "${CROSS} Failed installing dependencies"; exit 1; fi
   elif command -v dnf &> /dev/null; then
-    dnf -y install ninja-build cmake gcc make unzip gettext curl
+    if ! ${SUDO} dnf -y install ninja-build cmake gcc make unzip gettext curl; then echo -e "${CROSS} Failed installing dependencies"; exit 1; fi
   else
     echo -e "${CROSS} Unsupported package manager"
     exit 1

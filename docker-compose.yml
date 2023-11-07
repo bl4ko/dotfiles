@@ -10,3 +10,9 @@ services:
     volumes:
       - .:/root/dotfiles
     command: /bin/bash -c "dnf update -y && dnf install git -y && sleep 100000"
+
+  bitnami:
+    image: bitnami/os-shell:latest
+    command: /bin/bash -c "sleep 100000"
+    volumes:
+      - .:/dotfiles
