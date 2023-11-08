@@ -3,7 +3,7 @@ source $DOTFILES/utils.sh
 # Check if our terminal emulator supports colors
 color_prompt=no
 case "$TERM" in
-  xterm*|*-256color|screen) color_prompt=yes;;
+  xterm*|*-256color|screen|linux*) color_prompt=yes;;
 esac
 
 # Enable syntax highlighting
