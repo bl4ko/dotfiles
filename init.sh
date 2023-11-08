@@ -71,6 +71,11 @@ echo -e "${INFO} Checking if ${COL_CYAN}curl${COL_NC} is installed..."
 source ./zsh/init-scripts/curl.sh 
 check_curl
 
+echo -e "${INFO} Checking if ${COL_CYAN}tar${COL_NC} is installed..."
+# shellcheck disable=SC1091
+source ./zsh/init-scripts/tar.sh
+check_tar
+
 
 echo -e "${INFO} Checking if ${COL_CYAN}zsh${COL_NC} is installed..."
 # shellcheck disable=SC1091
