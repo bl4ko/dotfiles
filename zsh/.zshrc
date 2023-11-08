@@ -134,7 +134,7 @@ PROMPT_SYMBOL=㉿
 PROMPT_USER_MACHINE='%F{cyan}┌──$(venv_prompt_info)(%f%B%F{blue}%n${PROMPT_SYMBOL}%m%b%f%F{cyan})%f'
 PROMPT_PATH='%F{cyan}-[%f%B%(6~.%-1~/…/%4~.%5~)%b%f%F{cyan}]%f' # %B  -> Start (stop) boldface mode
 PROMPT_GIT='%F{cyan}-[%f%B%F{magenta}$(gitprompt)%b%F{cyan}]%f' # TODO manually
-PROMPT_KUBE='$(kube_ps1)'
+PROMPT_KUBE="$(command -v kubectl &> /dev/null && echo '$(kube_ps1)' || echo '')"
 PROMPT_LINE2=$'\n%F{cyan}└─%B%f%F{blue}$%b%f '
 PROMPT="$PROMPT_USER_MACHINE"'$PROMPT_PATH'"$PROMPT_GIT""$PROMPT_KUBE"'$PROMPT_LINE2'
 
