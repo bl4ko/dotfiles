@@ -4,6 +4,10 @@
 # README: https://htr3n.github.io/2018/07/faster-zsh/
 # Possible improvements: https://github.com/zdharma-continuum/zinit,
 
+# --------------------------- Custom utils ------------------------------------------------------
+export DOTFILES="$HOME/dotfiles"
+source $DOTFILES/utils.sh
+
 # ---------------------------- ZSH-OPTIONS -------------------------------------------------------
 setopt autocd                # change directory just by typing its name
 setopt correct               # auto correct mistakes
@@ -96,7 +100,6 @@ fi
 # --------------------------- EXPORTS ---------------------------------------------------------
 export PATH="$HOME/.local/bin:$PATH"
 export EDITOR=vim
-export DOTFILES="$HOME/dotfiles"
 export PATH=$HOME/.local/bin:$PATH
 
 

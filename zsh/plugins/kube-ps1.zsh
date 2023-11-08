@@ -1,7 +1,7 @@
 # Kubernetes prompt: https://github.com/jonmosco/kube-ps1.git
 
 
-if ! command -v kubectl; then 
+if ! command -v kubectl &> /dev/null; then 
   echo -e "${CROSS} kubectl is not installed but kube_ps1 is enabled..."; 
 else
   # Use kubeon and kubeoff to enable and disable the prompt 
