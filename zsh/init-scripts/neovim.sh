@@ -37,7 +37,7 @@ install_neovim_dependencies() {
   if command -v apt &> /dev/null; then 
     if ! ${SUDO} apt-get -y install ninja-build gettext cmake unzip curl; then echo -e "${CROSS} Failed installing dependencies"; exit 1; fi
   elif command -v dnf &> /dev/null; then
-    if ! ${SUDO} dnf -y install ninja-build cmake gcc make unzip gettext curl; then echo -e "${CROSS} Failed installing dependencies"; exit 1; fi
+    if ! ${SUDO} dnf -y install cmake gcc make unzip gettext curl; then echo -e "${CROSS} Failed installing dependencies"; exit 1; fi # ninja-build package is missing on rhel9 # TODO
   else
     echo -e "${CROSS} Unsupported package manager"
     exit 1
