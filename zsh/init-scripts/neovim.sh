@@ -26,17 +26,10 @@ install_neovim_linux_arm() {
 }
 
 install_neovim_linux_amd64() {
-  if ! curl -L https://github.com/neovim/neovim/releases/download/stable/nvim-linux64.tar.gz -o nvim-linux64.tar.gz; then echo -e "${CROSS} Failed downloading neovim"; exit 1; fi
-  tar xzvf nvim-linux64.tar.gz
-  mkdir -p "$HOME/.local/bin"
-  mkdir -p "$HOME/.local/lib"
-  mkdir -p "$HOME/.local/share"
-  mkdir -p "$HOME/.local/man"
-  mv -v nvim-linux64/bin/* "$HOME/.local/bin"
-  mv -v nvim-linux64/lib/* "$HOME/.local/lib"
-  mv -v nvim-linux64/share/* "$HOME/.local/share"
-  mv -v nvim-linux64/man/* "$HOME/local/man"
-  rm -rfv nvim-linux64.tar.gz nvim-linux64
+  if ! curl -L https://github.com/neovim/neovim/releases/download/stable/nvim-linux64.tar.gz -o $DOTFILES/build_from_source/nvim-linux64.tar.gz; then echo -e "${CROSS} Failed downloading neovim"; exit 1; fi
+  tar xzvf "$DOTFILES/build_from_source/nvim-linux64.tar.gz"
+  ln -s "$DOTFILES/build_from_source/nvim-linux64/bin/nvim" "$HOME/.local/bin/nvim"
+  rm -rfv "$DOTFILES/build_from_source/nvim-linux64.tar.gz"
 }
 
 install_neovim_dependencies() {

@@ -9,3 +9,6 @@ zsh/plugins/loaded/*
 
 zsh/completions/*
 !zsh/completions/.gitkeep
+
+build_from_source/*
+!build_from_source/readme.md
