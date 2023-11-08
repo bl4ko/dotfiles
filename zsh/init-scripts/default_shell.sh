@@ -20,7 +20,7 @@ function set_default_shell {
       echo -e "${INFO} Skipping..."
       return
     else 
-      if chsh -s "$(which zsh)"; then
+      if ${SUDO} chsh -s "$(which zsh)"; then
         echo -e "${TICK} Successfuly set zsh as default shell"
       else
         echo -e "${CROSS} Failed setting zsh as default shell!"
