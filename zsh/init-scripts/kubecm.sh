@@ -51,7 +51,7 @@ function install_kubecm {
         exit 1
       fi
     elif [ "$(uname -s)" = "Darwin" ]; then 
-      brew install -y kubecm
+      brew install kubecm
     else
       echo -e "${CROSS} unsupported OS!"
       exit 1

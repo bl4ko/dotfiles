@@ -3,22 +3,6 @@
 # Source common colors, and symbols
 source ./utils.sh
 
-# Check if script is run by root user, this will be important for installing packages
-# via package manager
-if [ "$(id -u)" -eq 0 ]; then
-    SUDO=""
-    echo -e "${INFO} Script is run by ${COL_CYAN}root${COL_NC} user"
-else
-    echo -e "${INFO} Script is run by ${COL_CYAN}uid=$(id -u)${COL_NC} user"
-    # If we are not root, we will need to use sudo
-    if command -v sudo &> /dev/null; then
-      SUDO="sudo"
-    else 
-      echo -e "${CROSS} This script requires root privileges or sudo."
-      exit 1
-    fi
-fi
-
 function create_symlink {
     echo -e "$INFO Creating symlink for ${COL_CYAN}$1${COL_NC}..."
 
@@ -47,6 +31,48 @@ function create_symlink {
     fi
 }
 
+function prompt_user {
+  local message=$1
+  local default_response="y"
+
+  if [ "${SKIP_PROMPTS}" = "y" ]; then
+    response="${default_response}"
+  else
+    echo -en "${message}"
+    read -r response
+  fi
+}
+
+# Enable user to input -y flag to skip all prompts
+while getopts ":y" opt; do
+  case $opt in
+    y)
+      echo -e "${INFO} Skipping all prompts..."
+      SKIP_PROMPTS="y"
+      ;;
+    \?)
+      echo -e "${CROSS} Invalid option: -$OPTARG" >&2
+      exit 1
+      ;;
+  esac
+done
+
+# Check if script is run by root user, this will be important for installing packages
+# via package manager
+if [ "$(id -u)" -eq 0 ]; then
+    SUDO=""
+    echo -e "${INFO} Script is run by ${COL_CYAN}root${COL_NC} user"
+else
+    echo -e "${INFO} Script is run by ${COL_CYAN}uid=$(id -u)${COL_NC} user"
+    # If we are not root, we will need to use sudo
+    if command -v sudo &> /dev/null; then
+      SUDO="sudo"
+    else 
+      echo -e "${CROSS} This script requires root privileges or sudo."
+      exit 1
+    fi
+fi
+
 # Symlink all files in config directory
 echo -e "${INFO} Starting symlink process..."
 echo "----------------------------------"
@@ -59,27 +85,21 @@ create_symlink "$DOTFILES/zsh/.zprofile" "$HOME/.zprofile"
 echo -e "\n"
 
 # Locales are required by many programes to work properly
-echo -e "${INFO} Checking ${COL_CYAN}locale${COL_NC}..."
+echo -e "${INFO} Checking if ${COL_CYAN}locale${COL_NC} are installed..."
 # shellcheck disable=SC1091
 source ./zsh/init-scripts/locales.sh
-setup_locales
-
 
 echo -e "${INFO} Checking if ${COL_CYAN}curl${COL_NC} is installed..."
 # shellcheck disable=SC1091
 source ./zsh/init-scripts/curl.sh 
-check_curl
 
 echo -e "${INFO} Checking if ${COL_CYAN}tar${COL_NC} is installed..."
 # shellcheck disable=SC1091
 source ./zsh/init-scripts/tar.sh
-check_tar
-
 
 echo -e "${INFO} Checking if ${COL_CYAN}zsh${COL_NC} is installed..."
 # shellcheck disable=SC1091
 source ./zsh/init-scripts/zsh.sh
-ensure_zsh_is_installed
 
 
 # Ensure chsh is installed
@@ -108,13 +128,11 @@ fi
 echo -e "${INFO} Ensuring that ${COL_CYAN}which${COL_NC} is installed..."
 # shellcheck disable=SC1091
 source ./zsh/init-scripts/which.sh
-ensure_which_is_installed
 
 # Change default shell to zsh
-echo -e "${INFO} Setting ${COL_CYAN}default shell${COL_NC}..."
+echo -e "${INFO} Checking ${COL_CYAN}default shell${COL_NC}..."
 # shellcheck disable=SC1091
 source ./zsh/init-scripts/default_shell.sh
-set_default_shell
 
 # Ensure tmux is installed
 echo -e "${INFO} Checking if ${COL_CYAN}tmux${COL_NC} is installed..."
@@ -151,11 +169,12 @@ if [ ! -d "$HOME/.local/bin" ]; then
       echo -e "${CROSS} Failed creating: ${output}"
       exit 1
     fi
+else
+  echo -e "${TICK} ${HOME}/.local/bin already exists, skipping..."
 fi
 export PATH="$HOME/.local/bin:$PATH"
 
-# Add a prompt if user wants to install additional apps
-read -r -p "Do you want to install additional apps? [y/N] " response
+prompt_user "Do you want to install additional apps? [y/N]"
 case "$response" in 
   ([yY][eE][sS]|[yY])
     ;;
@@ -164,9 +183,7 @@ case "$response" in
     ;;
 esac
 
-# NVM installation
-echo -en "Do you want to install ${COL_CYAN}NVM${COL_NC}? [y/N] "
-read -r response
+prompt_user "Do you want to install ${COL_CYAN}NVM${COL_NC}? [y/N]"
 case "$response" in 
   ([yY][eE][sS]|[yY])
       source ./zsh/init-scripts/nvm.sh
@@ -177,9 +194,7 @@ case "$response" in
       ;;
 esac
 
-# Neovim installation
-echo -en "Do you want to install ${COL_CYAN}nvchad${COL_NC}? [y/N] "
-read -r response
+prompt_user "Do you want to install ${COL_CYAN}nvchad${COL_NC}? [y/N] "
 case "$response" in
   ([yY][eE][sS]|[yY])
       # Install clipboard support from neovim
@@ -195,23 +210,19 @@ case "$response" in
     ;;
 esac
 
-
-# Kubectl tools installation
-echo -en "Do you want to install ${COL_CYAN}kubernetes tools${COL_NC}? [y/N]"
-read -r response
+prompt_user "Do you want to install ${COL_CYAN}kubernetes tools${COL_NC}? [y/N]"
 case "$response" in
   ([yY][eE][sS]|[yY])
       echo -e "${INFO} Installing ${COL_CYAN}kubectl${COL_NC}..."
       source $DOTFILES/zsh/init-scripts/kubectl.sh
       echo -e "${INFO} Installing ${COL_CYAN}helm${COL_NC}..."
       source $DOTFILES/zsh/init-scripts/helm.sh
-      echo -e "${INFO} installing ${COL_CYAN}kubecm${COL_NC} cli"
+      echo -e "${INFO} installing ${COL_CYAN}kubecm${COL_NC}..."
       source $DOTFILES/zsh/init-scripts/kubecm.sh
-      echo -e "${INFO} installing ${COL_CYAN}krew${COL_NC} cli"
+      echo -e "${INFO} installing ${COL_CYAN}kubectl krew${COL_NC}"
       source $DOTFILES/zsh/init-scripts/krew.sh
     ;;
   *)
     echo -e "${INFO} Skipping kubectl..."
     ;;
 esac
-

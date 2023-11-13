@@ -23,3 +23,5 @@ function ensure_which_is_installed {
     echo -e "${TICK} which already installed, skipping..."
   fi
 }
+
+ensure_which_is_installed

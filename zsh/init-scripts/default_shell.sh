@@ -13,9 +13,7 @@ function set_default_shell {
     echo -e "${TICK} Current shell is already zsh, skipping..."
     return
   else 
-    # Prompt user if he wants to change default shell to zsh
-    echo -e "${INFO} Do you want to change default shell to zsh? [y/n]"
-    read -r answer
+    prompt_user "${INFO} Do you want to change default shell to zsh? [y/n]"
     if [[ "${answer}" =~ ^([yY][eE][sS]|[yY])+$ ]]; then
       if ! ${SUDO} chsh -s "$(which zsh)"; then echo -e "${CROSS} Failed setting zsh as default shell!"; exit 1; fi
       echo -e "${TICK} Successfuly set zsh as default shell"
@@ -25,3 +23,5 @@ function set_default_shell {
     fi
   fi
 }
+
+set_default_shell

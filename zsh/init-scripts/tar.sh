@@ -21,3 +21,5 @@ function check_tar {
     fi
   fi
 }
+
+check_tar

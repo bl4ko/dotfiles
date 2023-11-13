@@ -1,3 +1,5 @@
+#!/bin/bash
+
 function install_krew {
   if ! command -v kubectl krew &> /dev/null; then
      echo -e "${INFO} kubectl krew is not installed. Installing it..."
@@ -11,6 +13,8 @@ function install_krew {
       ./"${KREW}" install krew
     )
     export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+  else
+    echo -e "${TICK} kubectl krew is already installed!"
   fi
 }
 

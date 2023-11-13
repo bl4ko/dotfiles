@@ -28,3 +28,6 @@ function setup_locales {
   export LC_ALL=en_US.UTF-8
   export LANG=en_US.UTF-8
 }
+
+
+setup_locales

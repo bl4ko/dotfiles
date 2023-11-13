@@ -22,3 +22,5 @@ function check_curl {
     echo -e "${TICK} Curl already installed, skipping..."
   fi
 }
+
+check_curl

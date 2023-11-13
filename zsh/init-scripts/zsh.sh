@@ -23,3 +23,5 @@ function ensure_zsh_is_installed {
     echo -e "${TICK} zsh already installed, skipping..."
   fi
 }
+
+ensure_zsh_is_installed
