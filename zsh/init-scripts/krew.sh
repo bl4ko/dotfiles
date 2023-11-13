@@ -1,7 +1,7 @@
 #!/bin/bash
 
 function install_krew {
-  if ! command -v kubectl krew &> /dev/null; then
+  if ! kubectl krew &> /dev/null; then
      echo -e "${INFO} kubectl krew is not installed. Installing it..."
      (
       set -x; cd "$(mktemp -d)" &&

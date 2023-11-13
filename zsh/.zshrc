@@ -106,9 +106,7 @@ export EDITOR=vim
 if command -v gpg &> /dev/null; then
   export GPG_TTY=$(tty) # For gpg to work properly
 fi
-if kubectl krew &> /dev/null; then
-  export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
-fi
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 
 
 # ---------------------------- OS-specific ---------------------------------------------------
