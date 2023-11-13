@@ -11,8 +11,8 @@ function setup_locales {
     if [ "$(uname -s)" = "Linux" ]; then
       if command -v apt &> /dev/null; then
         if ! ${SUDO} apt-get install -y locales; then echo -e "${CROSS} Failed installing locales"; exit 1; fi
-        if ! locale-gen en_US.UTF-8; then echo -e "${CROSS} Failed generating en_US.UTF-8 locale"; exit 1; fi
-        if ! update-locale; then echo -e "${CROSS} Failed updating locale"; exit 1; fi
+        if ! ${SUDO} locale-gen en_US.UTF-8; then echo -e "${CROSS} Failed generating en_US.UTF-8 locale"; exit 1; fi
+        if ! ${SUDO} update-locale; then echo -e "${CROSS} Failed updating locale"; exit 1; fi
       elif command -v dnf &> /dev/null; then
         if ! ${SUDO} dnf install -y glibc-langpack-en; then echo -e "${CROSS} Failed installing glibc-langpack-en"; exit 1; fi
       else
