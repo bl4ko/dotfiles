@@ -101,6 +101,7 @@ fi
 export PATH="$HOME/.local/bin:$PATH"
 export EDITOR=vim
 export PATH=$HOME/.local/bin:$PATH
+export GPG_TTY=$(tty) # For gpg to work properly
 
 
 # ---------------------------- OS-specific ---------------------------------------------------
