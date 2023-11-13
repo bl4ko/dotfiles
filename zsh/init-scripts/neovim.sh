@@ -26,6 +26,7 @@ install_neovim_linux_arm() {
 }
 
 install_neovim_linux_amd64() {
+  install_neovim_dependencies
   if ! curl -L https://github.com/neovim/neovim/releases/download/stable/nvim-linux64.tar.gz -o "$HOME/.local/linux64.tar.gz"; then echo -e "${CROSS} Failed downloading neovim"; exit 1; fi
   tar xzvf "$HOME/.local/linux64.tar.gz" --strip-components=1 -C "$HOME/.local"
   rm -rfv "$HOME/.local/linux64.tar.gz"
@@ -57,7 +58,6 @@ download_and_build_neovim() {
 }
 
 install_neovim() {
-  echo -e "${INFO} Installing ${COL_CYAN}neovim${COL_NC}..."
   if command -v nvim &> /dev/null; then
     echo -e "${TICK} neovim already installed, skipping..."
   else
@@ -73,3 +73,4 @@ install_neovim() {
   fi
 }
 
+install_neovim

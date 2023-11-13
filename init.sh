@@ -182,13 +182,34 @@ echo -en "Do you want to install ${COL_CYAN}nvchad${COL_NC}? [y/N] "
 read -r response
 case "$response" in
   ([yY][eE][sS]|[yY])
+      # Install clipboard support from neovim
+      echo -e "${INFO} setting up clipboard for neovim"
+      source ./zsh/init-scripts/clipboard.sh
+      echo -e "${INFO} Installing ${COL_CYAN}neovim${COL_NC}..."
       source ./zsh/init-scripts/neovim.sh
-      source ./zsh/init-scripts/nvchad.sh
-      install_neovim
       echo -e "${INFO} Installing ${COL_CYAN}nvchad${COL_NC}..."
-      install_nvchad
+      source ./zsh/init-scripts/nvchad.sh
     ;;
   *)
     echo -e "${INFO} Skipping neovim..."
     ;;
 esac
+
+
+# Kubectl tools installation
+echo -en "Do you want to install ${COL_CYAN}kubernetes tools${COL_NC}? [y/N]"
+read -r response
+case "$response" in
+  ([yY][eE][sS]|[yY])
+      echo -e "${INFO} Installing ${COL_CYAN}kubectl${COL_NC}..."
+      source $DOTFILES/zsh/init-scripts/kubectl.sh
+      echo -e "${INFO} Installing ${COL_CYAN}helm${COL_NC}..."
+      source $DOTFILES/zsh/init-scripts/helm.sh
+      echo -e "$INFO installing ${COL_CYAN}jx${COL_NC} cli"
+      source $DOTFILES/zsh/init-scripts/jx.sh
+    ;;
+  *)
+    echo -e "${INFO} Skipping kubectl..."
+    ;;
+esac
+

@@ -3,7 +3,6 @@
 install_nvchad() {
   if [ -f "$HOME/.config/nvim/init.lua" ]; then
     echo -e "${TICK} nvchad already installed, skipping..."
-    exit 0
   else
     ensure_nvim_config_directory_exists
     git clone https://github.com/NvChad/NvChad ~/.config/nvim --depth 1
@@ -25,3 +24,5 @@ ensure_nvim_config_directory_exists() {
     fi
   fi
 }
+
+install_nvchad
