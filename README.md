@@ -1,47 +1,95 @@
-# Jenkins X CLI
+<p align="center">
+    <img src="docs/static/kubecm.png" title="KubeCM" alt="Kubecm" height="200" />
+</p>
 
-[![Documentation](https://godoc.org/github.com/jenkins-x/jx?status.svg)](https://pkg.go.dev/mod/github.com/jenkins-x/jx)
-[![Go Report Card](https://goreportcard.com/badge/github.com/jenkins-x/jx)](https://goreportcard.com/report/github.com/jenkins-x/jx)
-[![Releases](https://img.shields.io/github/release-pre/jenkins-x/jx.svg)](https://github.com/jenkins-x/jx/releases)
-[![LICENSE](https://img.shields.io/github/license/jenkins-x/jx.svg)](https://github.com/jenkins-x/jx/blob/master/LICENSE)
-[![Slack Status](https://img.shields.io/badge/slack-join_chat-white.svg?logo=slack&style=social)](https://slack.k8s.io/)
-[![codecov](https://codecov.io/gh/jenkins-x/jx/branch/main/graph/badge.svg?token=aBT7eQHx37)](https://codecov.io/gh/jenkins-x/jx)
+![Go version](https://img.shields.io/github/go-mod/go-version/sunny0826/kubecm)
+![Go](https://github.com/sunny0826/kubecm/workflows/Go/badge.svg?branch=master)
+[![Go Report Card](https://goreportcard.com/badge/github.com/sunny0826/kubecm)](https://goreportcard.com/report/github.com/sunny0826/kubecm)
+![GitHub](https://img.shields.io/github/license/sunny0826/kubecm.svg)
+[![GitHub release](https://img.shields.io/github/release/sunny0826/kubecm)](https://github.com/sunny0826/kubecm/releases)
+[![codecov](https://codecov.io/gh/sunny0826/kubecm/branch/master/graph/badge.svg?token=KGTLBQ8HYZ)](https://codecov.io/gh/sunny0826/kubecm)
+[![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/6065/badge)](https://bestpractices.coreinfrastructure.org/projects/6065)
 
-`jx` is the modular command line CLI for [Jenkins X 3.x](https://jenkins-x.io/v3/about/)
+```text
+                                                 
+        Manage your kubeconfig more easily.        
+                                                   
 
-## Commands
+██   ██ ██    ██ ██████  ███████  ██████ ███    ███ 
+██  ██  ██    ██ ██   ██ ██      ██      ████  ████ 
+█████   ██    ██ ██████  █████   ██      ██ ████ ██ 
+██  ██  ██    ██ ██   ██ ██      ██      ██  ██  ██ 
+██   ██  ██████  ██████  ███████  ██████ ██      ██
 
-See the [jx command reference](https://jenkins-x.io/v3/develop/reference/jx/)
+ Tips  Find more information at: https://kubecm.cloud
 
-## Issues
+Usage:
+  kubecm [command]
 
-To track [issues in this repository](https://github.com/jenkins-x/jx/issues) and all the related [Plugins](#plugins) use these links:
+Available Commands:
+  add         Add KubeConfig to $HOME/.kube/config
+  alias       Generate alias for all contexts
+  clear       Clear lapsed context, cluster and user
+  cloud       Manage kubeconfig from cloud
+  completion  Generate completion script
+  create      Create new KubeConfig(experiment)
+  delete      Delete the specified context from the kubeconfig
+  help        Help about any command
+  list        List KubeConfig
+  merge       Merge multiple kubeconfig files into one
+  namespace   Switch or change namespace interactively
+  rename      Rename the contexts of kubeconfig
+  switch      Switch Kube Context interactively
+  version     Print version info
 
-* [view open issues in jenkins-x-plugins](https://github.com/issues?q=is%3Aopen+is%3Aissue+author%3Ajstrachan+archived%3Afalse+user%3Ajenkins-x-plugins)
-* [view open pull requests in jenkins-x-plugins](https://github.com/pulls?q=is%3Aopen+is%3Apr+archived%3Afalse+user%3Ajenkins-x-plugins+-label%3Adependencies)
+Flags:
+      --config string   path of kubeconfig (default "$HOME/.kube/config")
+  -h, --help            help for kubecm
+      --ui-size int     number of list items to show in menu at once (default 4)
 
-## Plugins
+Use "kubecm [command] --help" for more information about a command.
+```
 
-You can browse the documentation for all of the `jx`  plugins at:
+## Documentation
 
-* [Plugin CLI Reference](https://jenkins-x.io/v3/develop/reference/jx/)
-* [Plugin Source](https://github.com/jenkins-x-plugins)
+For full documentation, please visit the KubeCM website: [https://kubecm.cloud](https://kubecm.cloud)
+
+## Demo
+
+[![asciicast](https://asciinema.org/a/389595.svg)](https://asciinema.org/a/389595)
+
+## Install
+Using [Krew](https://krew.sigs.k8s.io/):
+
+```bash
+kubectl krew install kc
+```
+
+Using Homebrew:
+
+```bash
+brew install kubecm
+```
+
+Source binary:
+
+[Download the binary](https://github.com/sunny0826/kubecm/releases)
+
+## Contribute
+
+Feel free to open issues and pull requests. Any feedback is highly appreciated!
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=sunny0826/kubecm&type=Date)](https://star-history.com/#sunny0826/kubecm)
 
 
-## Components
+## Thanks
 
-* [jx-git-operator](https://github.com/jenkins-x/jx-git-operator) is an operator for triggering jobs when git commits are made
-* [octant-jx](https://github.com/jenkins-x/octant-jx) an open source Jenkins X UI for  [vmware-tanzu/octant](https://github.com/vmware-tanzu/octant)
+- [JetBrains IDEs](https://www.jetbrains.com/?from=kubecm)
 
-## Libraries
-
-These are the modular libraries which have been refactored out of the main [jenkins-x/jx](https://github.com/jenkins-x/jx) repository as part of the [modularisation enhancement process](https://github.com/jenkins-x/enhancements/tree/master/proposals/5#1-overview)
-       
-* [go-scm](https://github.com/jenkins-x/go-scm) API for working with SCM providers
-* [jx-api](https://github.com/jenkins-x/jx-api) the core JX APIs
-* [jx-helpers](https://github.com/jenkins-x/jx-helpers) a bunch of utilities (mostly from the `util` package) refactored + no longer dependent on [jenkins-x/jx](https://github.com/jenkins-x/jx/) 
-* [jx-kube-client](https://github.com/jenkins-x/jx-kube-client) the core library for working with kube/jx/tekton clients
-* [jx-logging](https://github.com/jenkins-x/jx-logging) logging APIs
-* [lighthouse-client](https://github.com/jenkins-x/lighthouse-client) client library for working with [lighthouse](https://github.com/jenkins-x/lighthouse)
-     
-                                        
+<p align="center">
+  <a href="https://www.jetbrains.com/?from=kubecm" title="前往官网了解JetBrains出品的IDEs">
+    <img src="docs/static/jetbrains.svg" width="128" alt="JetBrains logo">
+  </a>
+</p>

@@ -96,12 +96,19 @@ alias pip=pip3
 if command -v nvim &> /dev/null; then
    alias vim="nvim"
 fi
+if command -v kubecm &> /dev/null; then
+  alias kc="kubecm"
+fi
 
 # --------------------------- EXPORTS ---------------------------------------------------------
 export PATH="$HOME/.local/bin:$PATH"
 export EDITOR=vim
-export PATH=$HOME/.local/bin:$PATH
-export GPG_TTY=$(tty) # For gpg to work properly
+if command -v gpg &> /dev/null; then
+  export GPG_TTY=$(tty) # For gpg to work properly
+fi
+if kubectl krew &> /dev/null; then
+  export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+fi
 
 
 # ---------------------------- OS-specific ---------------------------------------------------
@@ -168,6 +175,7 @@ source "$DOTFILES/zsh/plugins/zsh-syntax-highlighting.zsh"
 source "$DOTFILES/zsh/plugins/helm.zsh"
 source "$DOTFILES/zsh/plugins/nvm.zsh"
 source "$DOTFILES/zsh/plugins/kubectl.zsh"
+source "$DOTFILES/zsh/plugins/kubecm.zsh"
 source "$DOTFILES/zsh/plugins/ng.zsh"
 
 

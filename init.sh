@@ -1,5 +1,5 @@
 #!/bin/bash
-#
+
 # Source common colors, and symbols
 source ./utils.sh
 
@@ -207,6 +207,10 @@ case "$response" in
       source $DOTFILES/zsh/init-scripts/helm.sh
       echo -e "$INFO installing ${COL_CYAN}jx${COL_NC} cli"
       source $DOTFILES/zsh/init-scripts/jx.sh
+      echo -e "${INFO} installing ${COL_CYAN}kubecm${COL_NC} cli"
+      source $DOTFILES/zsh/init-scripts/kubecm.sh
+      echo -e "${INFO} installing ${COL_CYAN}krew${COL_NC} cli"
+      source $DOTFILES/zsh/init-scripts/krew.sh
     ;;
   *)
     echo -e "${INFO} Skipping kubectl..."
