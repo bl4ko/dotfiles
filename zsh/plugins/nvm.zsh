@@ -4,7 +4,11 @@
 if [ -d "$HOME/.nvm/versions/node" ]; then
   export PATH="$HOME/.nvm/versions/node/$(ls $HOME/.nvm/versions/node | sort -r | head -n 1)/bin:$PATH" 
 else 
-  echo -e "${INFO} Nvm is installed but no node version found. Install it with  ${COL_CYAN}nvm install node${COL_NC}."
+  if [ -f "$HOME/.nvm/nvm.sh" ]; then
+    echo -e "${INFO} Nvm is installed but no node version found. Install it with  ${COL_CYAN}nvm install node${COL_NC}."
+  else
+    echo -e "${INFO} Nvm is not installed but sourced."
+  fi
 fi
 
 lazynvm() {
