@@ -60,21 +60,21 @@ local plugins = {
   -- }
   --
   -- https://github.com/zbirenbaum/copilot.lua
-  {
-    "zbirenbaum/copilot.lua",
-    cmd = "Copilot",
-    event = "InsertEnter",
-    config = function()
-      require("copilot").setup({
-        suggestion = {
-          auto_trigger = true,
-          keymap = {
-            accept = "<Tab>",
-          }
-        },
-      })
-    end,
-  },
+  -- {
+  --   "zbirenbaum/copilot.lua",
+  --   cmd = "Copilot",
+  --   event = "InsertEnter",
+  --   config = function()
+  --     require("copilot").setup({
+  --       suggestion = {
+  --         auto_trigger = true,
+  --         keymap = {
+  --           accept = "<Tab>",
+  --         }
+  --       },
+  --     })
+  --   end,
+  -- },
 }
 
 return plugins

@@ -19,3 +19,12 @@ if [ -n "$ZSH_VERSION" ] && [ -n "$PS1" ]; then
     source "$HOME/.zshrc"
   fi
 fi
+
+# Check if we are using RHEL distro
+if [ -f /etc/os-release ]; then
+  . /etc/os-release
+  if [[ $ID_LIKE == *"rhel"* ]]; then
+    source $DOTFILES/zsh/motd/rhel.sh
+  fi
+fi
+
