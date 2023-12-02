@@ -2,10 +2,10 @@
 
 USER=`whoami`
 HOSTNAME=`uname -n`
-ROOT=`df -Ph / | grep / | awk '{print $4}' | tr -d '\n'`
-HOME=`df -Ph | grep home | awk '{print $4}' | tr -d '\n'`
-BACKUP=`df -Ph | grep backup | awk '{print $4}' | tr -d '\n'`
-MNT=`df -Ph | grep mnt | awk '{print $4}' | tr -d '\n'`
+ROOT_PART=`df -Ph / | grep / | awk '{print $4}' | tr -d '\n'`
+HOME_PART=`df -Ph | grep home | awk '{print $4}' | tr -d '\n'`
+BACKUP_PART=`df -Ph | grep backup | awk '{print $4}' | tr -d '\n'`
+MNT_PART=`df -Ph | grep mnt | awk '{print $4}' | tr -d '\n'`
 
 
 MEMORY1=`free -t -m | grep "Mem" | awk '{print $3" MB";}'`
@@ -35,10 +35,10 @@ LOAD5=`cat /proc/loadavg | awk {'print $2'}`
 LOAD15=`cat /proc/loadavg | awk {'print $3'}`
 
 #Return message
-[ -z "$ROOT" ] && ROOT="root partition not available" || ROOT="$ROOT remaining"
-[ -z "$HOME" ] && HOME="home partition not available" || HOME="$HOME remaining"
-[ -z "$BACKUP" ] && BACKUP="backup partition not available" || BACKUP="$BACKUP remaining"
-[ -z "$MNT" ] && MNT="usb partition not available" || MNT="$MNT remaining"
+[ -z "$ROOT_PART" ] && ROOT_PART="root partition not available" || ROOT_PART="$ROOT_PART remaining"
+[ -z "$HOME_PART" ] && HOME_PART="home partition not available" || HOME_PART="$HOME_PART remaining"
+[ -z "$BACKUP_PART" ] && BACKUP_PART="backup partition not available" || BACKUP_PART="$BACKUP_PART remaining"
+[ -z "$MNT_PART" ] && MNT_PART="usb partition not available" || MNT_PART="$MNT_PART remaining"
 
 # generate new one:
 #   https://patorjk.com/software/taag/#p=display&f=ANSI%20Shadow&t=Rocky%20Linux
@@ -65,10 +65,10 @@ echo "
  - Swap in use.........: `free -m | tail -n 1 | awk '{print $3}'` MB
  - Processes...........: $PSA running
  - System uptime.......: $upDays days $upHours hours $upMins minutes $upSecs seconds
- - Disk space ROOT.....: $ROOT
- - Disk space HOME.....: $HOME
- - Disk space BACK.....: $BACKUP
- - Disk space USB......: $MNT
+ - Disk space ROOT.....: $ROOT_PART
+ - Disk space HOME.....: $HOME_PART
+ - Disk space BACK.....: $BACKUP_PART
+ - Disk space USB......: $MNT_PART
 ===========================================================================
 "
 
