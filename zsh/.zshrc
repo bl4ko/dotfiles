@@ -107,6 +107,7 @@ if command -v gpg &> /dev/null; then
   export GPG_TTY=$(tty) # For gpg to work properly
 fi
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+export SYSTEMD_EDITOR=vim # for systemctl edit: https://unix.stackexchange.com/a/408419
 
 
 # ---------------------------- OS-specific ---------------------------------------------------
