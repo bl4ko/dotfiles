@@ -16,6 +16,9 @@ fi
 # Creates temp pod with network utils
 alias knetsh="kubectl run tmp-shell --rm -i --tty --image nicolaka/netshoot"
 
+# Get resources in current namespace
+alias kgres='kubectl get pods -o=custom-columns="NAME:.metadata.name,CPU_REQUESTS:.spec.containers[*].resources.requests.cpu,CPU_LIMITS:.spec.containers[*].resources.limits.cpu,MEMORY_REQUESTS:.spec.containers[*].resources.requests.memory,MEMORY_LIMITS:.spec.containers[*].resources.limits.memory"'
+
 # This command is used a LOT both below and in daily life
 alias k=kubectl
 

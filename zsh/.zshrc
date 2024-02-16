@@ -101,14 +101,19 @@ if command -v kubecm &> /dev/null; then
 fi
 
 # --------------------------- EXPORTS ---------------------------------------------------------
-export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/.local/bin:/snap/bin:$PATH"
 export EDITOR=vim
+export SYSTEMD_EDITOR=vim # for systemctl edit: https://unix.stackexchange.com/a/408419
 if command -v gpg &> /dev/null; then
   export GPG_TTY=$(tty) # For gpg to work properly
 fi
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
-export SYSTEMD_EDITOR=vim # for systemctl edit: https://unix.stackexchange.com/a/408419
 
+if test -d "$HOME/.kubescape/bin" &> /dev/null; then
+ export PATH=$PATH:$HOME/.kubescape/bin
+fi
+export PATH=$PATH:/usr/local/go/bin
+export GOPATH="$HOME/go"
 
 # ---------------------------- OS-specific ---------------------------------------------------
 if [ "$(uname)" = "Darwin" ]; then
