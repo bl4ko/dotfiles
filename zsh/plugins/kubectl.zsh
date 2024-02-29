@@ -95,6 +95,7 @@ alias kgsec='kubectl get secret'
 alias kgseca='kubectl get secret --all-namespaces'
 alias kdsec='kubectl describe secret'
 alias kdelsec='kubectl delete secret'
+alias kesec='kubectl edit secret'
 
 # Deployment management.
 alias kgd='kubectl get deployment'
