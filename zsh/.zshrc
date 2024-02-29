@@ -1,6 +1,5 @@
 # zmodload zsh/zprof # Uncomment **this** and **last line** to measure performances: https://stevenvanbael.com/profiling-zsh-startup 
 
-# IDEA: https://gitlab.com/kalilinux/packages/kali-defaults/-/blob/kali/master/etc/skel/.zshrc
 # README: https://htr3n.github.io/2018/07/faster-zsh/
 # Possible improvements: https://github.com/zdharma-continuum/zinit,
 
@@ -101,19 +100,25 @@ if command -v kubecm &> /dev/null; then
 fi
 
 # --------------------------- EXPORTS ---------------------------------------------------------
-export PATH="$HOME/.local/bin:/snap/bin:$PATH"
 export EDITOR=vim
 export SYSTEMD_EDITOR=vim # for systemctl edit: https://unix.stackexchange.com/a/408419
 if command -v gpg &> /dev/null; then
   export GPG_TTY=$(tty) # For gpg to work properly
 fi
+
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+export PATH=$PATH:$HOME/.local/bin
 
 if test -d "$HOME/.kubescape/bin" &> /dev/null; then
  export PATH=$PATH:$HOME/.kubescape/bin
 fi
+if command -v snap &> /dev/null; then
+ export PATH=$PATH:/snap/bin
+fi
+
 export PATH=$PATH:/usr/local/go/bin
 export GOPATH="$HOME/go"
+export PATH=$PATH:$GOPATH/bin
 
 # ---------------------------- OS-specific ---------------------------------------------------
 if [ "$(uname)" = "Darwin" ]; then
