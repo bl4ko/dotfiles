@@ -93,7 +93,7 @@ alias pip=pip3
 
 # Check if nvim is instaleld
 if command -v nvim &> /dev/null; then
-   alias vim="nvim"
+  alias vim="nvim"
 fi
 if command -v kubecm &> /dev/null; then
   alias kc="kubecm"
