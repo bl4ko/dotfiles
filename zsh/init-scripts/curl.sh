@@ -13,7 +13,7 @@ function check_curl {
         exit 1
       fi
     elif [ "$(uname -s)" = "Darwin" ]; then
-      brew install -y curl
+      brew install curl
     else 
       echo -e "${CROSS} Unsupported OS: $(uname s)"
       exit 1

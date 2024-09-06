@@ -13,7 +13,7 @@ function ensure_zsh_is_installed {
           exit 1
         fi
     elif [ "$(uname -s)" = "Darwin" ]; then
-        brew install -y zsh
+        brew install zsh
     else 
         echo -e "${CROSS} Unsupported OS: $(uname s)"
         exit 1

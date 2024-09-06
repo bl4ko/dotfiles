@@ -14,7 +14,7 @@ function ensure_which_is_installed {
         exit 1
       fi
     elif [ "$(uname -s)" = "Darwin" ]; then
-      brew install -y which
+      brew install which
     else 
       echo -e "${CROSS} Unsupported OS: $(uname s)"
       exit 1

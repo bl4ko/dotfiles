@@ -23,7 +23,7 @@ function install_kubectl {
          chmod +x "$HOME/.local/bin/kubectl"
       fi
     elif [ "$(uname -s)" = "Darwin" ]; then
-      brew install -y kubernetes-cli
+      brew install kubernetes-cli
     else 
       echo -e "${CROSS} Unsupported OS: $(uname s)"
       exit 1

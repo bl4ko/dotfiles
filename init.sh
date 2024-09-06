@@ -116,7 +116,7 @@ if ! command -v chsh &> /dev/null; then
           exit 1
         fi
     elif [ "$(uname -s)" = "Darwin" ]; then
-        brew install -y util-linux
+        brew install util-linux
     else 
         echo -e "${CROSS} Unsupported OS: $(uname s)"
         exit 1
@@ -148,7 +148,7 @@ if ! command -v tmux &> /dev/null; then
           exit 1
         fi
     elif [ "$(uname -s)" = "Darwin" ]; then
-        brew install -y tmux
+        brew install tmux
     else 
         echo -e "${CROSS} Unsupported OS: $(uname s)"
        exit 1
